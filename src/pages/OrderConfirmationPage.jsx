@@ -11,7 +11,9 @@ import {
   Home, 
   ArrowRight,
   Sparkles,
-  PhoneCall
+  PhoneCall,
+  ChefHat,
+  UtensilsCrossed
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
 
@@ -46,10 +48,10 @@ export default function OrderConfirmationPage() {
   if (!order) {
     return (
       <div className="py-24 text-center max-w-md mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-charcoal">Order Not Found</h2>
-        <p className="text-xs text-charcoal-muted">We couldn't locate this order ID in our live system.</p>
+        <h2 className="text-2xl font-bold text-charcoal">Buyurtma topilmadi</h2>
+        <p className="text-xs text-charcoal-muted">Bu buyurtma ID tizimimizda topilmadi.</p>
         <Link to="/" className="inline-block px-6 py-2.5 bg-brand-500 text-white font-bold rounded-full">
-          Return Home
+          Bosh sahifaga qaytish
         </Link>
       </div>
     );
@@ -70,14 +72,31 @@ export default function OrderConfirmationPage() {
             <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
           </div>
           <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 inline-block">
-            Order Successfully Placed
+            ✅ Buyurtma Muvaffaqiyatli Qabul Qilindi!
           </span>
           <h1 className="font-display font-black text-3xl sm:text-5xl text-charcoal">
-            Taste the Happiness Soon!
+            Buyurtmangiz Qabul Qilindi! 🎉
           </h1>
           <p className="text-sm text-charcoal-muted max-w-md mx-auto">
-            Order <strong className="text-brand-600 font-mono">#{order.id}</strong> has been sent to our master pizzaiolo. Estimated delivery in <strong>25 - 30 minutes</strong>.
+            Buyurtma <strong className="text-brand-600 font-mono">#{order.id}</strong> povarlarimizga yuborildi. 
+            Taxminiy vaqt: <strong>25 - 30 daqiqa</strong>.
           </p>
+          
+          {/* Quick links for staff */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              to="/chef-kiosk"
+              className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-brand-800 text-xs font-bold rounded-xl transition-colors"
+            >
+              🍳 Povarlar Kiosgi
+            </Link>
+            <Link
+              to="/waiter"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold rounded-xl transition-colors"
+            >
+              🧑‍💼 Ofisant Paneli
+            </Link>
+          </div>
         </motion.div>
 
         {/* Live Kitchen Status Timeline */}

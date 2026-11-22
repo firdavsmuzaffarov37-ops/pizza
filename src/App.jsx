@@ -21,6 +21,9 @@ import OrdersPage from './pages/OrdersPage';
 import AdminPage from './pages/AdminPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import ChefKioskPage from './pages/ChefKioskPage';
+import WaiterPage from './pages/WaiterPage';
+import PaymentPage from './pages/PaymentPage';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -58,6 +61,9 @@ export default function App() {
                   <Route path="/admin" element={<AdminPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/chef-kiosk" element={<ChefKioskPage />} />
+                  <Route path="/waiter" element={<WaiterPage />} />
+                  <Route path="/payment/:id" element={<PaymentPage />} />
                 </Routes>
               </main>
 

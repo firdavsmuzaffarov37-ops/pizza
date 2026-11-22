@@ -12,7 +12,9 @@ import {
   Sparkles,
   ChevronDown,
   Flame,
-  Heart
+  Heart,
+  ChefHat,
+  UtensilsCrossed
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -189,6 +191,22 @@ export default function Navbar() {
                                 Admin Dashboard
                               </Link>
                             )}
+                            <Link
+                              to="/chef-kiosk"
+                              onClick={() => setUserDropdownOpen(false)}
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-orange-700 bg-orange-50 hover:bg-orange-100 font-semibold transition-colors"
+                            >
+                              <ChefHat className="w-4 h-4 text-orange-600" />
+                              🍳 Povarlar Kiosgi
+                            </Link>
+                            <Link
+                              to="/waiter"
+                              onClick={() => setUserDropdownOpen(false)}
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-700 bg-blue-50 hover:bg-blue-100 font-semibold transition-colors"
+                            >
+                              <UtensilsCrossed className="w-4 h-4 text-blue-600" />
+                              🧑‍💼 Ofisant Paneli
+                            </Link>
                           </div>
 
                           <div className="border-t border-gray-100 pt-1">

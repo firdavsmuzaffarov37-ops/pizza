@@ -85,8 +85,8 @@ export const OrderProvider = ({ children }) => {
     const newOrder = {
       id: orderId,
       createdAt: new Date().toISOString(),
-      status: 'Baking',
-      estimatedTime: 'Estimated delivery: 25 - 30 mins',
+      status: 'Pending',
+      estimatedTime: 'Taxminiy vaqt: 25 - 30 daqiqa',
       ...orderData
     };
 

@@ -4,19 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Eye, 
   EyeOff, 
-  Mail, 
-  Lock, 
-  ArrowRight, 
-  Sparkles, 
-  AlertCircle, 
-  CheckCircle2,
-  ShieldCheck,
+  Star, 
+  Clock, 
+  CheckCircle2, 
+  AlertCircle,
+  Sparkles,
   UserCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
-  const { login, demoUsers } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,7 +22,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
 
   // Status
   const [isLoading, setIsLoading] = useState(false);
@@ -37,20 +35,16 @@ export default function LoginPage() {
 
   const validateForm = () => {
     if (!email.trim()) {
-      setErrorMessage('Please enter your email address.');
+      setErrorMessage('Please enter your Email Address.');
       return false;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
-      setErrorMessage('Please enter a valid email address.');
+      setErrorMessage('Please enter a valid Email Address.');
       return false;
     }
     if (!password) {
-      setErrorMessage('Please enter your password.');
-      return false;
-    }
-    if (password.length < 6) {
-      setErrorMessage('Password must be at least 6 characters long.');
+      setErrorMessage('Please enter your Password.');
       return false;
     }
     return true;
@@ -73,7 +67,7 @@ export default function LoginPage() {
     }
   };
 
-  // Quick 1-click Demo Login
+  // 1-Click Demo Login handler
   const handleQuickDemoLogin = async (userType) => {
     setIsLoading(true);
     setErrorMessage('');
@@ -95,6 +89,21 @@ export default function LoginPage() {
     }
   };
 
+  // Google Sign-In Simulation
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      setEmail('alex@pizzora.com');
+      setPassword('pizza123');
+      await login('alex@pizzora.com', 'pizza123');
+      navigate(from, { replace: true });
+    } catch (err) {
+      setErrorMessage('Google sign-in demo connected.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleForgotPasswordSubmit = (e) => {
     e.preventDefault();
     if (!forgotEmail || !forgotEmail.includes('@')) {
@@ -110,235 +119,320 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex bg-warmWhite">
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-full">
+    <div className="min-h-screen flex items-stretch bg-white">
+      
+      {/* ================= LEFT HALF: ORANGE BANNER WITH 3 TILTED POLAROID CARDS ================= */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#F36F21] relative overflow-hidden flex-col items-center justify-center p-12 text-white select-none">
         
-        {/* Left Column: Visual & Brand showcase */}
-        <div className="hidden lg:flex lg:col-span-6 relative p-12 flex-col justify-between overflow-hidden rounded-r-3xl m-4 my-6 bg-charcoal text-white shadow-2xl">
-          {/* Background image with dark warm overlay */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1400&q=85"
-              alt="Artisanal Pizza Oven"
-              className="w-full h-full object-cover object-center opacity-45 scale-105 filter brightness-90 contrast-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-transparent" />
-          </div>
+        {/* Floating playful confetti / shapes inspired by the design */}
+        <div className="absolute top-16 left-20 w-4 h-4 bg-yellow-300 rounded-sm rotate-45 opacity-90 animate-pulse" />
+        <div className="absolute top-28 right-24 w-6 h-6 bg-blue-500 rounded-full opacity-80" />
+        <div className="absolute top-44 left-1/4 text-2xl opacity-90">👍</div>
+        <div className="absolute top-52 right-1/6 text-2xl opacity-90">👍</div>
+        <div className="absolute bottom-40 left-16 text-3xl opacity-80">🎉</div>
+        <div className="absolute bottom-36 right-20 w-5 h-5 bg-pink-400 rounded-md rotate-12 opacity-85" />
+        <div className="absolute top-1/2 left-10 w-3 h-3 bg-white rounded-full opacity-70" />
 
-          {/* Top Logo */}
-          <div className="relative z-10">
-            <Link to="/" className="inline-flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-500 to-amber-500 flex items-center justify-center text-2xl shadow-lg shadow-brand-500/30">
-                🍕
-              </div>
-              <div>
-                <span className="font-display font-black text-2xl tracking-tight text-white block">
+        {/* Center: 3 Staked / Tilted Food Cards */}
+        <div className="relative flex items-center justify-center w-full max-w-lg h-72 mb-8">
+          
+          {/* Card 1: Left tilted (-10 deg) */}
+          <motion.div
+            initial={{ opacity: 0, x: -30, rotate: -15 }}
+            animate={{ opacity: 1, x: 0, rotate: -8 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="absolute left-4 sm:left-8 w-44 sm:w-48 bg-white p-3 rounded-2xl shadow-xl border border-orange-200/40 text-charcoal -translate-y-2 z-0 hover:z-20 hover:scale-105 transition-all"
+          >
+            <div className="w-full h-28 rounded-xl overflow-hidden bg-orange-50 mb-2.5">
+              <img
+                src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80"
+                alt="Garden Pesto Pizza"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h4 className="font-bold text-xs text-charcoal truncate">Garden Pesto</h4>
+            <p className="text-[10px] text-gray-500">Italian Artisan</p>
+            <div className="flex items-center justify-between mt-2 pt-1 border-t border-gray-100 text-[10px] text-gray-600">
+              <span className="flex items-center gap-1 font-semibold">
+                <Clock className="w-3 h-3 text-orange-500" /> 20 Mins
+              </span>
+              <span className="text-gray-400">•</span>
+              <span className="font-bold text-charcoal">$15.99</span>
+            </div>
+          </motion.div>
+
+          {/* Card 2: Center Highlighted (straight / raised, high z-index) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1.05 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative z-10 w-48 sm:w-52 bg-white p-3.5 rounded-2xl shadow-2xl border-2 border-white text-charcoal hover:scale-110 transition-transform"
+          >
+            <div className="w-full h-32 rounded-xl overflow-hidden bg-orange-50 mb-2.5 relative">
+              <img
+                src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80"
+                alt="Truffle Burrata Bliss"
+                className="w-full h-full object-cover"
+              />
+              <span className="absolute top-1.5 left-1.5 bg-brand-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-sm">
+                Chef's Special
+              </span>
+            </div>
+            <h4 className="font-bold text-sm text-charcoal truncate">Truffle Burrata</h4>
+            <p className="text-[11px] text-brand-600 font-semibold">Stone-Baked Hearth</p>
+            <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-gray-100 text-[11px]">
+              <span className="flex items-center gap-1 font-bold text-charcoal">
+                <Clock className="w-3.5 h-3.5 text-brand-500" /> 25 Mins
+              </span>
+              <span className="flex items-center gap-0.5 font-bold text-amber-500">
+                <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> 4.9
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Card 3: Right tilted (+10 deg) */}
+          <motion.div
+            initial={{ opacity: 0, x: 30, rotate: 15 }}
+            animate={{ opacity: 1, x: 0, rotate: 8 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="absolute right-4 sm:right-8 w-44 sm:w-48 bg-white p-3 rounded-2xl shadow-xl border border-orange-200/40 text-charcoal -translate-y-2 z-0 hover:z-20 hover:scale-105 transition-all"
+          >
+            <div className="w-full h-28 rounded-xl overflow-hidden bg-orange-50 mb-2.5">
+              <img
+                src="https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80"
+                alt="Fiery Pepperoni"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h4 className="font-bold text-xs text-charcoal truncate">Fiery Pepperoni</h4>
+            <p className="text-[10px] text-gray-500">Hot Honey Drizzle</p>
+            <div className="flex items-center justify-between mt-2 pt-1 border-t border-gray-100 text-[10px] text-gray-600">
+              <span className="flex items-center gap-1 font-semibold">
+                <Clock className="w-3 h-3 text-orange-500" /> 18 Mins
+              </span>
+              <span className="flex items-center gap-0.5 font-bold text-amber-500">
+                <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" /> 4.8
+              </span>
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* Carousel Indicator Dots */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="w-7 h-2 rounded-full bg-white shadow-sm" />
+          <div className="w-2 h-2 rounded-full bg-white/50" />
+          <div className="w-2 h-2 rounded-full bg-white/50" />
+        </div>
+
+        {/* Bottom Headline & Subtitle */}
+        <div className="text-center max-w-md space-y-2.5 z-10">
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
+            Discover Delectable Delights
+          </h2>
+          <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
+            Embark on a delightful adventure and explore a diverse range of artisanal, stone-baked pizzas.
+          </p>
+        </div>
+
+      </div>
+
+      {/* ================= RIGHT HALF: CLEAN WHITE LOGIN FORM ================= */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-16">
+        <div className="w-full max-w-[420px] space-y-6">
+          
+          {/* Logo Card Icon */}
+          <div className="text-center space-y-3">
+            <Link to="/" className="inline-block">
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-[#F36F21] mx-auto flex flex-col items-center justify-center shadow-lg shadow-orange-500/30 group hover:scale-105 transition-transform">
+                <span className="text-3xl leading-none select-none">🍕</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-wider mt-1">
                   PIZZORA
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-brand-400">
-                  Taste the Happiness.
                 </span>
               </div>
             </Link>
+
+            {/* Greeting */}
+            <h1 className="font-display font-bold text-2xl sm:text-[26px] text-[#222222] tracking-tight">
+              Hey! Welcome to PIZZORA
+            </h1>
           </div>
 
-          {/* Center Brand Quote */}
-          <div className="relative z-10 space-y-4 max-w-md">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-amber-300 text-xs font-bold border border-white/15">
-              <Sparkles className="w-3.5 h-3.5" />
-              Member Exclusive Benefits
+          {/* Quick Demo Access Bar */}
+          <div className="bg-orange-50/70 border border-orange-200/80 rounded-2xl p-3 space-y-1.5">
+            <div className="flex items-center justify-between text-[11px] font-bold text-[#F36F21]">
+              <span className="flex items-center gap-1">
+                <UserCheck className="w-3.5 h-3.5" /> 1-Click Demo Login:
+              </span>
+              <span className="text-[10px] text-gray-500 font-semibold">Instant Test</span>
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl leading-tight">
-              Stone-baked mastery delivered warm to your table.
-            </h2>
-            <p className="text-sm text-gray-300 leading-relaxed">
-              Sign in to track real-time kitchen status, access secret menu drops, save favorite custom toppings, and earn PIZZORA reward slices.
-            </p>
-          </div>
-
-          {/* Bottom badge */}
-          <div className="relative z-10 pt-6 border-t border-white/15 flex items-center justify-between text-xs text-gray-400">
-            <span>Freshly baked every single order</span>
-            <span className="font-semibold text-white">72h Sourdough Ferment</span>
-          </div>
-        </div>
-
-        {/* Right Column: Clean Login Form */}
-        <div className="lg:col-span-6 flex items-center justify-center p-6 sm:p-12">
-          <div className="w-full max-w-md space-y-8">
-            
-            {/* Form Header */}
-            <div>
-              {/* Mobile logo only */}
-              <div className="lg:hidden flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-xl text-white">
-                  🍕
-                </div>
-                <span className="font-display font-extrabold text-xl text-charcoal">PIZZORA</span>
-              </div>
-
-              <h1 className="font-display font-black text-3xl sm:text-4xl text-charcoal tracking-tight">
-                Welcome Back!
-              </h1>
-              <p className="text-sm text-charcoal-muted mt-2">
-                Sign in to continue your delicious journey.
-              </p>
-            </div>
-
-            {/* Demo Quick Logins Alert */}
-            <div className="p-4 rounded-2xl bg-orange-50 border border-orange-200/80 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-brand-800 flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-brand-600" />
-                  Quick 1-Click Demo Logins:
-                </span>
-                <span className="text-[10px] bg-brand-200/60 text-brand-800 px-2 py-0.5 rounded-full font-bold">
-                  Instant Test
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={() => handleQuickDemoLogin('customer')}
-                  className="px-3 py-2 bg-white hover:bg-orange-100/60 border border-orange-200 rounded-xl text-xs font-bold text-charcoal transition-all text-left shadow-sm"
-                >
-                  <span className="block text-brand-600 font-extrabold">Alex (Customer)</span>
-                  <span className="text-[10px] text-gray-500">alex@pizzora.com</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickDemoLogin('admin')}
-                  className="px-3 py-2 bg-white hover:bg-orange-100/60 border border-orange-200 rounded-xl text-xs font-bold text-charcoal transition-all text-left shadow-sm"
-                >
-                  <span className="block text-brand-600 font-extrabold">Chef Admin</span>
-                  <span className="text-[10px] text-gray-500">admin@pizzora.com</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Error Message banner */}
-            {errorMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3.5 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-xs font-semibold flex items-center gap-2.5"
+            <div className="grid grid-cols-2 gap-2 pt-0.5">
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin('customer')}
+                className="py-1.5 px-2.5 bg-white hover:bg-orange-100/50 border border-orange-200 rounded-xl text-[11px] font-bold text-charcoal text-left shadow-2xs transition-colors"
               >
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
-                <span>{errorMessage}</span>
-              </motion.div>
-            )}
+                <span className="block text-[#F36F21]">Customer Demo</span>
+                <span className="text-[10px] text-gray-500 font-normal">alex@pizzora.com</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin('admin')}
+                className="py-1.5 px-2.5 bg-white hover:bg-orange-100/50 border border-orange-200 rounded-xl text-[11px] font-bold text-charcoal text-left shadow-2xs transition-colors"
+              >
+                <span className="block text-[#F36F21]">Kitchen Admin</span>
+                <span className="text-[10px] text-gray-500 font-normal">admin@pizzora.com</span>
+              </button>
+            </div>
+          </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-5">
-              
-              {/* Email field */}
-              <div>
-                <label className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@example.com"
-                    autoComplete="email"
-                    className="w-full pl-12 pr-4 py-3.5 bg-white rounded-2xl border border-orange-100/90 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm font-medium transition-all shadow-sm"
-                  />
-                </div>
-              </div>
+          {/* Error Message */}
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-semibold flex items-center gap-2"
+            >
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
+              <span>{errorMessage}</span>
+            </motion.div>
+          )}
 
-              {/* Password field with toggle */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-bold text-charcoal uppercase tracking-wider">
-                    Password
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setForgotPasswordOpen(true)}
-                    className="text-xs font-bold text-brand-600 hover:text-brand-700 transition-colors"
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-                <div className="relative">
-                  <Lock className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                    className="w-full pl-12 pr-12 py-3.5 bg-white rounded-2xl border border-orange-100/90 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm font-medium transition-all shadow-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal transition-colors"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            
+            {/* Email Field */}
+            <div>
+              <label className="block text-xs font-semibold text-[#444444] mb-1.5">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your Email Address"
+                autoComplete="email"
+                className="w-full px-4 py-3 bg-white rounded-xl border border-gray-300 focus:outline-none focus:border-[#F36F21] focus:ring-1 focus:ring-[#F36F21] text-xs sm:text-sm text-charcoal placeholder:text-gray-400 transition-all"
+              />
+            </div>
 
-              {/* Remember me checkbox */}
-              <div className="flex items-center">
+            {/* Password Field */}
+            <div>
+              <label className="block text-xs font-semibold text-[#444444] mb-1.5">
+                Password
+              </label>
+              <div className="relative">
                 <input
-                  id="remember-me"
-                  name="remember-me"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your Password"
+                  autoComplete="current-password"
+                  className="w-full px-4 pr-11 py-3 bg-white rounded-xl border border-gray-300 focus:outline-none focus:border-[#F36F21] focus:ring-1 focus:ring-[#F36F21] text-xs sm:text-sm text-charcoal placeholder:text-gray-400 transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal transition-colors p-1"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember Me & Forgot Password Row */}
+            <div className="flex items-center justify-between text-xs pt-0.5">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-gray-600">
+                <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-brand-500 focus:ring-brand-400 border-gray-300 rounded cursor-pointer accent-brand-500"
+                  className="w-3.5 h-3.5 text-[#F36F21] rounded border-gray-300 focus:ring-[#F36F21] accent-[#F36F21] cursor-pointer"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-xs font-semibold text-charcoal-muted cursor-pointer">
-                  Remember me for 30 days
-                </label>
-              </div>
-
-              {/* Orange Sign In Button */}
+                <span>Remember me</span>
+              </label>
               <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-4 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-brand-500/30 hover:shadow-brand-500/40 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                type="button"
+                onClick={() => setForgotPasswordOpen(true)}
+                className="text-gray-500 hover:text-[#F36F21] font-medium transition-colors"
               >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Signing in...</span>
-                  </div>
-                ) : (
-                  <>
-                    <span>Sign In</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+                Forgot Password?
               </button>
-
-            </form>
-
-            {/* Bottom link to register */}
-            <div className="text-center pt-2">
-              <p className="text-xs text-charcoal-muted">
-                Don't have an account?{' '}
-                <Link to="/register" className="font-extrabold text-brand-600 hover:text-brand-700 underline underline-offset-2">
-                  Create one now
-                </Link>
-              </p>
             </div>
 
-          </div>
-        </div>
+            {/* Dark Charcoal / Black Login Button matching the design */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 bg-[#222222] hover:bg-[#111111] text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed mt-2 active:scale-[0.99]"
+            >
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Signing in...</span>
+                </div>
+              ) : (
+                <span>Login</span>
+              )}
+            </button>
 
+          </form>
+
+          {/* OR Divider */}
+          <div className="relative flex items-center justify-center my-4">
+            <div className="border-t border-gray-200 w-full" />
+            <span className="bg-white px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider shrink-0">
+              OR
+            </span>
+            <div className="border-t border-gray-200 w-full" />
+          </div>
+
+          {/* Sign In with Google Button matching the light blue pill design */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full py-3 bg-[#EEF2F6] hover:bg-[#E2E8F0] text-[#334155] font-semibold text-xs sm:text-sm rounded-xl transition-all flex items-center justify-center gap-2.5 border border-transparent shadow-2xs"
+          >
+            {/* Google G icon */}
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            <span>Sign in with Google</span>
+          </button>
+
+          {/* Bottom link to Register */}
+          <div className="text-center pt-1">
+            <p className="text-xs text-gray-500 font-medium">
+              Don't have an Account ?{' '}
+              <Link to="/register" className="font-bold text-[#222222] hover:text-[#F36F21] transition-colors underline underline-offset-2">
+                Register.
+              </Link>
+            </p>
+          </div>
+
+        </div>
       </div>
 
       {/* Forgot Password Modal */}
       <AnimatePresence>
         {forgotPasswordOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/50 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -349,13 +443,13 @@ export default function LoginPage() {
                 Reset Your Password
               </h3>
               <p className="text-xs text-charcoal-muted leading-relaxed">
-                Enter your registered email address and we'll send you an instant reset link to choose a new password.
+                Enter your registered email address and we will dispatch an instant password reset link.
               </p>
 
               {forgotSuccess ? (
                 <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs font-bold flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <span>Password reset email dispatched! Please check your inbox.</span>
+                  <span>Password reset email sent! Check your inbox.</span>
                 </div>
               ) : (
                 <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
@@ -368,7 +462,7 @@ export default function LoginPage() {
                       value={forgotEmail}
                       onChange={(e) => setForgotEmail(e.target.value)}
                       placeholder="alex@pizzora.com"
-                      className="w-full px-4 py-3 rounded-xl border border-orange-100 text-sm focus:outline-none focus:border-brand-500"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-[#F36F21]"
                     />
                   </div>
 
@@ -376,13 +470,13 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setForgotPasswordOpen(false)}
-                      className="px-4 py-2 text-xs font-bold text-charcoal-muted hover:text-charcoal"
+                      className="px-4 py-2 text-xs font-bold text-gray-500 hover:text-charcoal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2.5 bg-brand-500 text-white rounded-xl text-xs font-bold shadow hover:bg-brand-600"
+                      className="px-5 py-2.5 bg-[#222222] text-white rounded-xl text-xs font-bold shadow hover:bg-black"
                     >
                       Send Reset Link
                     </button>
@@ -393,7 +487,7 @@ export default function LoginPage() {
           </div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
-
