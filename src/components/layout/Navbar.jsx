@@ -9,7 +9,6 @@ import {
   LogOut, 
   ShieldCheck, 
   Clock, 
-  Sparkles,
   ChevronDown,
   Flame,
   Heart,
@@ -33,20 +32,14 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Menu', path: '/menu' },
-    { name: 'Deals', path: '/menu?category=combos' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Bosh sahifa', path: '/' },
+    { name: '🍽️ Menyu', path: '/menu' },
+    { name: '🍳 Povarlar Kiosgi', path: '/chef-kiosk' },
+    { name: '🧑‍💼 Ofisant Paneli', path: '/waiter' }
   ];
 
   return (
     <>
-      {/* Top micro announcement bar */}
-      <div className="bg-gradient-to-r from-brand-600 via-brand-500 to-amber-500 text-white text-xs font-medium py-1.5 px-4 text-center tracking-wide flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-        <span>Hot Offer: Get <strong>20% OFF</strong> your first order with code <span className="bg-white/25 px-1.5 py-0.5 rounded font-mono font-bold">PIZZORA20</span> • Free delivery on orders $30+</span>
-      </div>
 
       <header className="sticky top-0 z-40 bg-warmWhite/90 backdrop-blur-md border-b border-orange-100 transition-all duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,8 +47,8 @@ export default function Navbar() {
             
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-amber-500 flex items-center justify-center shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform duration-200">
-                <span className="text-2xl select-none">🍕</span>
+              <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform duration-200 bg-black flex items-center justify-center p-0.5 border border-brand-500/30">
+                <img src="/logo.png" alt="PIZZORA" className="w-full h-full object-cover rounded-xl" />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-extrabold text-2xl tracking-tight text-charcoal flex items-center gap-1">

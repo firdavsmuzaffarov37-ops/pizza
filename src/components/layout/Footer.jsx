@@ -55,8 +55,8 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-amber-500 flex items-center justify-center text-xl">
-                🍕
+              <div className="w-11 h-11 rounded-xl overflow-hidden shadow-md shadow-brand-500/20 bg-black p-0.5 border border-brand-500/30 flex items-center justify-center">
+                <img src="/logo.png" alt="PIZZORA" className="w-full h-full object-cover rounded-lg" />
               </div>
               <span className="font-display font-black text-2xl tracking-tight text-white">
                 PIZZORA

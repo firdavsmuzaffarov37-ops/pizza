@@ -23,17 +23,17 @@ export default function OrderConfirmationPage() {
 
   const order = getOrderById(id);
 
-  // Status progression simulation steps
+  // Status progression simulation steps matching restaurant flow
   const steps = [
-    { key: 'Pending', label: 'Order Confirmed', icon: CheckCircle2, desc: 'Kitchen acknowledged ticket' },
-    { key: 'Baking', label: 'Stone Oven Baking', icon: Flame, desc: 'Baking at 480°C in Neapolitan hearth' },
-    { key: 'Quality Checked', label: 'Quality Inspected', icon: PackageCheck, desc: 'Fresh basil & truffle oil finish' },
-    { key: 'Out for Delivery', label: 'Out with Driver', icon: Bike, desc: 'Thermal bag kept at 80°C' },
-    { key: 'Delivered', label: 'Delivered Hot', icon: Home, desc: 'Enjoy your pizza happiness!' }
+    { key: 'Pending', label: '1. Qabul qilindi', icon: CheckCircle2, desc: 'Buyurtma tizimga qabul qilindi' },
+    { key: 'Baking', label: '2. Povar Kioski', icon: Flame, desc: 'Povar pishirishni boshladi' },
+    { key: 'Ready', label: '3. Zakaz Tayyor', icon: PackageCheck, desc: 'Ofitsiant stolga olib bormoqda' },
+    { key: 'Out for Delivery', label: '4. Stolga yetkazildi', icon: Bike, desc: 'Mijoz ovqatlanmoqda' },
+    { key: 'Delivered', label: '5. To\'lov qilindi', icon: Home, desc: 'Ovqatlangan puli to\'landi' }
   ];
 
   const currentStatusIndex = steps.findIndex(
-    (s) => s.key.toLowerCase() === (order?.status || 'Baking').toLowerCase()
+    (s) => s.key.toLowerCase() === (order?.status || 'Pending').toLowerCase()
   );
 
   const activeIndex = currentStatusIndex >= 0 ? currentStatusIndex : 1;
@@ -210,6 +210,31 @@ export default function OrderConfirmationPage() {
               </p>
             </div>
           </div>
+
+          {/* Payment CTA Box */}
+          {order.status !== 'Delivered' ? (
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="font-display font-extrabold text-base text-emerald-900">
+                  Ovqatlanganingizdan so'ng to'lov qiling
+                </h4>
+                <p className="text-xs text-emerald-700 mt-0.5">
+                  Ofitsiant ovqatni yetkazib bergandan keyin shu tugma orqali to'lov qabul qilinadi.
+                </p>
+              </div>
+              <Link
+                to={`/payment/${order.id}`}
+                className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all shrink-0"
+              >
+                💳 Ovqatlangan pulini to'lash (${order.total.toFixed(2)})
+              </Link>
+            </div>
+          ) : (
+            <div className="p-5 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-center text-sm flex items-center justify-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <span>Ovqatlangan puli to'langan va hisob muvaffaqiyatli yopilgan!</span>
+            </div>
+          )}
 
           <div className="pt-4 border-t border-orange-50 flex flex-col sm:flex-row items-center justify-between gap-4">
             <Link

@@ -31,7 +31,7 @@ export default function LoginPage() {
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSuccess, setForgotSuccess] = useState(false);
 
-  const from = location.state?.from?.pathname || '/account';
+  const from = location.state?.from?.pathname || '/menu';
 
   const validateForm = () => {
     if (!email.trim()) {
@@ -81,7 +81,7 @@ export default function LoginPage() {
         setPassword('admin123');
         await login('admin@pizzora.com', 'admin123');
       }
-      navigate(userType === 'admin' ? '/admin' : from, { replace: true });
+      navigate(userType === 'admin' ? '/admin' : '/menu', { replace: true });
     } catch (err) {
       setErrorMessage(err.message);
     } finally {
@@ -244,11 +244,8 @@ export default function LoginPage() {
           {/* Logo Card Icon */}
           <div className="text-center space-y-3">
             <Link to="/" className="inline-block">
-              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-[#F36F21] mx-auto flex flex-col items-center justify-center shadow-lg shadow-orange-500/30 group hover:scale-105 transition-transform">
-                <span className="text-3xl leading-none select-none">🍕</span>
-                <span className="text-[10px] font-black uppercase text-white tracking-wider mt-1">
-                  PIZZORA
-                </span>
+              <div className="w-20 h-20 rounded-2xl mx-auto shadow-xl shadow-orange-500/30 group hover:scale-105 transition-transform overflow-hidden bg-black p-1 border-2 border-brand-500/40">
+                <img src="/logo.png" alt="PIZZORA" className="w-full h-full object-cover rounded-xl" />
               </div>
             </Link>
 

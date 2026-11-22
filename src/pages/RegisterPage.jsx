@@ -73,7 +73,7 @@ export default function RegisterPage() {
 
       setSuccessMessage('Account created successfully! Welcome to PIZZORA.');
       setTimeout(() => {
-        navigate('/account');
+        navigate('/menu');
       }, 1200);
     } catch (err) {
       setErrorMessage(err.message || 'Registration failed. Please try again.');
@@ -206,11 +206,8 @@ export default function RegisterPage() {
           {/* Logo Card Icon */}
           <div className="text-center space-y-2">
             <Link to="/" className="inline-block">
-              <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-[#F36F21] mx-auto flex flex-col items-center justify-center shadow-lg shadow-orange-500/30 group hover:scale-105 transition-transform">
-                <span className="text-2xl leading-none select-none">🍕</span>
-                <span className="text-[9px] font-black uppercase text-white tracking-wider mt-0.5">
-                  PIZZORA
-                </span>
+              <div className="w-20 h-20 rounded-2xl mx-auto shadow-xl shadow-orange-500/30 group hover:scale-105 transition-transform overflow-hidden bg-black p-1 border-2 border-brand-500/40">
+                <img src="/logo.png" alt="PIZZORA" className="w-full h-full object-cover rounded-xl" />
               </div>
             </Link>
 
