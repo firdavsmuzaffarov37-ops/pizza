@@ -12,9 +12,11 @@ import {
   Bell
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
 function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
+  const { t } = useLanguage();
   const isReady = order.status === 'Ready';
   const isDelivered = order.status === 'Out for Delivery' || order.status === 'Delivered';
 
@@ -42,7 +44,7 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
             <span className={`text-[11px] font-extrabold uppercase tracking-wider ${
               isReady ? 'text-emerald-700' : isDelivered ? 'text-blue-700' : 'text-gray-500'
             }`}>
-              {isReady ? '✅ Tayyor — Olib bering!' : isDelivered ? '🚶 Yetkazildi' : order.status}
+              {isReady ? `✅ ${t('readyBadge')}` : isDelivered ? `🚶 ${t('deliveringCountLabel')}` : order.status}
             </span>
           </div>
           <h3 className="font-display font-black text-2xl text-charcoal">
@@ -89,7 +91,7 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
             className="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm rounded-2xl shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2 transition-all"
           >
             <UtensilsCrossed className="w-4 h-4" />
-            Mijozga Olib Bor
+            {t('deliverToTableBtn')}
             <ArrowRight className="w-4 h-4" />
           </motion.button>
         </div>
@@ -102,14 +104,14 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
           className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-2 transition-all"
         >
           <Receipt className="w-4 h-4" />
-          To'lov So'rash
+          {t('requestPaymentBtn')}
           <ArrowRight className="w-4 h-4" />
         </motion.button>
       )}
 
       {order.status === 'Delivered' && (
         <div className="w-full py-3 bg-gray-100 rounded-2xl text-center text-sm font-bold text-gray-500">
-          ✅ To'langan va yopilgan
+          {t('paidAndClosedBtn')}
         </div>
       )}
     </motion.div>
@@ -118,6 +120,7 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
 
 export default function WaiterPage() {
   const { orders, updateOrderStatus } = useOrders();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   // Waiter sees: Ready, Out for Delivery, Delivered (today)
@@ -149,9 +152,9 @@ export default function WaiterPage() {
             </div>
             <div>
               <h1 className="font-display font-black text-2xl sm:text-3xl text-white">
-                Ofisant Paneli
+                {t('waiterTitle')}
               </h1>
-              <p className="text-xs text-blue-300/80 font-medium">Tayyor buyurtmalarni yetkazib bering</p>
+              <p className="text-xs text-blue-300/80 font-medium">{t('waiterSub')}</p>
             </div>
           </div>
 
@@ -161,7 +164,7 @@ export default function WaiterPage() {
               className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-2"
             >
               <ChefHat className="w-4 h-4" />
-              Povarlar Kiosgi
+              {t('waiterChefKioskBtn')}
             </button>
             <button
               onClick={() => window.location.reload()}
@@ -179,15 +182,15 @@ export default function WaiterPage() {
               <p className="text-3xl font-black text-emerald-400">{readyCount}</p>
               {readyCount > 0 && <Bell className="w-5 h-5 text-emerald-400 animate-bounce" />}
             </div>
-            <p className="text-xs text-emerald-300/80 font-bold uppercase mt-1">Tayyor</p>
+            <p className="text-xs text-emerald-300/80 font-bold uppercase mt-1">{t('readyCountLabel')}</p>
           </div>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 text-center">
             <p className="text-3xl font-black text-blue-400">{inProgressCount}</p>
-            <p className="text-xs text-blue-300/80 font-bold uppercase mt-1">Yetkazilmoqda</p>
+            <p className="text-xs text-blue-300/80 font-bold uppercase mt-1">{t('deliveringCountLabel')}</p>
           </div>
           <div className="bg-gray-500/10 border border-gray-500/30 rounded-2xl p-4 text-center">
             <p className="text-3xl font-black text-gray-400">{deliveredCount}</p>
-            <p className="text-xs text-gray-300/80 font-bold uppercase mt-1">Yetkazildi</p>
+            <p className="text-xs text-gray-300/80 font-bold uppercase mt-1">{t('deliveredCountLabel')}</p>
           </div>
         </div>
 
@@ -199,7 +202,7 @@ export default function WaiterPage() {
             className="flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/50 rounded-2xl px-5 py-3 text-emerald-300 font-bold text-sm"
           >
             <Sparkles className="w-5 h-5 text-emerald-400" />
-            {readyCount} ta buyurtma tayyor — tez olib boring!
+            {readyCount} {t('readyAlertPrefix')}
           </motion.div>
         )}
 
@@ -209,8 +212,8 @@ export default function WaiterPage() {
             <div className="w-20 h-20 rounded-full bg-blue-900/50 flex items-center justify-center text-4xl">
               🍽️
             </div>
-            <h3 className="font-bold text-xl text-gray-300">Hozircha tayyor buyurtma yo'q</h3>
-            <p className="text-sm text-gray-500">Povarlar tayyorlab bo'lgach, bu yerda ko'rinadi</p>
+            <h3 className="font-bold text-xl text-gray-300">{t('noReadyOrdersWaiter')}</h3>
+            <p className="text-sm text-gray-500">{t('noReadyOrdersWaiterSub')}</p>
           </div>
         ) : (
           <AnimatePresence mode="popLayout">

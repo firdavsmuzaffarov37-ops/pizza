@@ -8,8 +8,11 @@ import WhyPizzora from '../components/home/WhyPizzora';
 import Testimonials from '../components/home/Testimonials';
 import ProductCard from '../components/menu/ProductCard';
 import { PRODUCTS, CATEGORIES } from '../data/pizzas';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function HomePage() {
+  const { t } = useLanguage();
+
   // Popular pizzas slice
   const popularPizzas = PRODUCTS.filter((p) => p.subCategory === 'pizza').slice(0, 4);
 
@@ -23,13 +26,13 @@ export default function HomePage() {
         <div className="p-4 sm:p-6 bg-white rounded-3xl border border-orange-100 shadow-soft">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display font-bold text-lg text-charcoal">
-              Browse by Category
+              {t('browseByCategory')}
             </h3>
             <Link
               to="/menu"
               className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
             >
-              See all <ArrowRight className="w-3.5 h-3.5" />
+              {t('seeAll')} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
@@ -50,7 +53,7 @@ export default function HomePage() {
                   {cat.id === 'desserts' && '🍰'}
                 </span>
                 <span className="text-xs font-bold text-charcoal group-hover:text-brand-600 transition-colors">
-                  {cat.label}
+                  {t('cat_' + cat.id) || cat.label}
                 </span>
               </Link>
             ))}
@@ -65,17 +68,17 @@ export default function HomePage() {
             <div>
               <div className="inline-flex items-center gap-1.5 text-brand-600 font-bold text-xs uppercase tracking-wider mb-2">
                 <Flame className="w-4 h-4 fill-brand-500" />
-                Crowd Favorites
+                {t('crowdFavorites')}
               </div>
               <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-charcoal">
-                Most Loved Stone-Baked Pizzas
+                {t('mostLovedPizzas')}
               </h2>
             </div>
             <Link
               to="/menu"
               className="mt-3 sm:mt-0 px-5 py-2.5 rounded-full bg-orange-50 text-brand-600 hover:bg-orange-100 text-sm font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto"
             >
-              <span>Explore Complete Menu</span>
+              <span>{t('exploreCompleteMenu')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -99,26 +102,26 @@ export default function HomePage() {
         <div className="rounded-3xl bg-gradient-to-r from-brand-600 via-brand-500 to-amber-500 text-white p-8 sm:p-12 shadow-soft-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-4 max-w-xl z-10">
             <span className="bg-white/20 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-              Download the Happiness
+              {t('downloadHappiness')}
             </span>
             <h3 className="font-display font-extrabold text-3xl sm:text-4xl leading-tight">
-              Craving fresh pizza delivered in 30 minutes?
+              {t('cravingFreshPizza')}
             </h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Order directly online or join our PIZZORA Club for secret weekend secret recipes, free dough upgrades, and express priority delivery.
+              {t('cravingSub')}
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 to="/menu"
                 className="px-7 py-3.5 bg-white text-charcoal hover:bg-orange-50 font-extrabold text-sm rounded-full shadow-md transition-all"
               >
-                Order Online Now
+                {t('orderOnlineNow')}
               </Link>
               <Link
                 to="/register"
                 className="px-7 py-3.5 bg-black/25 hover:bg-black/35 text-white font-bold text-sm rounded-full backdrop-blur-sm transition-all"
               >
-                Create Account (Get 20% Off)
+                {t('createAccountPromo')}
               </Link>
             </div>
           </div>
@@ -139,7 +142,7 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="mt-auto bg-brand-500 text-white text-[10px] font-bold py-2 rounded-xl text-center">
-                  Track Delivery Live
+                  {t('trackDeliveryLive')}
                 </div>
               </div>
             </div>
@@ -152,4 +155,3 @@ export default function HomePage() {
     </div>
   );
 }
-

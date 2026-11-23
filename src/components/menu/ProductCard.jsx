@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Clock, Plus, Flame, Sparkles, Heart, Utensils, X, CheckCircle2 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
+import { useLanguage } from '../../context/LanguageContext';
 import confetti from 'canvas-confetti';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const { user, toggleFavorite } = useAuth();
   const { placeOrder } = useOrders();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
+  const urlTable = searchParams.get('table');
+
   const [orderModalOpen, setOrderModalOpen] = useState(false);
-  const [selectedTable, setSelectedTable] = useState('3-Stol');
+  const [selectedTable, setSelectedTable] = useState(urlTable || '3-Stol');
   const [quantity, setQuantity] = useState(1);
   const [specialNote, setSpecialNote] = useState('');
   const [isOrdering, setIsOrdering] = useState(false);
 
+  useEffect(() => {
+    if (urlTable) {
+      setSelectedTable(urlTable);
+    }
+  }, [urlTable]);
+
   const isFavorite = user?.favorites?.includes(product.id);
+
+  const prodKey = product.id.replace(/-/g, '_');
+  const localizedName = t(`prod_${prodKey}_name`) !== `prod_${prodKey}_name` ? t(`prod_${prodKey}_name`) : product.name;
+  const localizedDesc = t(`prod_${prodKey}_desc`) !== `prod_${prodKey}_desc` ? t(`prod_${prodKey}_desc`) : product.description;
 
   const handleQuickAdd = (e) => {
     e.preventDefault();
@@ -167,12 +182,12 @@ export default function ProductCard({ product }) {
 
             <Link to={`/product/${product.id}`} className="group-hover:text-brand-600 transition-colors">
               <h3 className="font-display font-bold text-lg text-charcoal leading-snug line-clamp-1">
-                {product.name}
+                {localizedName}
               </h3>
             </Link>
 
             <p className="text-xs text-charcoal-muted mt-1.5 line-clamp-2 leading-relaxed">
-              {product.description}
+              {localizedDesc}
             </p>
           </div>
 
@@ -180,7 +195,7 @@ export default function ProductCard({ product }) {
           <div className="pt-3 mt-3 border-t border-orange-50 space-y-2.5">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-[11px] text-charcoal-muted block font-medium">Narxi</span>
+                <span className="text-[11px] text-charcoal-muted block font-medium">{t('startsFrom')}</span>
                 <div className="flex items-baseline gap-1.5">
                   <span className="font-display font-extrabold text-xl text-charcoal">
                     ${product.price.toFixed(2)}
@@ -198,14 +213,14 @@ export default function ProductCard({ product }) {
                   to={`/product/${product.id}`}
                   className="px-2.5 py-1.5 text-xs font-bold text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-xl transition-colors"
                 >
-                  Tarkibi
+                  {t('details')}
                 </Link>
 
                 <motion.button
                   whileTap={{ scale: 0.92 }}
                   onClick={handleQuickAdd}
                   className="w-9 h-9 rounded-xl bg-orange-100 hover:bg-orange-200 text-brand-700 flex items-center justify-center transition-all"
-                  title="Savatga qo'shish"
+                  title={t('addToCart')}
                 >
                   <Plus className="w-4 h-4" />
                 </motion.button>
@@ -219,7 +234,7 @@ export default function ProductCard({ product }) {
               className="w-full py-2.5 px-4 bg-gradient-to-r from-brand-500 to-amber-500 hover:from-brand-600 hover:to-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-brand-500/25 flex items-center justify-center gap-2 transition-all"
             >
               <Utensils className="w-4 h-4" />
-              <span>Buyurtma berish</span>
+              <span>{t('orderNow')}</span>
             </motion.button>
           </div>
         </div>
@@ -239,7 +254,7 @@ export default function ProductCard({ product }) {
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🍽️</span>
                   <h3 className="font-display font-black text-lg text-charcoal">
-                    Ovqatga buyurtma berish
+                    {t('orderFoodTitle')}
                   </h3>
                 </div>
                 <button
@@ -258,12 +273,12 @@ export default function ProductCard({ product }) {
                   className="w-16 h-16 rounded-xl object-cover"
                 />
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-sm text-charcoal truncate">{product.name}</h4>
+                  <h4 className="font-bold text-sm text-charcoal truncate">{localizedName}</h4>
                   <p className="text-xs text-brand-600 font-extrabold mt-0.5">
                     ${product.price.toFixed(2)}
                   </p>
                   <p className="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5">
-                    <Clock className="w-3 h-3" /> Tayyorlanishi: {product.prepTime}
+                    <Clock className="w-3 h-3" /> {t('prepTimePrefix')} {product.prepTime}
                   </p>
                 </div>
               </div>
@@ -271,7 +286,7 @@ export default function ProductCard({ product }) {
               {/* Table selection */}
               <div>
                 <label className="block text-xs font-bold text-charcoal mb-1.5">
-                  Restorandagi stolingizni tanlang:
+                  {t('selectYourTable')}
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {['1-Stol', '2-Stol', '3-Stol', '4-Stol', '5-Stol', 'VIP-Xona'].map((tbl) => (
@@ -293,7 +308,7 @@ export default function ProductCard({ product }) {
 
               {/* Quantity */}
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-                <span className="text-xs font-bold text-charcoal">Porsiya soni:</span>
+                <span className="text-xs font-bold text-charcoal">{t('portionsCount')}</span>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
@@ -318,13 +333,13 @@ export default function ProductCard({ product }) {
               {/* Special instructions */}
               <div>
                 <label className="block text-xs font-bold text-charcoal mb-1">
-                  Povar uchun izoh (ixtiyoriy):
+                  {t('chefNote')}
                 </label>
                 <input
                   type="text"
                   value={specialNote}
                   onChange={(e) => setSpecialNote(e.target.value)}
-                  placeholder="Masalan: achchiqroq bo'lsin, piyozsiz..."
+                  placeholder={t('notePlaceholder')}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-brand-500"
                 />
               </div>
@@ -332,13 +347,13 @@ export default function ProductCard({ product }) {
               {/* Order total */}
               <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] text-gray-500 block">Jami summa:</span>
+                  <span className="text-[11px] text-gray-500 block">{t('totalAmount')}</span>
                   <span className="font-display font-black text-xl text-brand-600">
                     ${(product.price * quantity * 1.08).toFixed(2)}
                   </span>
                 </div>
                 <span className="text-[10px] text-gray-400 font-medium">
-                  (To'lov ovqatlangandan keyin olinadi)
+                  {t('payAfterEatingNotice')}
                 </span>
               </div>
 
@@ -352,12 +367,12 @@ export default function ProductCard({ product }) {
                 {isOrdering ? (
                   <div className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Oshxonaga yuborilmoqda...</span>
+                    <span>{t('sendingToKitchen')}</span>
                   </div>
                 ) : (
                   <>
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Buyurtmani Tasdiqlash</span>
+                    <span>{t('confirmOrder')}</span>
                   </>
                 )}
               </motion.button>

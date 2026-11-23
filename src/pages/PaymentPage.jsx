@@ -13,18 +13,20 @@ import {
   UtensilsCrossed
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 import confetti from 'canvas-confetti';
-
-const PAYMENT_METHODS = [
-  { id: 'cash', label: 'Naqd pul', icon: Banknote, desc: 'Naqd pul bilan to\'lash', color: 'bg-emerald-50 border-emerald-300 text-emerald-800' },
-  { id: 'card', label: 'Karta bilan', icon: CreditCard, desc: 'Kredit / debet karta', color: 'bg-blue-50 border-blue-300 text-blue-800' },
-  { id: 'terminal', label: 'POS Terminal', icon: Smartphone, desc: 'Kontaktsiz to\'lov', color: 'bg-purple-50 border-purple-300 text-purple-800' },
-];
 
 export default function PaymentPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getOrderById, updateOrderStatus } = useOrders();
+  const { t } = useLanguage();
+
+  const PAYMENT_METHODS = [
+    { id: 'cash', label: t('cash'), icon: Banknote, desc: t('cashDesc'), color: 'bg-emerald-50 border-emerald-300 text-emerald-800' },
+    { id: 'card', label: t('card'), icon: CreditCard, desc: t('cardDesc'), color: 'bg-blue-50 border-blue-300 text-blue-800' },
+    { id: 'terminal', label: t('posTerminal'), icon: Smartphone, desc: t('posTerminalDesc'), color: 'bg-purple-50 border-purple-300 text-purple-800' },
+  ];
 
   const order = getOrderById(id);
   const [selectedMethod, setSelectedMethod] = useState('cash');
@@ -80,10 +82,10 @@ export default function PaymentPage() {
 
           <div className="space-y-2">
             <h2 className="font-display font-black text-3xl text-charcoal">
-              To'lov Qabul Qilindi! 🎉
+              {t('paymentReceivedSuccess')}
             </h2>
             <p className="text-sm text-gray-500">
-              Buyurtma #{order.id} — {order.customer.name}
+              {t('paymentSub')} #{order.id} — {order.customer.name}
             </p>
             <p className="text-4xl font-black text-brand-500 mt-4">
               ${order.total?.toFixed(2)}
@@ -92,7 +94,7 @@ export default function PaymentPage() {
 
           {/* Rating */}
           <div className="space-y-3">
-            <p className="font-bold text-charcoal text-sm">Ovqat qanday edi?</p>
+            <p className="font-bold text-charcoal text-sm">{t('howWasFood')}</p>
             <div className="flex items-center justify-center gap-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -128,13 +130,13 @@ export default function PaymentPage() {
               onClick={() => navigate('/waiter')}
               className="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-2xl transition-all"
             >
-              Ofisant paneliga qaytish
+              {t('backToWaiterBtn')}
             </button>
             <button
               onClick={() => navigate('/menu')}
               className="w-full py-3 border border-orange-200 text-charcoal hover:bg-orange-50 font-bold rounded-2xl transition-all text-sm"
             >
-              Menyuga qaytish
+              {t('backToMenuBtn')}
             </button>
           </div>
         </motion.div>
@@ -152,10 +154,10 @@ export default function PaymentPage() {
             <Receipt className="w-8 h-8 text-white" />
           </div>
           <h1 className="font-display font-black text-3xl text-charcoal">
-            To'lov
+            {t('paymentTitle')}
           </h1>
           <p className="text-sm text-gray-500">
-            Buyurtma <strong className="text-brand-600 font-mono">#{order.id}</strong> — {order.customer.name}
+            {t('paymentSub')} <strong className="text-brand-600 font-mono">#{order.id}</strong> — {order.customer.name}
           </p>
         </div>
 
@@ -163,7 +165,7 @@ export default function PaymentPage() {
         <div className="bg-white rounded-3xl border border-orange-100 shadow-soft p-5 space-y-4">
           <div className="flex items-center gap-2 border-b border-orange-50 pb-3">
             <UtensilsCrossed className="w-5 h-5 text-brand-500" />
-            <h3 className="font-bold text-charcoal">Buyurtma tarkibi</h3>
+            <h3 className="font-bold text-charcoal">{t('orderContent')}</h3>
           </div>
 
           <div className="space-y-2">
@@ -212,7 +214,7 @@ export default function PaymentPage() {
         <div className="bg-white rounded-3xl border border-orange-100 shadow-soft p-5 space-y-4">
           <h3 className="font-bold text-charcoal flex items-center gap-2">
             <CreditCard className="w-5 h-5 text-brand-500" />
-            To'lov usulini tanlang
+            {t('choosePaymentMethod')}
           </h3>
 
           <div className="grid grid-cols-1 gap-3">
@@ -253,12 +255,12 @@ export default function PaymentPage() {
           {isPaying ? (
             <>
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              To'lov qayta ishlanmoqda...
+              {t('payingInProgress')}
             </>
           ) : (
             <>
               <Sparkles className="w-5 h-5" />
-              ${order.total?.toFixed(2)} To'lash
+              ${order.total?.toFixed(2)} {t('paySubmitBtn')}
               <ArrowRight className="w-5 h-5" />
             </>
           )}

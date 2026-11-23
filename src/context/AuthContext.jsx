@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext();
 
@@ -56,18 +57,69 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('pizzora_registered_users', JSON.stringify(registeredUsers));
   }, [registeredUsers]);
 
+  // Listen to Supabase auth state change if available
+  useEffect(() => {
+    try {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user && !user) {
+          const supaUser = {
+            id: session.user.id,
+            name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
+            email: session.user.email,
+            role: session.user.user_metadata?.role || 'customer',
+            phone: session.user.phone || '+998 (90) 123-45-67',
+            address: '',
+            avatar: session.user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(session.user.email)}`,
+            favorites: []
+          };
+          setUser(supaUser);
+        }
+      });
+
+      return () => {
+        subscription?.unsubscribe();
+      };
+    } catch (err) {
+      console.warn('Supabase auth state listener notice:', err);
+    }
+  }, []);
+
   // Login handler
   const login = async (email, password) => {
-    // Simulate network delay for realistic feel
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
     const cleanEmail = email.trim().toLowerCase();
+
+    // 1. Try Supabase Auth
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password
+      });
+
+      if (!error && data?.user) {
+        const authenticatedSession = {
+          id: data.user.id,
+          name: data.user.user_metadata?.full_name || cleanEmail.split('@')[0],
+          email: data.user.email,
+          role: data.user.user_metadata?.role || (cleanEmail === 'admin@pizzora.com' ? 'admin' : 'customer'),
+          phone: data.user.phone || '+998 (90) 123-45-67',
+          address: '',
+          token: data.session?.access_token || `pizzora_tok_${Date.now()}`,
+          avatar: data.user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cleanEmail)}`,
+          favorites: []
+        };
+        setUser(authenticatedSession);
+        return authenticatedSession;
+      }
+    } catch (supaErr) {
+      console.warn('Supabase auth attempt:', supaErr);
+    }
+
+    // 2. Demo or local registered fallback
+    await new Promise((resolve) => setTimeout(resolve, 300));
     
-    // Quick demo bypass or match registered
     let found = registeredUsers.find((u) => u.email.toLowerCase() === cleanEmail);
 
     if (!found) {
-      // Allow demo testing if entered default demo credentials
       if (cleanEmail === 'alex@pizzora.com') {
         found = DEMO_USERS[0];
       } else if (cleanEmail === 'admin@pizzora.com') {
@@ -79,7 +131,6 @@ export const AuthProvider = ({ children }) => {
       throw new Error('No account found with this email. Please check or register.');
     }
 
-    // Never store plain text passwords. Session stores sanitized user token
     const authenticatedSession = {
       ...found,
       token: `pizzora_tok_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -92,11 +143,29 @@ export const AuthProvider = ({ children }) => {
 
   // Register handler
   const register = async ({ name, email, phone, password }) => {
-    await new Promise((resolve) => setTimeout(resolve, 650));
-
     const cleanEmail = email.trim().toLowerCase();
-    const exists = registeredUsers.some((u) => u.email.toLowerCase() === cleanEmail);
 
+    // 1. Try Supabase SignUp
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: cleanEmail,
+        password,
+        options: {
+          data: {
+            full_name: name.trim(),
+            role: 'customer'
+          }
+        }
+      });
+      if (error) {
+        console.warn('Supabase signup notice:', error.message);
+      }
+    } catch (supaErr) {
+      console.warn('Supabase signup error:', supaErr);
+    }
+
+    // 2. Local register update
+    const exists = registeredUsers.some((u) => u.email.toLowerCase() === cleanEmail);
     if (exists) {
       throw new Error('An account with this email address already exists.');
     }
@@ -126,7 +195,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Logout handler
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.warn('Supabase signout:', e);
+    }
     setUser(null);
   };
 
@@ -180,4 +254,3 @@ export const useAuth = () => {
   }
   return context;
 };
-

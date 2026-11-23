@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -8,14 +8,18 @@ import {
   Flame, 
   Leaf, 
   X,
-  ArrowUpDown
+  ArrowUpDown,
+  QrCode
 } from 'lucide-react';
 import ProductCard from '../components/menu/ProductCard';
 import { PRODUCTS, CATEGORIES } from '../data/pizzas';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function MenuPage() {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentCategory = searchParams.get('category') || 'all';
+  const currentTable = searchParams.get('table');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [vegetarianOnly, setVegetarianOnly] = useState(false);
@@ -87,14 +91,45 @@ export default function MenuPage() {
         {/* Page Title & Hero Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-700 bg-orange-100/70 border border-orange-200">
-            Handcrafted Menu
+            {t('handcraftedMenu')}
           </span>
           <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-charcoal">
-            Delicious Flavors, Made to Order
+            {t('deliciousFlavors')}
           </h1>
           <p className="text-sm sm:text-base text-charcoal-muted">
-            Explore authentic stone-baked pizzas, family feast combos, hand-spun sodas and traditional Italian desserts.
+            {t('exploreMenuDesc')}
           </p>
+        </div>
+
+        {/* Table / QR Mode Banner */}
+        {currentTable && (
+          <div className="p-4 sm:p-5 bg-gradient-to-r from-brand-500 to-amber-500 text-white rounded-3xl shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">📍</span>
+              <div>
+                <h3 className="font-display font-black text-lg sm:text-xl">
+                  {currentTable} {t('qrWelcomeForTable')}
+                </h3>
+                <p className="text-xs text-white/90">
+                  {t('qrWelcomeDesc')}
+                </p>
+              </div>
+            </div>
+            <span className="px-3 py-1 bg-white/20 rounded-xl text-xs font-bold uppercase backdrop-blur-sm self-start sm:self-auto">
+              {t('tableServiceNotice')}
+            </span>
+          </div>
+        )}
+
+        {/* Quick QR link */}
+        <div className="flex justify-end">
+          <Link
+            to="/qr-menu"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-orange-50 border border-orange-200 text-brand-700 rounded-2xl text-xs font-bold shadow-xs transition-colors"
+          >
+            <QrCode className="w-4 h-4 text-brand-500" />
+            <span>{t('viewTableQrBtn')}</span>
+          </Link>
         </div>
 
         {/* Filter Controls Bar */}
@@ -107,7 +142,7 @@ export default function MenuPage() {
               <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search pizzas, ingredients, burrata, combos..."
+                placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-10 py-3 bg-orange-50/50 rounded-2xl border border-orange-100 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm font-medium transition-all"
@@ -126,16 +161,16 @@ export default function MenuPage() {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2 px-4 py-3 bg-orange-50/50 rounded-2xl border border-orange-100 text-sm font-semibold text-charcoal shrink-0">
                 <ArrowUpDown className="w-4 h-4 text-brand-500" />
-                <span className="hidden sm:inline text-xs text-charcoal-muted">Sort:</span>
+                <span className="hidden sm:inline text-xs text-charcoal-muted">{t('sort')}:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="bg-transparent focus:outline-none text-xs font-bold cursor-pointer"
                 >
-                  <option value="popular">Most Popular</option>
-                  <option value="rating">Highest Rated</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
+                  <option value="popular">{t('mostPopular')}</option>
+                  <option value="rating">{t('highestRated')}</option>
+                  <option value="price-asc">{t('priceLowHigh')}</option>
+                  <option value="price-desc">{t('priceHighLow')}</option>
                 </select>
               </div>
             </div>
@@ -164,7 +199,7 @@ export default function MenuPage() {
                     {cat.id === 'drinks' && '🥤'}
                     {cat.id === 'desserts' && '🍰'}
                   </span>
-                  <span>{cat.label}</span>
+                  <span>{t('cat_' + cat.id) || cat.label}</span>
                 </button>
               );
             })}
@@ -182,7 +217,7 @@ export default function MenuPage() {
                 }`}
               >
                 <Leaf className="w-3.5 h-3.5" />
-                <span>Vegetarian Only</span>
+                <span>{t('vegOnly')}</span>
               </button>
 
               <button
@@ -194,7 +229,7 @@ export default function MenuPage() {
                 }`}
               >
                 <Flame className="w-3.5 h-3.5" />
-                <span>Spicy Only</span>
+                <span>{t('spicyOnly')}</span>
               </button>
             </div>
 
@@ -204,7 +239,7 @@ export default function MenuPage() {
                 className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1"
               >
                 <X className="w-3.5 h-3.5" />
-                Reset all filters
+                {t('resetFilters')}
               </button>
             )}
           </div>
@@ -214,11 +249,11 @@ export default function MenuPage() {
         {/* Results Counter */}
         <div className="flex items-center justify-between text-xs text-charcoal-muted font-medium px-1">
           <span>
-            Showing <strong className="text-charcoal">{filteredProducts.length}</strong> items
+            {t('showingItems')} <strong className="text-charcoal">{filteredProducts.length}</strong> {t('itemsCount')}
           </span>
           {currentCategory !== 'all' && (
             <span className="capitalize">
-              Category: <strong className="text-brand-600">{currentCategory}</strong>
+              {t('category')} <strong className="text-brand-600">{currentCategory}</strong>
             </span>
           )}
         </div>
@@ -230,16 +265,16 @@ export default function MenuPage() {
               🔍
             </div>
             <h3 className="font-display font-bold text-lg text-charcoal">
-              No matching products found
+              {t('noProductsFound')}
             </h3>
             <p className="text-xs text-charcoal-muted leading-relaxed">
-              We couldn't find anything matching your exact filter combination. Try resetting your search or dietary tags.
+              {t('noProductsDesc')}
             </p>
             <button
               onClick={clearAllFilters}
               className="px-5 py-2.5 bg-brand-500 text-white rounded-full text-xs font-bold shadow hover:bg-brand-600 transition-colors"
             >
-              Reset Filters
+              {t('resetBtn')}
             </button>
           </div>
         ) : (

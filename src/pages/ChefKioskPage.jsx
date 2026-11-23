@@ -13,6 +13,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
 const STATUS_COLORS = {
@@ -23,6 +24,7 @@ const STATUS_COLORS = {
 };
 
 function OrderCard({ order, onStatusUpdate }) {
+  const { t } = useLanguage();
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
@@ -45,9 +47,9 @@ function OrderCard({ order, onStatusUpdate }) {
 
   const getNextAction = () => {
     switch (order.status) {
-      case 'Pending': return { label: '🔥 Pishirishni Boshlash', next: 'Baking' };
-      case 'Baking': return { label: '✅ Tayyor — Tekshirish', next: 'Quality Checked' };
-      case 'Quality Checked': return { label: '🛎️ Ofisantga Berish', next: 'Ready' };
+      case 'Pending': return { label: t('startBakingBtn'), next: 'Baking' };
+      case 'Baking': return { label: t('readyInspectBtn'), next: 'Quality Checked' };
+      case 'Quality Checked': return { label: t('giveToWaiterBtn'), next: 'Ready' };
       default: return null;
     }
   };
@@ -73,7 +75,7 @@ function OrderCard({ order, onStatusUpdate }) {
       {isUrgent && (
         <div className="absolute top-3 right-3 flex items-center gap-1 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full animate-pulse">
           <AlertCircle className="w-3 h-3" />
-          SHOSHILINCH
+          {t('urgentBadge')}
         </div>
       )}
 
@@ -104,7 +106,7 @@ function OrderCard({ order, onStatusUpdate }) {
             <Timer className="w-4 h-4" />
             {formatTime(timer)}
           </div>
-          <p className="text-[10px] text-gray-500 mt-1">Kutish vaqti</p>
+          <p className="text-[10px] text-gray-500 mt-1">{t('waitTime')}</p>
         </div>
       </div>
 
@@ -112,7 +114,7 @@ function OrderCard({ order, onStatusUpdate }) {
       <div className="bg-white/70 rounded-2xl p-3 space-y-2">
         <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 uppercase mb-2">
           <UtensilsCrossed className="w-3.5 h-3.5" />
-          Buyurtma tarkibi
+          {t('orderContent')}
         </div>
         {order.items.map((item, i) => (
           <div key={i} className="flex items-start justify-between text-xs">
@@ -133,7 +135,7 @@ function OrderCard({ order, onStatusUpdate }) {
         {order.orderNotes && (
           <div className="mt-2 pt-2 border-t border-gray-200">
             <p className="text-[10px] text-orange-700 font-semibold">
-              📝 Izoh: {order.orderNotes}
+              {t('orderNotePrefix')} {order.orderNotes}
             </p>
           </div>
         )}
@@ -167,7 +169,7 @@ function OrderCard({ order, onStatusUpdate }) {
 
       {order.status === 'Ready' && (
         <div className="w-full py-3 rounded-2xl font-bold text-sm text-center bg-emerald-100 text-emerald-700 border-2 border-emerald-300">
-          🛎️ Ofisant olib ketyapti...
+          {t('waiterCarrying')}
         </div>
       )}
     </motion.div>
@@ -176,6 +178,7 @@ function OrderCard({ order, onStatusUpdate }) {
 
 export default function ChefKioskPage() {
   const { orders, updateOrderStatus } = useOrders();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [lastCount, setLastCount] = useState(0);
   const [newOrderAlert, setNewOrderAlert] = useState(false);
@@ -210,7 +213,7 @@ export default function ChefKioskPage() {
             className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-brand-500 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm"
           >
             <Bell className="w-5 h-5 animate-bounce" />
-            Yangi buyurtma keldi!
+            {t('newOrderAlert')}
           </motion.div>
         )}
       </AnimatePresence>
@@ -225,9 +228,9 @@ export default function ChefKioskPage() {
             </div>
             <div>
               <h1 className="font-display font-black text-2xl sm:text-3xl text-white">
-                Povarlar Kiosgi
+                {t('chefKioskTitle')}
               </h1>
-              <p className="text-xs text-gray-400 font-medium">Jonli buyurtmalar boshqaruvi</p>
+              <p className="text-xs text-gray-400 font-medium">{t('chefKioskSub')}</p>
             </div>
           </div>
 
@@ -236,12 +239,12 @@ export default function ChefKioskPage() {
               onClick={() => navigate('/waiter')}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-2"
             >
-              🧑‍💼 Ofisant Paneli
+              {t('waiterPanelBtn')}
             </button>
             <button
               onClick={() => window.location.reload()}
               className="p-2.5 bg-gray-800 hover:bg-gray-700 rounded-xl transition-colors"
-              title="Yangilash"
+              title={t('reloadBtn')}
             >
               <RefreshCw className="w-4 h-4 text-gray-400" />
             </button>
@@ -252,21 +255,21 @@ export default function ChefKioskPage() {
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-4 text-center">
             <p className="text-3xl font-black text-yellow-400">{pendingCount}</p>
-            <p className="text-xs text-yellow-300/80 font-bold uppercase mt-1">Yangi</p>
+            <p className="text-xs text-yellow-300/80 font-bold uppercase mt-1">{t('newOrdersBadge')}</p>
           </div>
           <div className="bg-brand-500/10 border border-brand-500/30 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-2">
               <p className="text-3xl font-black text-brand-400">{bakingCount}</p>
               {bakingCount > 0 && <Flame className="w-5 h-5 text-brand-400 animate-pulse" />}
             </div>
-            <p className="text-xs text-brand-300/80 font-bold uppercase mt-1">Pishirilmoqda</p>
+            <p className="text-xs text-brand-300/80 font-bold uppercase mt-1">{t('bakingBadge')}</p>
           </div>
           <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-2">
               <p className="text-3xl font-black text-emerald-400">{readyCount}</p>
               {readyCount > 0 && <Sparkles className="w-5 h-5 text-emerald-400" />}
             </div>
-            <p className="text-xs text-emerald-300/80 font-bold uppercase mt-1">Tayyor</p>
+            <p className="text-xs text-emerald-300/80 font-bold uppercase mt-1">{t('readyBadge')}</p>
           </div>
         </div>
 
@@ -280,8 +283,8 @@ export default function ChefKioskPage() {
             <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center text-4xl">
               😴
             </div>
-            <h3 className="font-bold text-xl text-gray-300">Hozircha buyurtma yo'q</h3>
-            <p className="text-sm text-gray-500">Yangi buyurtmalar shu yerda ko'rinadi</p>
+            <h3 className="font-bold text-xl text-gray-300">{t('noOrdersChef')}</h3>
+            <p className="text-sm text-gray-500">{t('noOrdersChefSub')}</p>
           </motion.div>
         ) : (
           <AnimatePresence mode="popLayout">

@@ -17,6 +17,7 @@ import {
 import { PRODUCTS, PIZZA_SIZES, PIZZA_CRUSTS, EXTRA_TOPPINGS } from '../data/pizzas';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import ProductCard from '../components/menu/ProductCard';
 
 export default function ProductDetailPage() {
@@ -24,6 +25,7 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user, toggleFavorite } = useAuth();
+  const { t } = useLanguage();
 
   const product = PRODUCTS.find((p) => p.id === id);
 
@@ -181,11 +183,11 @@ export default function ProductDetailPage() {
               </div>
 
               <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-charcoal">
-                {product.name}
+                {t(`prod_${product.id.replace(/-/g, '_')}_name`) !== `prod_${product.id.replace(/-/g, '_')}_name` ? t(`prod_${product.id.replace(/-/g, '_')}_name`) : product.name}
               </h1>
 
               <p className="text-sm text-charcoal-muted mt-3 leading-relaxed">
-                {product.description}
+                {t(`prod_${product.id.replace(/-/g, '_')}_desc`) !== `prod_${product.id.replace(/-/g, '_')}_desc` ? t(`prod_${product.id.replace(/-/g, '_')}_desc`) : product.description}
               </p>
             </div>
 

@@ -1,28 +1,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, Leaf, Zap, HeartHandshake, ShieldCheck } from 'lucide-react';
+import { Award, Leaf, Zap, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function WhyPizzora() {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: <Award className="w-7 h-7 text-brand-500" />,
-      title: '72h Slow Ferment Sourdough',
-      desc: 'Our proprietary mother dough undergoes a 3-day cold rise, yielding an extraordinarily light, digestible, and fragrant crust.'
+      title: t('feat1Title'),
+      desc: t('feat1Desc')
     },
     {
       icon: <Leaf className="w-7 h-7 text-emerald-500" />,
-      title: 'Campania San Marzano & DOP Cheese',
-      desc: 'Volcanic soil-grown sweet tomatoes paired with 100% pure Fior di Latte and buffalo mozzarella flown directly from Italy.'
+      title: t('feat2Title'),
+      desc: t('feat2Desc')
     },
     {
       icon: <Zap className="w-7 h-7 text-amber-500" />,
-      title: '480°C Stone Deck Baking',
-      desc: 'Blasted for 90 seconds in our custom stone hearth ovens, achieving that authentic leopard-spotted charred crust.'
+      title: t('feat3Title'),
+      desc: t('feat3Desc')
     },
     {
       icon: <ShieldCheck className="w-7 h-7 text-brand-600" />,
-      title: 'Thermal Insulated Express Delivery',
-      desc: 'Specialized thermal breathable pizza carriers maintain 80°C oven heat right until it enters your hands.'
+      title: t('feat4Title'),
+      desc: t('feat4Desc')
     }
   ];
 
@@ -32,13 +35,13 @@ export default function WhyPizzora() {
         
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-brand-700 bg-orange-100/70 border border-orange-200">
-            The PIZZORA Standard
+            {t('thePizzoraStandard')}
           </span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-charcoal mt-3">
-            Why Every Slice Tastes Like Pure Happiness
+            {t('whyPureHappiness')}
           </h2>
           <p className="text-sm text-charcoal-muted mt-3">
-            We don't do mass production shortcuts. Every pizza is an artisan masterpiece built from generational Italian heritage.
+            {t('whySub')}
           </p>
         </div>
 
@@ -62,7 +65,7 @@ export default function WhyPizzora() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-orange-50 flex items-center gap-1.5 text-brand-600 font-bold text-xs">
-                <span>Heritage Craft</span>
+                <span>{t('heritageCraft')}</span>
                 <span>•</span>
                 <span className="text-gray-400 font-normal">Est. 2024</span>
               </div>
@@ -74,4 +77,3 @@ export default function WhyPizzora() {
     </section>
   );
 }
-

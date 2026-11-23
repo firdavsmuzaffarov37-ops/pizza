@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Flame, Clock, ShieldCheck, Heart } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 hero-mesh">
       {/* Background soft ambient glowing circles */}
@@ -25,21 +28,21 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
               </span>
-              <span>Stone-Baked Artisanal Neapolitan Pizzas</span>
+              <span>{t('heroBadge')}</span>
               <Sparkles className="w-3.5 h-3.5 text-brand-500" />
             </div>
 
             {/* Headline */}
             <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-charcoal leading-[1.08]">
-              Fresh Pizza, <br />
+              {t('heroTitle1')} <br />
               <span className="bg-gradient-to-r from-brand-500 via-brand-600 to-amber-500 bg-clip-text text-transparent">
-                Happy Moments.
+                {t('heroTitle2')}
               </span>
             </h1>
 
             {/* Subheading */}
             <p className="text-base sm:text-lg text-charcoal-muted max-w-xl leading-relaxed">
-              Crafted from 72-hour naturally fermented sourdough, sweet Campania San Marzano tomatoes, and authentic melting Fior di Latte. Hot and bubbly straight from our stone hearth to your doorstep.
+              {t('heroSubtitle')}
             </p>
 
             {/* CTAs & Guarantee */}
@@ -48,15 +51,15 @@ export default function Hero() {
                 to="/menu"
                 className="px-8 py-4 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-extrabold text-base rounded-full shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 flex items-center justify-center gap-3 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               >
-                <span>Order Now</span>
+                <span>{t('heroOrderNow')}</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 to="/menu?category=combos"
                 className="px-8 py-4 bg-white hover:bg-orange-50/60 text-charcoal font-bold text-base rounded-full border border-orange-200/80 shadow-sm flex items-center justify-center gap-2 transition-colors"
               >
-                <span>Explore Deals</span>
-                <span className="text-xs bg-brand-100 text-brand-700 font-bold px-2 py-0.5 rounded-full">Save 20%</span>
+                <span>{t('heroExploreDeals')}</span>
+                <span className="text-xs bg-brand-100 text-brand-700 font-bold px-2 py-0.5 rounded-full">{t('heroSave20')}</span>
               </Link>
             </div>
 
@@ -66,19 +69,19 @@ export default function Hero() {
                 <span className="block font-display font-black text-2xl sm:text-3xl text-charcoal">
                   25+
                 </span>
-                <span className="text-xs text-charcoal-muted font-medium">Artisanal Pizzas</span>
+                <span className="text-xs text-charcoal-muted font-medium">{t('heroStatPizzas')}</span>
               </div>
               <div>
                 <span className="block font-display font-black text-2xl sm:text-3xl text-brand-500">
                   25 min
                 </span>
-                <span className="text-xs text-charcoal-muted font-medium">Avg Delivery Time</span>
+                <span className="text-xs text-charcoal-muted font-medium">{t('heroStatDelivery')}</span>
               </div>
               <div>
                 <span className="block font-display font-black text-2xl sm:text-3xl text-charcoal">
                   4.9 ★
                 </span>
-                <span className="text-xs text-charcoal-muted font-medium">15k+ Reviews</span>
+                <span className="text-xs text-charcoal-muted font-medium">{t('heroStatReviews')}</span>
               </div>
             </div>
           </motion.div>
@@ -120,7 +123,7 @@ export default function Hero() {
                   🔥
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 font-semibold block uppercase">Save 30%</span>
+                  <span className="text-[10px] text-gray-500 font-semibold block uppercase">{t('heroSave30Badge')}</span>
                   <span className="text-xs font-bold text-charcoal">Code: PIZZORA20</span>
                 </div>
               </motion.div>
@@ -136,8 +139,8 @@ export default function Hero() {
                   🌿
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 font-semibold block uppercase">Pure 100%</span>
-                  <span className="text-xs font-bold text-charcoal">Italian Mozzarella</span>
+                  <span className="text-[10px] text-gray-500 font-semibold block uppercase">{t('heroMozzarellaBadge')}</span>
+                  <span className="text-xs font-bold text-charcoal">{t('heroMozzarellaText')}</span>
                 </div>
               </motion.div>
 
@@ -149,7 +152,7 @@ export default function Hero() {
                 className="absolute bottom-4 left-6 z-20 bg-charcoal text-white px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-2 text-xs font-semibold"
               >
                 <Clock className="w-3.5 h-3.5 text-amber-400" />
-                <span>Delivery: 20-30 mins</span>
+                <span>{t('heroDeliveryPill')}</span>
               </motion.div>
 
             </div>
@@ -160,4 +163,3 @@ export default function Hero() {
     </section>
   );
 }
-

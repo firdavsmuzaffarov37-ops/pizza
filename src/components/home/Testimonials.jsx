@@ -2,21 +2,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import { TESTIMONIALS } from '../../data/pizzas';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Testimonials() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-20 bg-warmWhite">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-xl mx-auto mb-14">
           <span className="text-brand-600 font-bold text-xs uppercase tracking-widest">
-            Loved By Thousands
+            {t('testimonialsBadge')}
           </span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-charcoal mt-2">
-            Stories From Our Pizza Lovers
+            {t('testimonialsTitle')}
           </h2>
           <p className="text-sm text-charcoal-muted mt-2">
-            Read real reviews from genuine food lovers, chefs and everyday pizza dreamers.
+            {t('testimonialsSub')}
           </p>
         </div>
 
@@ -51,7 +54,7 @@ export default function Testimonials() {
                   <h4 className="font-bold text-sm text-charcoal">{item.name}</h4>
                   <p className="text-xs text-charcoal-muted">{item.role}</p>
                   <p className="text-[11px] text-brand-600 font-semibold mt-0.5">
-                    Fave: {item.favoritePizza}
+                    {t('favoritePizzaLabel')} {item.favoritePizza}
                   </p>
                 </div>
               </div>
@@ -63,4 +66,3 @@ export default function Testimonials() {
     </section>
   );
 }
-

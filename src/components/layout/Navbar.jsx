@@ -13,16 +13,20 @@ import {
   Flame,
   Heart,
   ChefHat,
-  UtensilsCrossed
+  UtensilsCrossed,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Navbar() {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const { totalItemsCount, setIsDrawerOpen } = useCart();
+  const { language, setLanguage, languages, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -32,11 +36,11 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Bosh sahifa', path: '/' },
-    { name: '🍽️ Menyu', path: '/menu' },
-    { name: '🍳 Povarlar Kiosgi', path: '/chef-kiosk' },
-    { name: '🧑‍💼 Ofisant Paneli', path: '/waiter' }
+    { name: t('home'), path: '/' },
+    { name: `🍽️ ${t('menu')}`, path: '/menu' }
   ];
+
+  const currentLang = languages.find(l => l.code === language) || languages[0];
 
   return (
     <>
@@ -96,8 +100,65 @@ export default function Navbar() {
             </nav>
 
             {/* Right Action Icons & Auth */}
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
               
+              {/* Language Switcher */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-orange-100 text-xs font-bold text-charcoal shadow-xs hover:border-brand-300 hover:text-brand-600 transition-all"
+                  aria-label="Change Language"
+                >
+                  <Globe className="w-3.5 h-3.5 text-brand-500" />
+                  <span>{currentLang.flag}</span>
+                  <span className="hidden sm:inline uppercase text-[11px]">{currentLang.code}</span>
+                  <ChevronDown className="w-3 h-3 text-gray-400" />
+                </button>
+
+                <AnimatePresence>
+                  {langDropdownOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setLangDropdownOpen(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-2 w-36 bg-white rounded-2xl shadow-xl border border-orange-100 py-1.5 z-20"
+                      >
+                        {languages.map((l) => (
+                          <button
+                            key={l.code}
+                            type="button"
+                            onClick={() => {
+                              setLanguage(l.code);
+                              setLangDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-bold text-left transition-colors ${
+                              language === l.code
+                                ? 'bg-orange-50 text-brand-600'
+                                : 'text-charcoal hover:bg-gray-50'
+                            }`}
+                          >
+                            <span className="flex items-center gap-2">
+                              <span>{l.flag}</span>
+                              <span>{l.name}</span>
+                            </span>
+                            {language === l.code && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-brand-500" />
+                            )}
+                          </button>
+                        ))}
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Cart Drawer Trigger Button */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -152,7 +213,7 @@ export default function Navbar() {
                           className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-soft-lg border border-orange-100 py-2 z-20"
                         >
                           <div className="px-4 py-3 border-b border-gray-100">
-                            <p className="text-xs text-charcoal-muted font-medium">Signed in as</p>
+                            <p className="text-xs text-charcoal-muted font-medium">{t('signedInAs')}</p>
                             <p className="text-sm font-bold text-charcoal truncate">{user.name}</p>
                             <p className="text-xs text-brand-600 font-semibold uppercase">{user.role}</p>
                           </div>
@@ -164,7 +225,7 @@ export default function Navbar() {
                               className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-charcoal hover:bg-orange-50 font-medium transition-colors"
                             >
                               <User className="w-4 h-4 text-brand-500" />
-                              My Profile
+                              {t('myProfile')}
                             </Link>
                             <Link
                               to="/orders"
@@ -172,34 +233,36 @@ export default function Navbar() {
                               className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-charcoal hover:bg-orange-50 font-medium transition-colors"
                             >
                               <Clock className="w-4 h-4 text-brand-500" />
-                              Order History
+                              {t('orderHistory')}
                             </Link>
                             {isAdmin && (
-                              <Link
-                                to="/admin"
-                                onClick={() => setUserDropdownOpen(false)}
-                                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-700 bg-brand-50 hover:bg-brand-100 font-semibold transition-colors"
-                              >
-                                <ShieldCheck className="w-4 h-4 text-brand-600" />
-                                Admin Dashboard
-                              </Link>
+                              <>
+                                <Link
+                                  to="/admin"
+                                  onClick={() => setUserDropdownOpen(false)}
+                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-700 bg-brand-50 hover:bg-brand-100 font-semibold transition-colors"
+                                >
+                                  <ShieldCheck className="w-4 h-4 text-brand-600" />
+                                  {t('adminDashboard')}
+                                </Link>
+                                <Link
+                                  to="/chef-kiosk"
+                                  onClick={() => setUserDropdownOpen(false)}
+                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-orange-700 bg-orange-50 hover:bg-orange-100 font-semibold transition-colors"
+                                >
+                                  <ChefHat className="w-4 h-4 text-orange-600" />
+                                  🍳 {t('chefKiosk')}
+                                </Link>
+                                <Link
+                                  to="/waiter"
+                                  onClick={() => setUserDropdownOpen(false)}
+                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-700 bg-blue-50 hover:bg-blue-100 font-semibold transition-colors"
+                                >
+                                  <UtensilsCrossed className="w-4 h-4 text-blue-600" />
+                                  🧑‍💼 {t('waiter')}
+                                </Link>
+                              </>
                             )}
-                            <Link
-                              to="/chef-kiosk"
-                              onClick={() => setUserDropdownOpen(false)}
-                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-orange-700 bg-orange-50 hover:bg-orange-100 font-semibold transition-colors"
-                            >
-                              <ChefHat className="w-4 h-4 text-orange-600" />
-                              🍳 Povarlar Kiosgi
-                            </Link>
-                            <Link
-                              to="/waiter"
-                              onClick={() => setUserDropdownOpen(false)}
-                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-700 bg-blue-50 hover:bg-blue-100 font-semibold transition-colors"
-                            >
-                              <UtensilsCrossed className="w-4 h-4 text-blue-600" />
-                              🧑‍💼 Ofisant Paneli
-                            </Link>
                           </div>
 
                           <div className="border-t border-gray-100 pt-1">
@@ -208,7 +271,7 @@ export default function Navbar() {
                               className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 font-medium transition-colors"
                             >
                               <LogOut className="w-4 h-4" />
-                              Sign Out
+                              {t('signOut')}
                             </button>
                           </div>
                         </motion.div>
@@ -222,13 +285,13 @@ export default function Navbar() {
                     to="/login"
                     className="px-4 py-2 text-sm font-bold text-charcoal hover:text-brand-600 transition-colors"
                   >
-                    Sign In
+                    {t('signIn')}
                   </Link>
                   <Link
                     to="/register"
                     className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 rounded-full shadow-md shadow-brand-500/25 hover:shadow-brand-500/40 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    Register
+                    {t('register')}
                   </Link>
                 </div>
               )}

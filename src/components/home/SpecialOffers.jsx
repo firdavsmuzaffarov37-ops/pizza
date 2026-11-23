@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Check, Ticket, Sparkles, ArrowRight } from 'lucide-react';
+import { Copy, Check, Ticket, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SPECIAL_OFFERS } from '../../data/pizzas';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function SpecialOffers() {
+  const { t } = useLanguage();
   const [copiedCode, setCopiedCode] = useState(null);
 
   const copyCode = (code) => {
@@ -22,24 +24,24 @@ export default function SpecialOffers() {
           <div>
             <div className="inline-flex items-center gap-1.5 text-brand-600 font-bold text-xs uppercase tracking-wider mb-2">
               <Ticket className="w-4 h-4" />
-              Exclusive Deals & Promos
+              {t('exclusiveDeals')}
             </div>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-charcoal">
-              Fresh Deals Baked Daily
+              {t('freshDealsDaily')}
             </h2>
           </div>
           <Link
             to="/menu?category=combos"
             className="mt-3 md:mt-0 text-sm font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group"
           >
-            <span>View all combos & offers</span>
+            <span>{t('viewCombosOffers')}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
         {/* Promo Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SPECIAL_OFFERS.map((offer, idx) => (
+          {SPECIAL_OFFERS.map((offer) => (
             <motion.div
               key={offer.id}
               whileHover={{ y: -5 }}
@@ -80,12 +82,12 @@ export default function SpecialOffers() {
                   {copiedCode === offer.code ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700">Copied!</span>
+                      <span className="text-emerald-700">{t('copiedCodeText')}</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-3.5 h-3.5 text-gray-500" />
-                      <span>Copy Code</span>
+                      <span>{t('copyCodeBtn')}</span>
                     </>
                   )}
                 </button>
@@ -98,4 +100,3 @@ export default function SpecialOffers() {
     </section>
   );
 }
-

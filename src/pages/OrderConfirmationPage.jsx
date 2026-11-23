@@ -16,20 +16,22 @@ import {
   UtensilsCrossed
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function OrderConfirmationPage() {
   const { id } = useParams();
   const { getOrderById, updateOrderStatus } = useOrders();
+  const { t } = useLanguage();
 
   const order = getOrderById(id);
 
   // Status progression simulation steps matching restaurant flow
   const steps = [
-    { key: 'Pending', label: '1. Qabul qilindi', icon: CheckCircle2, desc: 'Buyurtma tizimga qabul qilindi' },
-    { key: 'Baking', label: '2. Povar Kioski', icon: Flame, desc: 'Povar pishirishni boshladi' },
-    { key: 'Ready', label: '3. Zakaz Tayyor', icon: PackageCheck, desc: 'Ofitsiant stolga olib bormoqda' },
-    { key: 'Out for Delivery', label: '4. Stolga yetkazildi', icon: Bike, desc: 'Mijoz ovqatlanmoqda' },
-    { key: 'Delivered', label: '5. To\'lov qilindi', icon: Home, desc: 'Ovqatlangan puli to\'landi' }
+    { key: 'Pending', label: t('step1Confirmed'), icon: CheckCircle2, desc: t('step1Desc') },
+    { key: 'Baking', label: t('step2Kitchen'), icon: Flame, desc: t('step2Desc') },
+    { key: 'Ready', label: t('step3Ready'), icon: PackageCheck, desc: t('step3Desc') },
+    { key: 'Out for Delivery', label: t('step4Delivered'), icon: Bike, desc: t('step4Desc') },
+    { key: 'Delivered', label: t('step5Paid'), icon: Home, desc: t('step5Desc') }
   ];
 
   const currentStatusIndex = steps.findIndex(
@@ -72,14 +74,14 @@ export default function OrderConfirmationPage() {
             <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
           </div>
           <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 inline-block">
-            ✅ Buyurtma Muvaffaqiyatli Qabul Qilindi!
+            {t('orderConfirmedBadge')}
           </span>
           <h1 className="font-display font-black text-3xl sm:text-5xl text-charcoal">
-            Buyurtmangiz Qabul Qilindi! 🎉
+            {t('orderReceivedTitle')}
           </h1>
           <p className="text-sm text-charcoal-muted max-w-md mx-auto">
-            Buyurtma <strong className="text-brand-600 font-mono">#{order.id}</strong> povarlarimizga yuborildi. 
-            Taxminiy vaqt: <strong>25 - 30 daqiqa</strong>.
+            Order <strong className="text-brand-600 font-mono">#{order.id}</strong> {t('orderSentToChefDesc')}{' '}
+            <strong>25 - 30 {t('minutes')}</strong>.
           </p>
           
           {/* Quick links for staff */}
@@ -88,13 +90,13 @@ export default function OrderConfirmationPage() {
               to="/chef-kiosk"
               className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-brand-800 text-xs font-bold rounded-xl transition-colors"
             >
-              🍳 Povarlar Kiosgi
+              🍳 {t('chefKiosk')}
             </Link>
             <Link
               to="/waiter"
               className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold rounded-xl transition-colors"
             >
-              🧑‍💼 Ofisant Paneli
+              🧑‍💼 {t('waiter')}
             </Link>
           </div>
         </motion.div>
@@ -216,23 +218,23 @@ export default function OrderConfirmationPage() {
             <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <h4 className="font-display font-extrabold text-base text-emerald-900">
-                  Ovqatlanganingizdan so'ng to'lov qiling
+                  {t('payAfterMealHeader')}
                 </h4>
                 <p className="text-xs text-emerald-700 mt-0.5">
-                  Ofitsiant ovqatni yetkazib bergandan keyin shu tugma orqali to'lov qabul qilinadi.
+                  {t('payAfterMealSub')}
                 </p>
               </div>
               <Link
                 to={`/payment/${order.id}`}
                 className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all shrink-0"
               >
-                💳 Ovqatlangan pulini to'lash (${order.total.toFixed(2)})
+                {t('payMealBtn')} (${order.total.toFixed(2)})
               </Link>
             </div>
           ) : (
             <div className="p-5 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-center text-sm flex items-center justify-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              <span>Ovqatlangan puli to'langan va hisob muvaffaqiyatli yopilgan!</span>
+              <span>{t('paidSuccessBanner')}</span>
             </div>
           )}
 

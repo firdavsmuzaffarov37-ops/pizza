@@ -7,11 +7,13 @@ import {
   Heart,
   Clock,
   Sparkles,
-  ShieldCheck,
-  Share2
+  ShieldCheck
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-charcoal text-white pt-16 pb-12 border-t border-orange-950/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,8 +25,8 @@ export default function Footer() {
               <Clock className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-bold text-white text-base">30-Minute Guarantee</h4>
-              <p className="text-xs text-gray-400">Piping hot stone-baked pizza at your door or it's on us.</p>
+              <h4 className="font-bold text-white text-base">{t('guarantee30Min')}</h4>
+              <p className="text-xs text-gray-400">{t('guarantee30MinDesc')}</p>
             </div>
           </div>
 
@@ -33,8 +35,8 @@ export default function Footer() {
               <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-bold text-white text-base">72-Hour Fermented Dough</h4>
-              <p className="text-xs text-gray-400">Pure Italian unbleached flour, digestible and airy crust.</p>
+              <h4 className="font-bold text-white text-base">{t('dough72h')}</h4>
+              <p className="text-xs text-gray-400">{t('dough72hDesc')}</p>
             </div>
           </div>
 
@@ -43,8 +45,8 @@ export default function Footer() {
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-bold text-white text-base">100% Pure & Fresh</h4>
-              <p className="text-xs text-gray-400">DOP San Marzano tomatoes, imported buffalo mozzarella.</p>
+              <h4 className="font-bold text-white text-base">{t('pureFresh')}</h4>
+              <p className="text-xs text-gray-400">{t('pureFreshDesc')}</p>
             </div>
           </div>
         </div>
@@ -63,7 +65,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
-              Artisanal stone-baked pizzas crafted with heart, pure heritage sourdough, and the finest sun-ripened ingredients. Taste the Happiness in every single slice.
+              {t('footerAbout')}
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-500 flex items-center justify-center text-gray-300 hover:text-white transition-colors">
@@ -80,31 +82,30 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">Explore Menu</h5>
+            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">{t('menu')}</h5>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/menu?category=signature" className="hover:text-brand-400 transition-colors">Signature Pizzas</Link></li>
-              <li><Link to="/menu?category=classic" className="hover:text-brand-400 transition-colors">Classic Italian</Link></li>
-              <li><Link to="/menu?category=spicy" className="hover:text-brand-400 transition-colors">Hot & Fiery</Link></li>
-              <li><Link to="/menu?category=combos" className="hover:text-brand-400 transition-colors">Party Combos</Link></li>
-              <li><Link to="/menu?category=desserts" className="hover:text-brand-400 transition-colors">Artisan Desserts</Link></li>
+              <li><Link to="/menu?category=signature" className="hover:text-brand-400 transition-colors">{t('cat_signature')}</Link></li>
+              <li><Link to="/menu?category=classic" className="hover:text-brand-400 transition-colors">{t('cat_classic')}</Link></li>
+              <li><Link to="/menu?category=spicy" className="hover:text-brand-400 transition-colors">{t('cat_spicy')}</Link></li>
+              <li><Link to="/menu?category=combos" className="hover:text-brand-400 transition-colors">{t('cat_combos')}</Link></li>
+              <li><Link to="/menu?category=desserts" className="hover:text-brand-400 transition-colors">{t('cat_desserts')}</Link></li>
             </ul>
           </div>
 
           {/* Quick Company */}
           <div className="space-y-3">
-            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">Company</h5>
+            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">{t('company')}</h5>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/about" className="hover:text-brand-400 transition-colors">Our Story & Craft</Link></li>
-              <li><Link to="/contact" className="hover:text-brand-400 transition-colors">Contact & Locations</Link></li>
-              <li><Link to="/orders" className="hover:text-brand-400 transition-colors">Track Order</Link></li>
-              <li><Link to="/account" className="hover:text-brand-400 transition-colors">My Profile</Link></li>
-              <li><Link to="/admin" className="hover:text-brand-400 transition-colors">Kitchen Admin</Link></li>
+              <li><Link to="/about" className="hover:text-brand-400 transition-colors">{t('ourStory')}</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-400 transition-colors">{t('contact')}</Link></li>
+              <li><Link to="/orders" className="hover:text-brand-400 transition-colors">{t('trackOrder')}</Link></li>
+              <li><Link to="/account" className="hover:text-brand-400 transition-colors">{t('myProfile')}</Link></li>
             </ul>
           </div>
 
           {/* Contact Details */}
           <div className="space-y-3">
-            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">Kitchen & Delivery</h5>
+            <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">{t('kitchenDelivery')}</h5>
             <div className="space-y-2.5 text-xs text-gray-400">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
@@ -119,7 +120,7 @@ export default function Footer() {
                 <span>hello@pizzora.com</span>
               </p>
               <div className="pt-2 text-amber-300 font-medium">
-                Open Daily: 11:00 AM – 11:30 PM
+                {t('openDaily')}
               </div>
             </div>
           </div>
@@ -128,13 +129,13 @@ export default function Footer() {
 
         {/* Bottom copyright */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} PIZZORA Inc. All rights reserved. Taste the Happiness.</p>
+          <p>© {new Date().getFullYear()} PIZZORA Inc. {t('allRightsReserved')}</p>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1 text-gray-400">
-              Handcrafted with <Heart className="w-3.5 h-3.5 text-brand-500 fill-brand-500" /> for pizza lovers
+              {t('handcraftedWithLove')} <Heart className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
             </span>
-            <a href="#" className="hover:text-gray-300">Privacy Policy</a>
-            <a href="#" className="hover:text-gray-300">Terms of Service</a>
+            <a href="#" className="hover:text-gray-300">{t('privacyPolicy')}</a>
+            <a href="#" className="hover:text-gray-300">{t('termsOfService')}</a>
           </div>
         </div>
 
