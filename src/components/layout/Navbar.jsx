@@ -41,8 +41,7 @@ export default function Navbar() {
     { name: `🎁 ${t('deals')}`, path: '/deals' },
     { name: `📍 ${t('reservation')}`, path: '/reservation' },
     { name: `ℹ️ ${t('about')}`, path: '/about' },
-    { name: `📞 ${t('contact')}`, path: '/contact' },
-    { name: `📱 ${t('qrMenu')}`, path: '/qr-menu' }
+    { name: `📞 ${t('contact')}`, path: '/contact' }
   ];
 
   const currentLang = languages.find(l => l.code === language) || languages[0];

@@ -129,6 +129,12 @@ export default function ProductCard({ product }) {
       >
         {/* Badges */}
         <div className="absolute top-6 left-6 z-10 flex flex-col gap-1.5">
+          {product.originalPrice && product.originalPrice > product.price && (
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-black tracking-wide text-white bg-rose-500 shadow-md flex items-center gap-1">
+              <span>-{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%</span>
+              <span className="text-[9px] uppercase font-bold opacity-90">{t('discountLabel') || 'Chegirma'}</span>
+            </span>
+          )}
           {product.badge && (
             <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide text-white bg-gradient-to-r from-brand-500 to-amber-500 shadow-sm backdrop-blur-sm">
               {localizedBadge}
@@ -162,6 +168,10 @@ export default function ProductCard({ product }) {
               alt={product.name}
               className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
               loading="lazy"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1000&q=80';
+              }}
             />
           </div>
         </Link>

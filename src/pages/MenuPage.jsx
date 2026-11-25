@@ -255,7 +255,7 @@ export default function MenuPage() {
           </span>
           {currentCategory !== 'all' && (
             <span className="capitalize">
-              {t('category')} <strong className="text-brand-600">{currentCategory}</strong>
+              {t('category')} <strong className="text-brand-600">{t('cat_' + currentCategory) || currentCategory}</strong>
             </span>
           )}
         </div>

@@ -43,6 +43,7 @@ export const PRODUCTS = [
     category: 'pizza',
     subCategory: 'pizza',
     price: 95000,
+    originalPrice: 115000,
     rating: 4.9,
     reviewsCount: 342,
     prepTime: '20-25 mins',
@@ -60,6 +61,7 @@ export const PRODUCTS = [
     category: 'pizza',
     subCategory: 'pizza',
     price: 78000,
+    originalPrice: 92000,
     rating: 4.8,
     reviewsCount: 512,
     prepTime: '18-22 mins',
@@ -77,6 +79,7 @@ export const PRODUCTS = [
     category: 'pizza',
     subCategory: 'pizza',
     price: 65000,
+    originalPrice: 78000,
     rating: 4.9,
     reviewsCount: 780,
     prepTime: '15-18 mins',
@@ -147,6 +150,7 @@ export const PRODUCTS = [
     category: 'burgers',
     subCategory: 'burger',
     price: 52000,
+    originalPrice: 62000,
     rating: 4.9,
     reviewsCount: 460,
     prepTime: '15-18 mins',
@@ -183,6 +187,7 @@ export const PRODUCTS = [
     category: 'snacks',
     subCategory: 'snack',
     price: 42000,
+    originalPrice: 50000,
     rating: 4.9,
     reviewsCount: 520,
     prepTime: '12-15 mins',
@@ -207,7 +212,7 @@ export const PRODUCTS = [
     badge: 'Customer Fav',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1000&q=80',
+    image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1000&q=80',
     description: 'Hand-cut golden skin-on Idaho fries tossed with Italian white truffle oil, freshly grated 24-month Parmigiano-Reggiano, and chopped rosemary parsley sea salt.',
     ingredients: ['Skin-on Idaho Potatoes', 'White Truffle Oil', '24-Mo Parmigiano', 'Rosemary Parsley Flakes', 'Garlic Aioli']
   },
@@ -279,7 +284,7 @@ export const PRODUCTS = [
     badge: 'Customer Fav',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1000&q=80',
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=80',
     description: 'Slow-simmered velvety cream soup made from Portobello and Porcini mushrooms, fresh thyme, cream, white wine essence, and toasted sourdough croutons.',
     ingredients: ['Wild Porcini & Portobello', 'Fresh Cream', 'Fresh Thyme', 'Toasted Sourdough Croutons']
   },
@@ -296,7 +301,7 @@ export const PRODUCTS = [
     badge: 'Classic Heritage',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=1000&q=80',
+    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1000&q=80',
     description: 'Fire-roasted San Marzano tomatoes blended with sweet onions, garlic, fresh basil, extra virgin olive oil, and melted Fior di Latte cheese on top.',
     ingredients: ['Roasted San Marzano Tomatoes', 'Fresh Sweet Basil', 'Melted Mozzarella', 'Extra Virgin Olive Oil']
   },
@@ -334,7 +339,7 @@ export const PRODUCTS = [
     badge: 'Date Night Hit',
     isVegetarian: false,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80',
+    image: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=1000&q=80',
     description: '1 Medium Gourmet Pizza + 1 Fresh Burrata Caprese Salad + 2 San Pellegrino Blood Orange Sodas + 2 Warm Chocolate Lava Cakes.',
     ingredients: ['1x Medium Pizza', 'Caprese Salad', '2x San Pellegrino Sodas', '2x Molten Lava Cakes']
   },
@@ -399,6 +404,7 @@ export const PRODUCTS = [
     category: 'desserts',
     subCategory: 'dessert',
     price: 36000,
+    originalPrice: 44000,
     rating: 5.0,
     reviewsCount: 480,
     prepTime: 'Instant',
@@ -450,32 +456,35 @@ export const SPECIAL_OFFERS = [
   {
     id: 'offer-1',
     code: 'PIZZORA20',
-    discount: '20% OFF',
-    title: 'Welcome Celebration Feast',
-    description: "120 000 so'mdan yuqori birinchi buyurtmaga 20% chegirma (PIZZORA20).",
+    discount: '20% CHEGIRMA',
+    title: 'Telegram Obunachilariga Bayramona Chegirma',
+    description: "120 000 so'mdan yuqori birinchi buyurtmaga 20% maxsus promokod faqat bizning Telegram kanalimizda e'lon qilinadi.",
     bgColor: 'from-amber-500 to-brand-500',
-    expiresIn: 'Cheklangan vaqt',
-    tag: 'FIRST ORDER'
+    expiresIn: 'Telegram kanalimizda',
+    tag: 'TELEGRAM KANALDAN',
+    telegramUrl: 'https://t.me/pizzora_uz'
   },
   {
     id: 'offer-2',
     code: 'CHEESELOVER',
-    discount: 'FREE CRUST UPGRADE',
-    title: 'Melted Cheese Burst Wednesday',
-    description: 'Katta pitsalarga pishloqli xamir qirrasi mutlaqo bepul sovg‘a qilinadi.',
+    discount: 'TEKIN QO‘SHIMCHA XAMIR',
+    title: 'Chorshanba Pishloq Sehri Bonusi',
+    description: 'Katta pitsalarga pishloqli yoki sarimsoqli xamir qirrasi bepul beriladi. Promokod Telegram kanalimizda faollashadi.',
     bgColor: 'from-orange-500 to-rose-500',
-    expiresIn: 'Har chorshanba',
-    tag: 'SPECIAL BONUS'
+    expiresIn: 'Telegram kanalimizda',
+    tag: 'TELEGRAM KANALDAN',
+    telegramUrl: 'https://t.me/pizzora_uz'
   },
   {
     id: 'offer-3',
     code: 'FREESHIP',
-    discount: 'FREE DELIVERY',
-    title: 'Zero Delivery Fee Above 150 000 so\'m',
-    description: "150 000 so'mdan yuqori buyurtmalarga 30 daqiqada mutlaqo bepul yetkaziladi.",
+    discount: 'BEPUL YETKAZIB BERISH',
+    title: "150 000 so'mdan Yuqori Buyurtmalarga",
+    description: "O‘tin pechidan to‘g‘ridan-to‘g‘ri issiq holda 30 daqiqada bepul yetkaziladi. Yangi promokodlarni Telegram kanalimizdan oling!",
     bgColor: 'from-brand-600 to-amber-600',
-    expiresIn: 'Doim faol',
-    tag: 'AUTO APPLIED'
+    expiresIn: 'Telegram kanalimizda',
+    tag: 'TELEGRAM KANALDAN',
+    telegramUrl: 'https://t.me/pizzora_uz'
   }
 ];
 
