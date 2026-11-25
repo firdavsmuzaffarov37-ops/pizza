@@ -184,23 +184,17 @@ export default function MenuPage() {
                 <button
                   key={cat.id}
                   onClick={() => handleCategoryChange(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold shrink-0 transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all flex items-center gap-2 ${
                     isActive
                       ? 'bg-brand-500 text-white shadow-md shadow-brand-500/25'
-                      : 'bg-orange-50/60 text-charcoal hover:bg-orange-100 hover:text-brand-600'
+                      : 'bg-orange-50/60 text-charcoal hover:bg-orange-100 hover:text-brand-600 border border-orange-100'
                   }`}
                 >
-                  <span>
-                    {cat.id === 'all' && '✨'}
-                    {cat.id === 'pizza' && '🍕'}
-                    {cat.id === 'burgers' && '🍔'}
-                    {cat.id === 'snacks' && '🍗'}
-                    {cat.id === 'salads' && '🥗'}
-                    {cat.id === 'soups' && '🥣'}
-                    {cat.id === 'combos' && '🎁'}
-                    {cat.id === 'drinks' && '🥤'}
-                    {cat.id === 'desserts' && '🍰'}
-                  </span>
+                  <img
+                    src={cat.image}
+                    alt=""
+                    className="w-5 h-5 rounded-full object-cover shrink-0 border border-white/40"
+                  />
                   <span>{t('cat_' + cat.id) || cat.label}</span>
                 </button>
               );

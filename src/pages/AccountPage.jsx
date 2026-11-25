@@ -13,13 +13,15 @@ import {
   Edit3, 
   Check, 
   ShoppingBag,
-  Sparkles
+  Sparkles,
+  Camera
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useOrders } from '../context/OrderContext';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS } from '../data/pizzas';
+import { supabase } from '../lib/supabase';
 
 export default function AccountPage() {
   const { user, updateProfile, logout, isAdmin } = useAuth();
@@ -61,6 +63,30 @@ export default function AccountPage() {
     setTimeout(() => setSaveSuccess(false), 2500);
   };
 
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Rasm hajmi 5MB dan oshmasligi kerak");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Url = reader.result;
+      updateProfile({ avatar: base64Url });
+      try {
+        await supabase.auth.updateUser({
+          data: { avatar_url: base64Url }
+        });
+      } catch (err) {
+        console.warn('Supabase avatar update notice:', err);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   // User favorite products
   const favoriteProducts = PRODUCTS.filter((p) => user.favorites?.includes(p.id));
 
@@ -76,11 +102,42 @@ export default function AccountPage() {
         {/* User Profile Card */}
         <div className="p-6 sm:p-8 bg-white rounded-3xl border border-orange-100 shadow-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
-            <img
-              src={user.avatar}
-              alt={user.name}
-              className="w-20 h-20 rounded-full object-cover border-4 border-orange-100 shadow-md"
-            />
+            <div className="relative group cursor-pointer shrink-0">
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-20 h-20 rounded-full object-cover border-4 border-orange-100 shadow-md group-hover:opacity-80 transition-opacity"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    if (e.target.nextSibling) {
+                      e.target.nextSibling.style.display = 'flex';
+                    }
+                  }}
+                />
+              ) : null}
+              <div
+                style={{ display: user.avatar ? 'none' : 'flex' }}
+                className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-500 to-amber-500 text-white font-extrabold text-2xl items-center justify-center uppercase shadow-md border-4 border-orange-100"
+              >
+                {user.name ? user.name[0] : 'U'}
+              </div>
+              <label
+                htmlFor="avatar-upload"
+                className="absolute inset-0 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity cursor-pointer text-[10px] font-bold"
+                title="Rasmni o'zgartirish"
+              >
+                <Camera className="w-5 h-5 mb-0.5" />
+                <span>Rasm</span>
+              </label>
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarUpload}
+                className="hidden"
+              />
+            </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="font-display font-black text-2xl sm:text-3xl text-charcoal">

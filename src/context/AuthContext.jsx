@@ -11,7 +11,7 @@ const DEMO_USERS = [
     role: 'customer',
     phone: '+1 (555) 234-5678',
     address: '742 Evergreen Terrace, Springfield, IL',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Alex+Johnson&backgroundColor=f36f21&textColor=ffffff',
     favorites: ['truffle-burrata-bliss', 'fiery-diavola-pepperoni']
   },
   {
@@ -21,7 +21,7 @@ const DEMO_USERS = [
     role: 'admin',
     phone: '+1 (555) 888-9999',
     address: 'PIZZORA Flagship Kitchen, 100 Artisan Way, New York, NY',
-    avatar: 'https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=200&q=80',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Admin&backgroundColor=1f2937&textColor=ffffff',
     favorites: []
   }
 ];
@@ -30,7 +30,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('pizzora_current_user');
-      return saved ? JSON.parse(saved) : null;
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      // Clean up old hardcoded unsplash avatar to match current user's identity
+      if (parsed.avatar === 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80') {
+        parsed.avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(parsed.name || parsed.email)}&backgroundColor=f36f21&textColor=ffffff`;
+      }
+      return parsed;
     } catch {
       return null;
     }
@@ -64,12 +70,12 @@ export const AuthProvider = ({ children }) => {
         if (session?.user && !user) {
           const supaUser = {
             id: session.user.id,
-            name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
+            name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email.split('@')[0],
             email: session.user.email,
             role: session.user.user_metadata?.role || 'customer',
             phone: session.user.phone || '+998 (90) 123-45-67',
             address: '',
-            avatar: session.user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(session.user.email)}`,
+            avatar: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(session.user.user_metadata?.full_name || session.user.email)}&backgroundColor=f36f21&textColor=ffffff`,
             favorites: []
           };
           setUser(supaUser);
@@ -98,13 +104,13 @@ export const AuthProvider = ({ children }) => {
       if (!error && data?.user) {
         const authenticatedSession = {
           id: data.user.id,
-          name: data.user.user_metadata?.full_name || cleanEmail.split('@')[0],
+          name: data.user.user_metadata?.full_name || data.user.user_metadata?.name || cleanEmail.split('@')[0],
           email: data.user.email,
           role: data.user.user_metadata?.role || (cleanEmail === 'admin@pizzora.com' ? 'admin' : 'customer'),
           phone: data.user.phone || '+998 (90) 123-45-67',
           address: '',
           token: data.session?.access_token || `pizzora_tok_${Date.now()}`,
-          avatar: data.user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cleanEmail)}`,
+          avatar: data.user.user_metadata?.avatar_url || data.user.user_metadata?.picture || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(data.user.user_metadata?.full_name || cleanEmail)}&backgroundColor=f36f21&textColor=ffffff`,
           favorites: []
         };
         setUser(authenticatedSession);

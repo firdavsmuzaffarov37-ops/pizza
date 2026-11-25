@@ -127,24 +127,18 @@ export default function ProductCard({ product }) {
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         className="group bg-white rounded-3xl p-4 border border-orange-100 shadow-soft hover:shadow-soft-lg flex flex-col justify-between relative overflow-hidden transition-all duration-300"
       >
-        {/* Badges */}
-        <div className="absolute top-6 left-6 z-10 flex flex-col gap-1.5">
-          {product.originalPrice && product.originalPrice > product.price && (
-            <span className="px-2.5 py-1 rounded-full text-[11px] font-black tracking-wide text-white bg-rose-500 shadow-md flex items-center gap-1">
+        {/* Single Badge */}
+        <div className="absolute top-6 left-6 z-10">
+          {product.originalPrice && product.originalPrice > product.price ? (
+            <span className="px-3 py-1 rounded-full text-[11px] font-black tracking-wide text-white bg-gradient-to-r from-rose-500 to-red-600 shadow-md flex items-center gap-1">
+              <span>Aksiya</span>
               <span>-{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%</span>
-              <span className="text-[9px] uppercase font-bold opacity-90">{t('discountLabel') || 'Chegirma'}</span>
             </span>
-          )}
-          {product.badge && (
+          ) : product.badge ? (
             <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide text-white bg-gradient-to-r from-brand-500 to-amber-500 shadow-sm backdrop-blur-sm">
               {localizedBadge}
             </span>
-          )}
-          {product.isSpicy && (
-            <span className="w-fit px-2 py-0.5 rounded-full text-[10px] font-bold text-red-700 bg-red-100 border border-red-200 flex items-center gap-0.5">
-              <Flame className="w-3 h-3 fill-red-500 text-red-500" /> {t('spicyTag') || 'Hot'}
-            </span>
-          )}
+          ) : null}
         </div>
 
         {/* Favorite Button */}
@@ -192,10 +186,13 @@ export default function ProductCard({ product }) {
               </div>
             </div>
 
-            <Link to={`/product/${product.id}`} className="group-hover:text-brand-600 transition-colors">
+            <Link to={`/product/${product.id}`} className="group-hover:text-brand-600 transition-colors flex items-center gap-1.5">
               <h3 className="font-display font-bold text-lg text-charcoal leading-snug line-clamp-1">
                 {localizedName}
               </h3>
+              {product.isSpicy && (
+                <Flame className="w-4 h-4 text-rose-500 fill-rose-500 shrink-0" title={t('spicyTag') || 'Achchiq'} />
+              )}
             </Link>
 
             <p className="text-xs text-charcoal-muted mt-1.5 line-clamp-2 leading-relaxed">

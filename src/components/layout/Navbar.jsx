@@ -190,11 +190,25 @@ export default function Navbar() {
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     className="flex items-center gap-2 p-1.5 pr-3 rounded-full bg-white border border-orange-100 hover:border-brand-200 shadow-sm transition-all"
                   >
-                    <img
-                      src={user.avatar}
-                      alt={user.name}
-                      className="w-8 h-8 rounded-full object-cover border border-brand-200"
-                    />
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-8 h-8 rounded-full object-cover border border-brand-200 shrink-0"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          if (e.target.nextSibling) {
+                            e.target.nextSibling.style.display = 'flex';
+                          }
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      style={{ display: user.avatar ? 'none' : 'flex' }}
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-amber-500 text-white font-bold text-xs items-center justify-center uppercase shadow-xs shrink-0"
+                    >
+                      {user.name ? user.name[0] : 'U'}
+                    </div>
                     <span className="text-sm font-semibold text-charcoal max-w-[100px] truncate hidden sm:inline">
                       {user.name.split(' ')[0]}
                     </span>

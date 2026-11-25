@@ -36,25 +36,22 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-3">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.id}
                 to={`/menu?category=${cat.id}`}
-                className="flex flex-col items-center justify-center p-3 rounded-2xl bg-orange-50/50 hover:bg-orange-100/70 border border-orange-100 transition-all text-center group"
+                className="flex flex-col items-center justify-between p-2.5 sm:p-3 rounded-2xl bg-white hover:bg-orange-50/70 border border-orange-100 shadow-xs hover:shadow-soft hover:-translate-y-1 transition-all text-center group"
               >
-                <span className="text-2xl mb-1 group-hover:scale-115 transition-transform">
-                  {cat.id === 'all' && '✨'}
-                  {cat.id === 'pizza' && '🍕'}
-                  {cat.id === 'burgers' && '🍔'}
-                  {cat.id === 'snacks' && '🍗'}
-                  {cat.id === 'salads' && '🥗'}
-                  {cat.id === 'soups' && '🥣'}
-                  {cat.id === 'combos' && '🎁'}
-                  {cat.id === 'drinks' && '🥤'}
-                  {cat.id === 'desserts' && '🍰'}
-                </span>
-                <span className="text-xs font-bold text-charcoal group-hover:text-brand-600 transition-colors">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-orange-50/60 mb-2 border border-orange-100 group-hover:border-brand-300 transition-colors shadow-xs">
+                  <img
+                    src={cat.image}
+                    alt={cat.label}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="text-[11px] sm:text-xs font-bold text-charcoal group-hover:text-brand-600 transition-colors line-clamp-2 leading-tight">
                   {t('cat_' + cat.id) || cat.label}
                 </span>
               </Link>

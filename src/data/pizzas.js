@@ -24,15 +24,60 @@ export const EXTRA_TOPPINGS = [
 ];
 
 export const CATEGORIES = [
-  { id: 'all', label: 'All Items', icon: 'Sparkles' },
-  { id: 'pizza', label: 'Pizzas', icon: 'Pizza' },
-  { id: 'burgers', label: 'Burgers & Sandwiches', icon: 'Flame' },
-  { id: 'snacks', label: 'Crispy Snacks & Wings', icon: 'Zap' },
-  { id: 'salads', label: 'Fresh Salads', icon: 'Leaf' },
-  { id: 'soups', label: 'Soups & Hot Meals', icon: 'Soup' },
-  { id: 'combos', label: 'Deals & Combos', icon: 'Gift' },
-  { id: 'drinks', label: 'Beverages', icon: 'Coffee' },
-  { id: 'desserts', label: 'Artisan Desserts', icon: 'Cake' }
+  { 
+    id: 'all', 
+    label: 'All Items', 
+    icon: 'Sparkles',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'pizza', 
+    label: 'Pizzas', 
+    icon: 'Pizza',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'burgers', 
+    label: 'Burgers & Sandwiches', 
+    icon: 'Flame',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'snacks', 
+    label: 'Crispy Snacks & Wings', 
+    icon: 'Zap',
+    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'salads', 
+    label: 'Fresh Salads', 
+    icon: 'Leaf',
+    image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'soups', 
+    label: 'Soups & Hot Meals', 
+    icon: 'Soup',
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'combos', 
+    label: 'Deals & Combos', 
+    icon: 'Gift',
+    image: 'https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'drinks', 
+    label: 'Beverages', 
+    icon: 'Coffee',
+    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80'
+  },
+  { 
+    id: 'desserts', 
+    label: 'Artisan Desserts', 
+    icon: 'Cake',
+    image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=300&q=80'
+  }
 ];
 
 export const PRODUCTS = [

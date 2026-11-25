@@ -125,13 +125,17 @@ export default function ProductDetailPage() {
             <div className="relative w-full aspect-square max-h-[500px] rounded-3xl overflow-hidden bg-white border border-orange-100 shadow-soft p-4 flex items-center justify-center">
               
               {/* Product Badge */}
-              {product.badge && (
-                <div className="absolute top-6 left-6 z-10">
+              <div className="absolute top-6 left-6 z-10">
+                {product.originalPrice && product.originalPrice > product.price ? (
+                  <span className="px-3.5 py-1.5 rounded-full text-xs font-black text-white bg-gradient-to-r from-rose-500 to-red-600 shadow-md">
+                    Aksiya -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                  </span>
+                ) : product.badge ? (
                   <span className="px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-500 to-amber-500 shadow-md">
                     {localizedBadge}
                   </span>
-                </div>
-              )}
+                ) : null}
+              </div>
 
               {/* Pizza Plate / Image */}
               <motion.div
