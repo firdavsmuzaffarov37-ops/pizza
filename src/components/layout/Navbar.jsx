@@ -37,7 +37,12 @@ export default function Navbar() {
 
   const navLinks = [
     { name: t('home'), path: '/' },
-    { name: `🍽️ ${t('menu')}`, path: '/menu' }
+    { name: `🍽️ ${t('menu')}`, path: '/menu' },
+    { name: `🎁 ${t('deals')}`, path: '/deals' },
+    { name: `📍 ${t('reservation')}`, path: '/reservation' },
+    { name: `ℹ️ ${t('about')}`, path: '/about' },
+    { name: `📞 ${t('contact')}`, path: '/contact' },
+    { name: `📱 ${t('qrMenu')}`, path: '/qr-menu' }
   ];
 
   const currentLang = languages.find(l => l.code === language) || languages[0];
@@ -60,7 +65,7 @@ export default function Navbar() {
                   <span className="w-2 h-2 rounded-full bg-brand-500 inline-block animate-ping"></span>
                 </span>
                 <span className="text-[10px] uppercase tracking-widest font-semibold text-brand-600 -mt-1">
-                  Taste the Happiness.
+                  {t('tagline')}
                 </span>
               </div>
             </Link>
@@ -354,14 +359,14 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="w-full py-3 text-center text-sm font-bold text-charcoal border border-orange-200 rounded-xl hover:bg-orange-50"
                   >
-                    Sign In
+                    {t('signIn')}
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setMobileMenuOpen(false)}
                     className="w-full py-3 text-center text-sm font-bold text-white bg-brand-500 rounded-xl shadow-md shadow-brand-500/20"
                   >
-                    Create Account
+                    {t('register')}
                   </Link>
                 </div>
               )}

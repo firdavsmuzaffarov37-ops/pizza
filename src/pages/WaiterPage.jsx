@@ -16,7 +16,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
 function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
-  const { t } = useLanguage();
+  const { t, formatPrice } = useLanguage();
   const isReady = order.status === 'Ready';
   const isDelivered = order.status === 'Out for Delivery' || order.status === 'Delivered';
 
@@ -79,7 +79,7 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
           <Clock className="w-3.5 h-3.5" />
           {new Date(order.createdAt).toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' })}
         </span>
-        <span className="font-black text-lg text-charcoal">${order.total?.toFixed(2)}</span>
+        <span className="font-black text-lg text-charcoal">{formatPrice(order.total)}</span>
       </div>
 
       {/* Actions */}
@@ -109,7 +109,7 @@ function WaiterOrderCard({ order, onDeliver, onRequestPayment }) {
         </motion.button>
       )}
 
-      {order.status === 'Delivered' && (
+      {(order.status === 'Delivered' || order.status === 'Paid') && (
         <div className="w-full py-3 bg-gray-100 rounded-2xl text-center text-sm font-bold text-gray-500">
           {t('paidAndClosedBtn')}
         </div>
@@ -123,14 +123,14 @@ export default function WaiterPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  // Waiter sees: Ready, Out for Delivery, Delivered (today)
+  // Waiter sees: Ready, Out for Delivery, Delivered, Paid
   const waiterOrders = orders.filter(o =>
-    ['Ready', 'Out for Delivery', 'Delivered'].includes(o.status)
+    ['Ready', 'Out for Delivery', 'Delivered', 'Paid'].includes(o.status)
   );
 
   const readyCount = orders.filter(o => o.status === 'Ready').length;
   const inProgressCount = orders.filter(o => o.status === 'Out for Delivery').length;
-  const deliveredCount = orders.filter(o => o.status === 'Delivered').length;
+  const deliveredCount = orders.filter(o => o.status === 'Delivered' || o.status === 'Paid').length;
 
   const handleDeliver = (orderId) => {
     updateOrderStatus(orderId, 'Out for Delivery');

@@ -84,9 +84,10 @@ export default function Footer() {
           <div className="space-y-3">
             <h5 className="font-display font-bold text-white text-sm uppercase tracking-wider">{t('menu')}</h5>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/menu?category=signature" className="hover:text-brand-400 transition-colors">{t('cat_signature')}</Link></li>
-              <li><Link to="/menu?category=classic" className="hover:text-brand-400 transition-colors">{t('cat_classic')}</Link></li>
-              <li><Link to="/menu?category=spicy" className="hover:text-brand-400 transition-colors">{t('cat_spicy')}</Link></li>
+              <li><Link to="/menu?category=pizza" className="hover:text-brand-400 transition-colors">{t('cat_pizza')}</Link></li>
+              <li><Link to="/menu?category=burgers" className="hover:text-brand-400 transition-colors">{t('cat_burgers')}</Link></li>
+              <li><Link to="/menu?category=snacks" className="hover:text-brand-400 transition-colors">{t('cat_snacks')}</Link></li>
+              <li><Link to="/menu?category=salads" className="hover:text-brand-400 transition-colors">{t('cat_salads')}</Link></li>
               <li><Link to="/menu?category=combos" className="hover:text-brand-400 transition-colors">{t('cat_combos')}</Link></li>
               <li><Link to="/menu?category=desserts" className="hover:text-brand-400 transition-colors">{t('cat_desserts')}</Link></li>
             </ul>

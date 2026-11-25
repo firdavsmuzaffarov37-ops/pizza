@@ -25,7 +25,7 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user, toggleFavorite } = useAuth();
-  const { t } = useLanguage();
+  const { t, formatPrice } = useLanguage();
 
   const product = PRODUCTS.find((p) => p.id === id);
 
@@ -33,14 +33,18 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="py-24 text-center max-w-md mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-charcoal">Product Not Found</h2>
-        <p className="text-sm text-charcoal-muted">The delicious item you are looking for is currently unavailable.</p>
+        <h2 className="text-2xl font-bold text-charcoal">{t('productNotFound')}</h2>
+        <p className="text-sm text-charcoal-muted">{t('productNotFoundDesc')}</p>
         <Link to="/menu" className="inline-block px-6 py-2.5 bg-brand-500 text-white font-bold rounded-full">
-          Back to Menu
+          {t('backToMenu')}
         </Link>
       </div>
     );
   }
+
+  const badgeKey = product.badge ? 'badge_' + product.badge.replace(/[^a-zA-Z0-9]/g, '') : null;
+  const localizedBadge = badgeKey && t(badgeKey) !== badgeKey ? t(badgeKey) : product.badge;
+  const localizedPrepTime = product.prepTime ? product.prepTime.replace(/mins?/gi, t('prepMinutes')) : '';
 
   const isPizza = product.subCategory === 'pizza';
 
@@ -67,7 +71,7 @@ export default function ProductDetailPage() {
     ? (product.price * selectedSize.multiplier) + selectedCrust.extraPrice + toppingsTotal
     : product.price;
 
-  const totalPrice = (calculatedUnitPrice * quantity).toFixed(2);
+  const totalPrice = Math.round(calculatedUnitPrice * quantity);
 
   const handleAddToCart = () => {
     addToCart(product, {
@@ -98,7 +102,7 @@ export default function ProductDetailPage() {
             className="flex items-center gap-2 text-xs font-bold text-charcoal hover:text-brand-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
+            <span>{t('backBtn')}</span>
           </button>
 
           <button
@@ -109,7 +113,7 @@ export default function ProductDetailPage() {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-orange-100 text-xs font-bold text-charcoal hover:border-brand-300 shadow-sm transition-all"
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-brand-500 text-brand-500' : 'text-gray-400'}`} />
-            <span>{isFavorite ? 'In Wishlist' : 'Add to Favorites'}</span>
+            <span>{isFavorite ? t('inWishlist') : t('addToFavorites')}</span>
           </button>
         </div>
 
@@ -124,7 +128,7 @@ export default function ProductDetailPage() {
               {product.badge && (
                 <div className="absolute top-6 left-6 z-10">
                   <span className="px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-500 to-amber-500 shadow-md">
-                    {product.badge}
+                    {localizedBadge}
                   </span>
                 </div>
               )}
@@ -149,7 +153,7 @@ export default function ProductDetailPage() {
             {product.ingredients && product.ingredients.length > 0 && (
               <div className="p-5 bg-white rounded-2xl border border-orange-100 shadow-sm space-y-3">
                 <h4 className="font-display font-bold text-xs uppercase tracking-wider text-charcoal">
-                  Crafted With Fresh Ingredients
+                  {t('craftedWithIngredients')}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {product.ingredients.map((ing, i) => (
@@ -171,12 +175,12 @@ export default function ProductDetailPage() {
               <div className="flex items-center gap-3 text-xs text-charcoal-muted mb-2">
                 <span className="flex items-center gap-1 font-bold text-amber-500">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  {product.rating} ({product.reviewsCount} reviews)
+                  {product.rating} ({product.reviewsCount} {t('reviewsCountText')})
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-gray-400" />
-                  {product.prepTime}
+                  {localizedPrepTime}
                 </span>
                 <span>•</span>
                 <span>{product.calories}</span>
@@ -199,7 +203,7 @@ export default function ProductDetailPage() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <label className="font-display font-bold text-sm text-charcoal">
-                      1. Select Pizza Size
+                      {t('selectSize')}
                     </label>
                     <span className="text-xs text-brand-600 font-semibold">
                       {selectedSize.serves}
@@ -226,7 +230,7 @@ export default function ProductDetailPage() {
                             {size.sliceCount} Slices
                           </span>
                           <span className="text-[11px] font-semibold text-brand-600 block mt-1">
-                            ${(product.price * size.multiplier).toFixed(2)}
+                            {formatPrice(product.price * size.multiplier)}
                           </span>
                         </button>
                       );
@@ -237,7 +241,7 @@ export default function ProductDetailPage() {
                 {/* 2. Crust Selection */}
                 <div>
                   <label className="font-display font-bold text-sm text-charcoal block mb-3">
-                    2. Choose Your Crust
+                    {t('selectCrust')}
                   </label>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -263,7 +267,7 @@ export default function ProductDetailPage() {
                           </div>
                           {crust.extraPrice > 0 && (
                             <span className="text-xs font-bold text-brand-600 shrink-0 ml-2">
-                              +${crust.extraPrice.toFixed(2)}
+                              +{formatPrice(crust.extraPrice)}
                             </span>
                           )}
                         </button>
@@ -275,7 +279,7 @@ export default function ProductDetailPage() {
                 {/* 3. Extra Toppings Checklist */}
                 <div>
                   <label className="font-display font-bold text-sm text-charcoal block mb-3">
-                    3. Add Extra Gourmet Toppings (Optional)
+                    {t('extraToppings')}
                   </label>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
@@ -300,7 +304,7 @@ export default function ProductDetailPage() {
                             <span className="text-xs font-medium">{topping.name}</span>
                           </div>
                           <span className="text-xs font-bold text-brand-600">
-                            +${topping.price.toFixed(2)}
+                            +{formatPrice(topping.price)}
                           </span>
                         </div>
                       );
@@ -314,11 +318,11 @@ export default function ProductDetailPage() {
             {/* Special Instructions note */}
             <div>
               <label className="block text-xs font-bold text-charcoal mb-1">
-                Special Order Notes (Optional)
+                {t('specialChefInstructions')}
               </label>
               <input
                 type="text"
-                placeholder="E.g. Extra crispy, slice into squares, sauce on side..."
+                placeholder={t('noteDetailPlaceholder')}
                 value={customNote}
                 onChange={(e) => setCustomNote(e.target.value)}
                 className="w-full px-4 py-2.5 bg-white border border-orange-100 rounded-xl text-xs focus:outline-none focus:border-brand-500"
@@ -328,9 +332,9 @@ export default function ProductDetailPage() {
             {/* Price & Quantity & Add to Cart Footer Bar */}
             <div className="pt-6 border-t border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <span className="text-xs text-charcoal-muted block font-medium">Total Price</span>
+                <span className="text-xs text-charcoal-muted block font-medium">{t('totalPrice')}</span>
                 <span className="font-display font-black text-3xl text-brand-600">
-                  ${totalPrice}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
 
@@ -361,7 +365,7 @@ export default function ProductDetailPage() {
                   className="flex-1 sm:flex-none px-8 py-3.5 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2 transition-all"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Add to Order • ${totalPrice}</span>
+                  <span>{t('addToCart')} • {formatPrice(totalPrice)}</span>
                 </motion.button>
               </div>
             </div>
@@ -377,10 +381,10 @@ export default function ProductDetailPage() {
                 >
                   <div className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Added {product.name} to your cart!</span>
+                    <span>{t('addedToCartSuccess')}</span>
                   </div>
                   <Link to="/cart" className="text-emerald-900 underline font-extrabold">
-                    View Cart
+                    {t('viewCart')}
                   </Link>
                 </motion.div>
               )}

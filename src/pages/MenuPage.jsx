@@ -192,9 +192,11 @@ export default function MenuPage() {
                 >
                   <span>
                     {cat.id === 'all' && '✨'}
-                    {cat.id === 'signature' && '🔥'}
-                    {cat.id === 'classic' && '🍕'}
-                    {cat.id === 'spicy' && '🌶️'}
+                    {cat.id === 'pizza' && '🍕'}
+                    {cat.id === 'burgers' && '🍔'}
+                    {cat.id === 'snacks' && '🍗'}
+                    {cat.id === 'salads' && '🥗'}
+                    {cat.id === 'soups' && '🥣'}
                     {cat.id === 'combos' && '🎁'}
                     {cat.id === 'drinks' && '🥤'}
                     {cat.id === 'desserts' && '🍰'}

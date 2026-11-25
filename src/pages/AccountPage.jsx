@@ -18,12 +18,14 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useOrders } from '../context/OrderContext';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS } from '../data/pizzas';
 
 export default function AccountPage() {
   const { user, updateProfile, logout, isAdmin } = useAuth();
   const { orders } = useOrders();
   const { addToCart } = useCart();
+  const { formatPrice } = useLanguage();
   const navigate = useNavigate();
 
   // If not logged in, show prompt
@@ -222,7 +224,7 @@ export default function AccountPage() {
                   />
                   <div className="min-w-0 flex-1">
                     <h4 className="font-display font-bold text-sm text-charcoal truncate">{p.name}</h4>
-                    <p className="text-xs font-bold text-brand-600 mt-0.5">${p.price.toFixed(2)}</p>
+                    <p className="text-xs font-bold text-brand-600 mt-0.5">{formatPrice(p.price)}</p>
                     <button
                       onClick={() => addToCart(p, { quantity: 1 })}
                       className="mt-2 px-3 py-1 bg-brand-50 text-brand-600 hover:bg-brand-500 hover:text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1"
@@ -277,7 +279,7 @@ export default function AccountPage() {
 
                   <div className="flex items-center gap-3 self-end sm:self-auto">
                     <span className="font-display font-extrabold text-base text-charcoal">
-                      ${order.total.toFixed(2)}
+                      {formatPrice(order.total)}
                     </span>
                     <Link
                       to={`/order-confirmation/${order.id}`}

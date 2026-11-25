@@ -15,10 +15,12 @@ import {
   Tag
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS, CATEGORIES } from '../data/pizzas';
 
 export default function AdminPage() {
   const { orders, updateOrderStatus } = useOrders();
+  const { formatPrice, currencyLabel } = useLanguage();
   const [productList, setProductList] = useState(PRODUCTS);
 
   // New product form modal
@@ -111,12 +113,12 @@ export default function AdminPage() {
           <div className="p-5 bg-white rounded-3xl border border-orange-100 shadow-soft">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-charcoal-muted uppercase">Total Revenue</span>
-              <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-                $
+              <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">
+                {currencyLabel}
               </div>
             </div>
             <p className="font-display font-black text-3xl text-charcoal mt-3">
-              ${totalRevenue.toFixed(2)}
+              {formatPrice(totalRevenue)}
             </p>
             <p className="text-[11px] text-emerald-600 font-semibold mt-1">
               +18.4% from yesterday
@@ -146,7 +148,7 @@ export default function AdminPage() {
               </div>
             </div>
             <p className="font-display font-black text-3xl text-charcoal mt-3">
-              ${avgOrderValue.toFixed(2)}
+              {formatPrice(avgOrderValue)}
             </p>
             <p className="text-[11px] text-gray-500 font-semibold mt-1">
               Across all customer carts
@@ -201,7 +203,7 @@ export default function AdminPage() {
                     <td className="p-3.5 max-w-xs truncate">
                       {order.items.map((i) => `${i.quantity}x ${i.name}`).join(', ')}
                     </td>
-                    <td className="p-3.5 font-bold">${order.total.toFixed(2)}</td>
+                    <td className="p-3.5 font-bold">{formatPrice(order.total)}</td>
                     <td className="p-3.5 text-gray-500">{order.paymentMethod}</td>
                     <td className="p-3.5">
                       <select
@@ -255,7 +257,7 @@ export default function AdminPage() {
                 />
                 <div className="min-w-0 flex-1">
                   <h4 className="font-bold text-xs text-charcoal truncate">{prod.name}</h4>
-                  <p className="text-[11px] text-gray-500 capitalize">{prod.category} • ${prod.price.toFixed(2)}</p>
+                  <p className="text-[11px] text-gray-500 capitalize">{prod.category} • {formatPrice(prod.price)}</p>
                   {prod.badge && (
                     <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full inline-block mt-1">
                       {prod.badge}
@@ -318,14 +320,14 @@ export default function AdminPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block font-bold text-charcoal mb-1">Price ($) *</label>
+                  <label className="block font-bold text-charcoal mb-1">Narxi ({currencyLabel}) *</label>
                   <input
                     type="number"
-                    step="0.01"
+                    step="1000"
                     required
                     value={newProduct.price}
                     onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                    placeholder="17.99"
+                    placeholder="65000"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-orange-100 focus:outline-none"
                   />
                 </div>

@@ -168,7 +168,7 @@ export const OrderProvider = ({ children }) => {
     };
   }, []);
 
-  const placeOrder = async (orderData) => {
+  const placeOrder = (orderData) => {
     const orderId = `PZ-${Math.floor(1000 + Math.random() * 9000)}`;
     const now = new Date().toISOString();
     const newOrder = {
@@ -181,56 +181,60 @@ export const OrderProvider = ({ children }) => {
 
     setOrders((prev) => [newOrder, ...prev]);
 
-    // Asynchronously sync to Supabase
-    try {
-      const supabasePayload = {
-        id: orderId,
-        created_at: now,
-        status: 'Pending',
-        customer: newOrder.customer,
-        items: newOrder.items,
-        subtotal: newOrder.subtotal,
-        discount: newOrder.discount || 0,
-        delivery_fee: newOrder.deliveryFee || 0,
-        tax: newOrder.tax || 0,
-        total: newOrder.total,
-        payment_method: newOrder.paymentMethod,
-        estimated_time: newOrder.estimatedTime,
-        order_notes: newOrder.orderNotes,
-        delivery_slot: newOrder.deliverySlot
-      };
+    // Asynchronously sync to Supabase in the background
+    (async () => {
+      try {
+        const supabasePayload = {
+          id: orderId,
+          created_at: now,
+          status: 'Pending',
+          customer: newOrder.customer,
+          items: newOrder.items,
+          subtotal: newOrder.subtotal,
+          discount: newOrder.discount || 0,
+          delivery_fee: newOrder.deliveryFee || 0,
+          tax: newOrder.tax || 0,
+          total: newOrder.total,
+          payment_method: newOrder.paymentMethod,
+          estimated_time: newOrder.estimatedTime,
+          order_notes: newOrder.orderNotes,
+          delivery_slot: newOrder.deliverySlot
+        };
 
-      const { error } = await supabase.from('orders').insert([supabasePayload]);
-      if (error) {
-        console.warn('Supabase insert notice (run SQL table migration if table does not exist):', error.message);
+        const { error } = await supabase.from('orders').insert([supabasePayload]);
+        if (error) {
+          console.warn('Supabase insert notice (run SQL table migration if table does not exist):', error.message);
+        }
+      } catch (err) {
+        console.warn('Supabase order insert error:', err);
       }
-    } catch (err) {
-      console.warn('Supabase order insert error:', err);
-    }
+    })();
 
     return newOrder;
   };
 
-  const updateOrderStatus = async (orderId, newStatus) => {
+  const updateOrderStatus = (orderId, newStatus) => {
     setOrders((prev) =>
       prev.map((order) =>
         order.id === orderId ? { ...order, status: newStatus } : order
       )
     );
 
-    // Asynchronously sync status update to Supabase
-    try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ status: newStatus })
-        .eq('id', orderId);
+    // Asynchronously sync status update to Supabase in the background
+    (async () => {
+      try {
+        const { error } = await supabase
+          .from('orders')
+          .update({ status: newStatus })
+          .eq('id', orderId);
 
-      if (error) {
-        console.warn('Supabase status update notice:', error.message);
+        if (error) {
+          console.warn('Supabase status update notice:', error.message);
+        }
+      } catch (err) {
+        console.warn('Supabase update order error:', err);
       }
-    } catch (err) {
-      console.warn('Supabase update order error:', err);
-    }
+    })();
   };
 
   const getOrderById = (id) => {

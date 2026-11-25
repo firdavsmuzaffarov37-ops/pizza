@@ -119,7 +119,7 @@ export default function RegisterPage() {
               <span className="flex items-center gap-1 font-semibold">
                 <Clock className="w-3 h-3 text-orange-500" /> 20 Mins
               </span>
-              <span className="font-bold text-charcoal">$15.99</span>
+              <span className="font-bold text-charcoal">69 000 so'm</span>
             </div>
           </motion.div>
 

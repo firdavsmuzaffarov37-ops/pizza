@@ -33,12 +33,15 @@ export default function QrMenuPage() {
   const [copied, setCopied] = useState(false);
   const printRef = useRef(null);
 
-  // Network IP of this machine for phone scanning
-  const networkHost = '192.168.238.247:5174';
+  const detectedHost = typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+    ? window.location.host
+    : '10.179.68.247:5175';
+
+  const [customHost, setCustomHost] = useState(detectedHost);
   const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5174';
 
   const baseUrl = useLocalIp 
-    ? `http://${networkHost}` 
+    ? (customHost.startsWith('http') ? customHost : `http://${customHost}`)
     : currentOrigin;
 
   const targetMenuUrl = selectedTable === 'all'

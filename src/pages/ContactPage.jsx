@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,13 +29,13 @@ export default function ContactPage() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-700 bg-orange-100/70 border border-orange-200">
-            Get In Touch
+            {t('contactBadge')}
           </span>
           <h1 className="font-display font-black text-4xl sm:text-5xl text-charcoal">
-            We'd Love to Hear From You
+            {t('contactTitle')}
           </h1>
           <p className="text-sm text-charcoal-muted">
-            Have a catering request, question about dietary allergens, or feedback on your delivery? Our friendly support team is here for you.
+            {t('contactSubtitle')}
           </p>
         </div>
 
@@ -43,7 +45,7 @@ export default function ContactPage() {
           <div className="lg:col-span-5 space-y-6">
             <div className="p-8 bg-white rounded-3xl border border-orange-100 shadow-soft space-y-6">
               <h3 className="font-display font-black text-2xl text-charcoal">
-                PIZZORA Flagship Kitchen
+                PIZZORA Restaurant
               </h3>
 
               <div className="space-y-4 text-xs text-charcoal">
@@ -52,8 +54,8 @@ export default function ContactPage() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-bold block">Visit Our Hearth Kitchen:</span>
-                    <span className="text-charcoal-muted">100 Artisan Way, Pizzora Square, New York, NY 10012</span>
+                    <span className="font-bold block">{t('contactVisitUs')}</span>
+                    <span className="text-charcoal-muted">Amir Temur shoh ko'chasi, Toshkent, O'zbekiston</span>
                   </div>
                 </div>
 
@@ -62,8 +64,8 @@ export default function ContactPage() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-bold block">Direct Hotline:</span>
-                    <span className="text-charcoal-muted">+1 (800) 749-9672 (1-800-PIZZORA)</span>
+                    <span className="font-bold block">{t('contactPhone')}</span>
+                    <span className="text-charcoal-muted">+998 (71) 200-11-22</span>
                   </div>
                 </div>
 
@@ -72,8 +74,8 @@ export default function ContactPage() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-bold block">Email Inquiries:</span>
-                    <span className="text-charcoal-muted">hello@pizzora.com / catering@pizzora.com</span>
+                    <span className="font-bold block">{t('contactEmail')}</span>
+                    <span className="text-charcoal-muted">info@pizzora.uz / order@pizzora.uz</span>
                   </div>
                 </div>
 
@@ -82,8 +84,8 @@ export default function ContactPage() {
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-bold block">Kitchen Hours:</span>
-                    <span className="text-charcoal-muted">Monday – Sunday: 11:00 AM – 11:30 PM EST</span>
+                    <span className="font-bold block">{t('contactWorkingHours')}</span>
+                    <span className="text-charcoal-muted">{t('contactWorkingHoursVal')}</span>
                   </div>
                 </div>
               </div>
@@ -91,9 +93,9 @@ export default function ContactPage() {
 
             {/* Delivery Guarantee Pill */}
             <div className="p-5 bg-gradient-to-r from-brand-500 to-amber-500 text-white rounded-3xl shadow-md space-y-1">
-              <span className="font-bold text-sm block">Express 30-Minute Guarantee</span>
+              <span className="font-bold text-sm block">{t('guarantee30Min')}</span>
               <p className="text-xs text-white/90">
-                If your hot pizza takes more than 30 minutes from oven dispatch, your next large pizza is on us.
+                {t('guarantee30MinDesc')}
               </p>
             </div>
           </div>
@@ -102,61 +104,60 @@ export default function ContactPage() {
           <div className="lg:col-span-7">
             <div className="p-8 bg-white rounded-3xl border border-orange-100 shadow-soft space-y-6">
               <h3 className="font-display font-extrabold text-2xl text-charcoal">
-                Send Us a Message
+                {t('contactFormTitle')}
               </h3>
 
               {submitted ? (
                 <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-center space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-                  <h4 className="font-bold text-base">Message Dispatched!</h4>
-                  <p className="text-xs">Thank you for writing to PIZZORA. Our team will get back to you within 2 hours.</p>
+                  <h4 className="font-bold text-base">{t('contactSentSuccess')}</h4>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-bold text-charcoal mb-1">Your Name *</label>
+                      <label className="block font-bold text-charcoal mb-1">{t('contactNameLabel')} *</label>
                       <input
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="John Doe"
+                        placeholder="Aziz Karimov"
                         className="w-full px-4 py-3 bg-orange-50/40 rounded-xl border border-orange-100 text-xs focus:outline-none focus:border-brand-500"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-charcoal mb-1">Email Address *</label>
+                      <label className="block font-bold text-charcoal mb-1">{t('contactEmailLabel')} *</label>
                       <input
                         type="email"
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="john@example.com"
+                        placeholder="aziz@example.com"
                         className="w-full px-4 py-3 bg-orange-50/40 rounded-xl border border-orange-100 text-xs focus:outline-none focus:border-brand-500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-bold text-charcoal mb-1">Subject</label>
+                    <label className="block font-bold text-charcoal mb-1">{t('contactSubjectLabel')}</label>
                     <input
                       type="text"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      placeholder="Catering event / Order question / Feedback"
+                      placeholder="Stol bron qilish / Katta tadbir / Taklif"
                       className="w-full px-4 py-3 bg-orange-50/40 rounded-xl border border-orange-100 text-xs focus:outline-none focus:border-brand-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-charcoal mb-1">Message *</label>
+                    <label className="block font-bold text-charcoal mb-1">{t('contactMessageLabel')} *</label>
                     <textarea
                       required
                       rows="4"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="How can our pizza makers help you today?"
+                      placeholder="..."
                       className="w-full px-4 py-3 bg-orange-50/40 rounded-xl border border-orange-100 text-xs focus:outline-none focus:border-brand-500"
                     />
                   </div>
@@ -166,7 +167,7 @@ export default function ContactPage() {
                     className="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-sm rounded-xl shadow-md flex items-center justify-center gap-2 transition-all"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Message</span>
+                    <span>{t('contactSendBtn')}</span>
                   </button>
                 </form>
               )}
@@ -179,4 +180,3 @@ export default function ContactPage() {
     </div>
   );
 }
-

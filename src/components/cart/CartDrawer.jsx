@@ -12,8 +12,10 @@ import {
   Tag
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function CartDrawer() {
+  const { t, formatPrice } = useLanguage();
   const { 
     items, 
     isDrawerOpen, 
@@ -67,9 +69,9 @@ export default function CartDrawer() {
                     <ShoppingBag className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-lg text-charcoal">Your Order</h3>
+                    <h3 className="font-display font-bold text-lg text-charcoal">{t('yourOrder')}</h3>
                     <p className="text-xs text-charcoal-muted">
-                      {items.length === 0 ? 'Empty basket' : `${items.length} item(s) selected`}
+                      {items.length === 0 ? t('emptyBasket') : `${items.length} ${t('itemsSelected')}`}
                     </p>
                   </div>
                 </div>
@@ -83,21 +85,21 @@ export default function CartDrawer() {
 
               {/* Free delivery progress bar */}
               <div className="bg-orange-50 px-5 py-2.5 border-b border-orange-100">
-                {subtotal >= 30 ? (
+                {subtotal >= 150000 ? (
                   <p className="text-xs font-semibold text-emerald-700 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4 text-emerald-500" />
-                    You unlocked <strong>FREE Express Delivery</strong>!
+                    {t('freeDeliveryUnlocked')}
                   </p>
                 ) : (
                   <div>
                     <div className="flex justify-between text-xs font-medium text-brand-800 mb-1">
-                      <span>Add ${(30 - subtotal).toFixed(2)} more for FREE delivery</span>
-                      <span>{Math.min(100, Math.round((subtotal / 30) * 100))}%</span>
+                      <span>+{formatPrice(150000 - subtotal)} {t('addMoreForFreeDelivery')}</span>
+                      <span>{Math.min(100, Math.round((subtotal / 150000) * 100))}%</span>
                     </div>
                     <div className="w-full bg-orange-200/60 h-1.5 rounded-full overflow-hidden">
                       <div
                         className="bg-brand-500 h-full rounded-full transition-all duration-300"
-                        style={{ width: `${Math.min(100, (subtotal / 30) * 100)}%` }}
+                        style={{ width: `${Math.min(100, (subtotal / 150000) * 100)}%` }}
                       />
                     </div>
                   </div>
@@ -112,9 +114,9 @@ export default function CartDrawer() {
                       🍕
                     </div>
                     <div>
-                      <h4 className="font-display font-bold text-charcoal text-lg">Your cart is hungry!</h4>
+                      <h4 className="font-display font-bold text-charcoal text-lg">{t('cartHungry')}</h4>
                       <p className="text-sm text-charcoal-muted mt-1 max-w-xs">
-                        Explore our handcrafted stone-baked pizzas and satisfy your cravings today.
+                        {t('cartHungryDesc')}
                       </p>
                     </div>
                     <button
@@ -124,7 +126,7 @@ export default function CartDrawer() {
                       }}
                       className="px-6 py-2.5 bg-brand-500 text-white rounded-full font-bold text-sm shadow-md shadow-brand-500/25 hover:bg-brand-600 transition-colors"
                     >
-                      Browse Our Menu
+                      {t('browseMenuBtn')}
                     </button>
                   </div>
                 ) : (
@@ -166,7 +168,7 @@ export default function CartDrawer() {
 
                         <div className="flex items-center justify-between mt-3">
                           <span className="font-bold text-sm text-brand-600">
-                            ${(item.unitPrice * item.quantity).toFixed(2)}
+                            {formatPrice(item.unitPrice * item.quantity)}
                           </span>
 
                           {/* Quantity stepper */}
@@ -203,30 +205,30 @@ export default function CartDrawer() {
                         <Tag className="w-3.5 h-3.5" />
                         Code: {appliedPromo.code}
                       </span>
-                      <span>-${discount.toFixed(2)}</span>
+                      <span>-{formatPrice(discount)}</span>
                     </div>
                   )}
 
                   <div className="space-y-1.5 text-xs text-charcoal-muted">
                     <div className="flex justify-between">
-                      <span>Subtotal</span>
-                      <span className="font-semibold text-charcoal">${subtotal.toFixed(2)}</span>
+                      <span>{t('subtotal')}</span>
+                      <span className="font-semibold text-charcoal">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Delivery Fee</span>
+                      <span>{t('deliveryFeeLabel')}</span>
                       <span className="font-semibold text-charcoal">
-                        {deliveryFee === 0 ? <span className="text-emerald-600 font-bold">FREE</span> : `$${deliveryFee.toFixed(2)}`}
+                        {deliveryFee === 0 ? <span className="text-emerald-600 font-bold">{t('freeText')}</span> : formatPrice(deliveryFee)}
                       </span>
                     </div>
                     {discount > 0 && (
                       <div className="flex justify-between text-emerald-600">
-                        <span>Discount</span>
-                        <span>-${discount.toFixed(2)}</span>
+                        <span>{t('discountLabel')}</span>
+                        <span>-{formatPrice(discount)}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-base font-extrabold text-charcoal pt-2 border-t border-gray-100">
-                      <span>Total</span>
-                      <span className="text-brand-600 font-display">${total.toFixed(2)}</span>
+                      <span>{t('totalLabel')}</span>
+                      <span className="text-brand-600 font-display">{formatPrice(total)}</span>
                     </div>
                   </div>
 
@@ -235,13 +237,13 @@ export default function CartDrawer() {
                       onClick={handleViewCartClick}
                       className="w-full py-3 px-4 border border-orange-200 text-charcoal hover:bg-orange-50 text-sm font-bold rounded-xl transition-colors"
                     >
-                      View Cart
+                      {t('viewCart')}
                     </button>
                     <button
                       onClick={handleCheckoutClick}
                       className="w-full py-3 px-4 bg-brand-500 hover:bg-brand-600 text-white text-sm font-bold rounded-xl shadow-md shadow-brand-500/25 flex items-center justify-center gap-1.5 transition-all"
                     >
-                      <span>Checkout</span>
+                      <span>{t('checkoutBtn')}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>

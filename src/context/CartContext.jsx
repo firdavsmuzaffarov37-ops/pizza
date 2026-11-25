@@ -4,7 +4,7 @@ const CartContext = createContext();
 
 const PROMO_CODES = {
   PIZZORA20: { discountPercent: 20, description: '20% Off Welcome Discount' },
-  CHEESE5: { discountAmount: 5.0, description: '$5.00 Off Any Order' },
+  CHEESE5: { discountAmount: 20000, description: "20 000 so'm Chegirma" },
   FREESHIP: { freeShipping: true, description: '100% Free Express Delivery' }
 };
 
@@ -44,8 +44,8 @@ export const CartProvider = ({ children }) => {
 
     // Calculate base unit price with size multiplier, crust additions and extra toppings
     const toppingsTotal = extraToppings.reduce((acc, t) => acc + (t.price || 0), 0);
-    const unitPrice = parseFloat(
-      ((product.price * (size.multiplier || 1.0)) + (crust.extraPrice || 0) + toppingsTotal).toFixed(2)
+    const unitPrice = Math.round(
+      (product.price * (size.multiplier || 1.0)) + (crust.extraPrice || 0) + toppingsTotal
     );
 
     const cartKey = generateCartItemId(product, size, crust, extraToppings);
@@ -127,8 +127,8 @@ export const CartProvider = ({ children }) => {
   // Computations
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
-  // Delivery fee: $3.99, but FREE over $30 or if FREESHIP applied
-  let deliveryFee = subtotal > 0 ? (subtotal >= 30 ? 0 : 3.99) : 0;
+  // Delivery fee: 15 000 so'm, but FREE over 150 000 so'm or if FREESHIP applied
+  let deliveryFee = subtotal > 0 ? (subtotal >= 150000 ? 0 : 15000) : 0;
   if (appliedPromo?.freeShipping) {
     deliveryFee = 0;
   }
@@ -137,14 +137,14 @@ export const CartProvider = ({ children }) => {
   let discount = 0;
   if (appliedPromo) {
     if (appliedPromo.discountPercent) {
-      discount = (subtotal * appliedPromo.discountPercent) / 100;
+      discount = Math.round((subtotal * appliedPromo.discountPercent) / 100);
     } else if (appliedPromo.discountAmount) {
       discount = Math.min(subtotal, appliedPromo.discountAmount);
     }
   }
 
-  const tax = subtotal > 0 ? (subtotal - discount) * 0.08 : 0; // 8% sales tax
-  const total = Math.max(0, subtotal - discount + deliveryFee + tax);
+  const tax = 0;
+  const total = Math.max(0, subtotal - discount + deliveryFee);
   const totalItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (

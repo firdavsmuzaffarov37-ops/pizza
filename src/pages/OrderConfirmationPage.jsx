@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+  import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -21,7 +21,7 @@ import { useLanguage } from '../context/LanguageContext';
 export default function OrderConfirmationPage() {
   const { id } = useParams();
   const { getOrderById, updateOrderStatus } = useOrders();
-  const { t } = useLanguage();
+  const { t, formatPrice } = useLanguage();
 
   const order = getOrderById(id);
 
@@ -190,7 +190,7 @@ export default function OrderConfirmationPage() {
                   )}
                 </div>
                 <span className="font-bold text-charcoal">
-                  ${(item.unitPrice * item.quantity).toFixed(2)}
+                  {formatPrice(item.unitPrice * item.quantity)}
                 </span>
               </div>
             ))}
@@ -206,9 +206,9 @@ export default function OrderConfirmationPage() {
             <div className="space-y-1 sm:text-right">
               <span className="font-bold text-charcoal block">Payment Summary:</span>
               <p>Method: {order.paymentMethod}</p>
-              <p>Delivery: {order.deliveryFee === 0 ? 'FREE' : `$${order.deliveryFee.toFixed(2)}`}</p>
+              <p>Delivery: {order.deliveryFee === 0 ? (t('freeText') || 'BEPUL') : formatPrice(order.deliveryFee)}</p>
               <p className="text-base font-black text-brand-600 pt-1">
-                Total Paid: ${order.total.toFixed(2)}
+                {t('totalLabel')}: {formatPrice(order.total)}
               </p>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function OrderConfirmationPage() {
                 to={`/payment/${order.id}`}
                 className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all shrink-0"
               >
-                {t('payMealBtn')} (${order.total.toFixed(2)})
+                {t('payMealBtn')} ({formatPrice(order.total)})
               </Link>
             </div>
           ) : (

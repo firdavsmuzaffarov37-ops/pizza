@@ -41,33 +41,41 @@ export default function SpecialOffers() {
 
         {/* Promo Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SPECIAL_OFFERS.map((offer) => (
-            <motion.div
-              key={offer.id}
-              whileHover={{ y: -5 }}
-              className={`rounded-3xl p-6 bg-gradient-to-br ${offer.bgColor} text-white shadow-soft relative overflow-hidden flex flex-col justify-between`}
-            >
-              {/* Subtle background shape */}
-              <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-white/10 blur-xl pointer-events-none" />
+          {SPECIAL_OFFERS.map((offer) => {
+            const offerKey = offer.id.replace(/-/g, '_');
+            const locTitle = t(`offer_${offerKey}_title`) !== `offer_${offerKey}_title` ? t(`offer_${offerKey}_title`) : offer.title;
+            const locDesc = t(`offer_${offerKey}_desc`) !== `offer_${offerKey}_desc` ? t(`offer_${offerKey}_desc`) : offer.description;
+            const locTag = t(`offer_${offerKey}_tag`) !== `offer_${offerKey}_tag` ? t(`offer_${offerKey}_tag`) : offer.tag;
+            const locDiscount = t(`offer_${offerKey}_discount`) !== `offer_${offerKey}_discount` ? t(`offer_${offerKey}_discount`) : offer.discount;
+            const locExpires = t(`offer_${offerKey}_expires`) !== `offer_${offerKey}_expires` ? t(`offer_${offerKey}_expires`) : offer.expiresIn;
 
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-white/20 backdrop-blur-md">
-                    {offer.tag}
-                  </span>
-                  <span className="text-xs font-medium text-white/80">{offer.expiresIn}</span>
-                </div>
+            return (
+              <motion.div
+                key={offer.id}
+                whileHover={{ y: -5 }}
+                className={`rounded-3xl p-6 bg-gradient-to-br ${offer.bgColor} text-white shadow-soft relative overflow-hidden flex flex-col justify-between`}
+              >
+                {/* Subtle background shape */}
+                <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-white/10 blur-xl pointer-events-none" />
 
-                <div className="font-display font-black text-3xl mb-1 tracking-tight">
-                  {offer.discount}
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-white/20 backdrop-blur-md">
+                      {locTag}
+                    </span>
+                    <span className="text-xs font-medium text-white/80">{locExpires}</span>
+                  </div>
+
+                  <div className="font-display font-black text-3xl mb-1 tracking-tight">
+                    {locDiscount}
+                  </div>
+                  <h3 className="font-bold text-lg text-white mb-2 leading-snug">
+                    {locTitle}
+                  </h3>
+                  <p className="text-xs text-white/80 leading-relaxed mb-6">
+                    {locDesc}
+                  </p>
                 </div>
-                <h3 className="font-bold text-lg text-white mb-2 leading-snug">
-                  {offer.title}
-                </h3>
-                <p className="text-xs text-white/80 leading-relaxed mb-6">
-                  {offer.description}
-                </p>
-              </div>
 
               {/* Voucher Action Code */}
               <div className="pt-4 border-t border-white/20 flex items-center justify-between">
@@ -93,7 +101,8 @@ export default function SpecialOffers() {
                 </button>
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
 
       </div>

@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const { user, toggleFavorite } = useAuth();
   const { placeOrder } = useOrders();
-  const { t } = useLanguage();
+  const { t, formatPrice } = useLanguage();
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -35,6 +35,9 @@ export default function ProductCard({ product }) {
   const prodKey = product.id.replace(/-/g, '_');
   const localizedName = t(`prod_${prodKey}_name`) !== `prod_${prodKey}_name` ? t(`prod_${prodKey}_name`) : product.name;
   const localizedDesc = t(`prod_${prodKey}_desc`) !== `prod_${prodKey}_desc` ? t(`prod_${prodKey}_desc`) : product.description;
+  const badgeKey = product.badge ? 'badge_' + product.badge.replace(/[^a-zA-Z0-9]/g, '') : null;
+  const localizedBadge = badgeKey && t(badgeKey) !== badgeKey ? t(badgeKey) : product.badge;
+  const localizedPrepTime = product.prepTime ? product.prepTime.replace(/mins?/gi, t('prepMinutes')) : '';
 
   const handleQuickAdd = (e) => {
     e.preventDefault();
@@ -75,8 +78,7 @@ export default function ProductCard({ product }) {
       await new Promise((r) => setTimeout(r, 600));
 
       const subtotal = product.price * quantity;
-      const tax = parseFloat((subtotal * 0.08).toFixed(2));
-      const total = parseFloat((subtotal + tax).toFixed(2));
+      const total = subtotal;
 
       const newOrder = placeOrder({
         customer: {
@@ -129,12 +131,12 @@ export default function ProductCard({ product }) {
         <div className="absolute top-6 left-6 z-10 flex flex-col gap-1.5">
           {product.badge && (
             <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide text-white bg-gradient-to-r from-brand-500 to-amber-500 shadow-sm backdrop-blur-sm">
-              {product.badge}
+              {localizedBadge}
             </span>
           )}
           {product.isSpicy && (
             <span className="w-fit px-2 py-0.5 rounded-full text-[10px] font-bold text-red-700 bg-red-100 border border-red-200 flex items-center gap-0.5">
-              <Flame className="w-3 h-3 fill-red-500 text-red-500" /> Hot
+              <Flame className="w-3 h-3 fill-red-500 text-red-500" /> {t('spicyTag') || 'Hot'}
             </span>
           )}
         </div>
@@ -176,7 +178,7 @@ export default function ProductCard({ product }) {
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-gray-400" />
-                <span>{product.prepTime}</span>
+                <span>{localizedPrepTime}</span>
               </div>
             </div>
 
@@ -198,11 +200,11 @@ export default function ProductCard({ product }) {
                 <span className="text-[11px] text-charcoal-muted block font-medium">{t('startsFrom')}</span>
                 <div className="flex items-baseline gap-1.5">
                   <span className="font-display font-extrabold text-xl text-charcoal">
-                    ${product.price.toFixed(2)}
+                    {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && (
                     <span className="text-xs text-gray-400 line-through">
-                      ${product.originalPrice.toFixed(2)}
+                      {formatPrice(product.originalPrice)}
                     </span>
                   )}
                 </div>
@@ -275,7 +277,7 @@ export default function ProductCard({ product }) {
                 <div className="flex-1 min-w-0">
                   <h4 className="font-bold text-sm text-charcoal truncate">{localizedName}</h4>
                   <p className="text-xs text-brand-600 font-extrabold mt-0.5">
-                    ${product.price.toFixed(2)}
+                    {formatPrice(product.price)}
                   </p>
                   <p className="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5">
                     <Clock className="w-3 h-3" /> {t('prepTimePrefix')} {product.prepTime}
@@ -349,7 +351,7 @@ export default function ProductCard({ product }) {
                 <div>
                   <span className="text-[11px] text-gray-500 block">{t('totalAmount')}</span>
                   <span className="font-display font-black text-xl text-brand-600">
-                    ${(product.price * quantity * 1.08).toFixed(2)}
+                    {formatPrice(product.price * quantity)}
                   </span>
                 </div>
                 <span className="text-[10px] text-gray-400 font-medium">

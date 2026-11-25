@@ -18,8 +18,10 @@ import confetti from 'canvas-confetti';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useOrders } from '../context/OrderContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function CheckoutPage() {
+  const { t, formatPrice } = useLanguage();
   const { items, subtotal, deliveryFee, tax, discount, total, clearCart, appliedPromo } = useCart();
   const { user } = useAuth();
   const { placeOrder } = useOrders();
@@ -29,10 +31,10 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="py-24 text-center max-w-md mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-charcoal">Your cart is empty</h2>
-        <p className="text-xs text-charcoal-muted">Add some delicious pizzas to proceed with checkout.</p>
+        <h2 className="text-2xl font-bold text-charcoal">{t('emptyCartTitle')}</h2>
+        <p className="text-xs text-charcoal-muted">{t('emptyCartDesc')}</p>
         <Link to="/menu" className="inline-block px-6 py-2.5 bg-brand-500 text-white font-bold rounded-full">
-          Back to Menu
+          {t('backToMenu')}
         </Link>
       </div>
     );
@@ -138,10 +140,10 @@ export default function CheckoutPage() {
         {/* Page Title */}
         <div>
           <h1 className="font-display font-black text-3xl sm:text-4xl text-charcoal">
-            Secure Checkout
+            {t('checkoutTitle')}
           </h1>
           <p className="text-xs text-charcoal-muted mt-1">
-            Fast, contactless delivery right to your door.
+            {t('guarantee30Min')}
           </p>
         </div>
 
@@ -437,7 +439,7 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <span className="font-bold text-brand-600 shrink-0">
-                      ${(item.unitPrice * item.quantity).toFixed(2)}
+                      {formatPrice(item.unitPrice * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -446,27 +448,23 @@ export default function CheckoutPage() {
               {/* Financials */}
               <div className="pt-3 border-t border-orange-50 space-y-2 text-xs text-charcoal-muted">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-bold text-charcoal">${subtotal.toFixed(2)}</span>
+                  <span>{t('subtotal')}</span>
+                  <span className="font-bold text-charcoal">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Delivery Fee</span>
-                  <span>{deliveryFee === 0 ? <strong className="text-emerald-600">FREE</strong> : `$${deliveryFee.toFixed(2)}`}</span>
+                  <span>{t('deliveryFeeLabel')}</span>
+                  <span>{deliveryFee === 0 ? <strong className="text-emerald-600">{t('freeText')}</strong> : formatPrice(deliveryFee)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-emerald-600 font-bold">
-                    <span>Discount</span>
-                    <span>-${discount.toFixed(2)}</span>
+                    <span>{t('discountLabel')}</span>
+                    <span>-{formatPrice(discount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between">
-                  <span>Estimated Tax (8%)</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
                 <div className="pt-3 border-t border-gray-100 flex justify-between items-baseline">
-                  <span className="font-display font-bold text-base text-charcoal">Total Amount</span>
+                  <span className="font-display font-bold text-base text-charcoal">{t('totalLabel')}</span>
                   <span className="font-display font-black text-2xl text-brand-600">
-                    ${total.toFixed(2)}
+                    {formatPrice(total)}
                   </span>
                 </div>
               </div>
@@ -480,11 +478,11 @@ export default function CheckoutPage() {
                 {isSubmitting ? (
                   <div className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Authorizing Payment...</span>
+                    <span>{t('processingOrder')}</span>
                   </div>
                 ) : (
                   <>
-                    <span>Place Order • ${total.toFixed(2)}</span>
+                    <span>{t('placeOrderBtn')} • {formatPrice(total)}</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}

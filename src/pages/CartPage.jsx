@@ -14,9 +14,11 @@ import {
   Flame
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS } from '../data/pizzas';
 
 export default function CartPage() {
+  const { t, formatPrice } = useLanguage();
   const { 
     items, 
     updateQuantity, 
@@ -62,16 +64,16 @@ export default function CartPage() {
             🍕
           </div>
           <h2 className="font-display font-extrabold text-3xl text-charcoal">
-            Your Cart is Empty
+            {t('emptyCartTitle')}
           </h2>
           <p className="text-sm text-charcoal-muted leading-relaxed">
-            Looks like you haven't added any stone-baked deliciousness yet. Check out our handcrafted menu and taste true happiness!
+            {t('emptyCartDesc')}
           </p>
           <Link
             to="/menu"
             className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-sm rounded-full shadow-lg shadow-brand-500/25 transition-all"
           >
-            <span>Explore Menu</span>
+            <span>{t('browseMenuBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -87,10 +89,10 @@ export default function CartPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-orange-100 pb-6">
           <div>
             <h1 className="font-display font-black text-3xl sm:text-4xl text-charcoal">
-              Shopping Cart
+              {t('shoppingCart')}
             </h1>
             <p className="text-xs text-charcoal-muted mt-1">
-              Review your customized pizzas and treats before checkout.
+              {t('cartReviewSubtitle')}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -98,14 +100,14 @@ export default function CartPage() {
               onClick={clearCart}
               className="text-xs font-bold text-rose-600 hover:text-rose-700 transition-colors"
             >
-              Clear Cart
+              {t('clearCart')}
             </button>
             <Link
               to="/menu"
               className="px-4 py-2 rounded-full border border-orange-200 text-charcoal hover:bg-orange-50 text-xs font-bold transition-colors flex items-center gap-1.5"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Continue Shopping</span>
+              <span>{t('continueShopping')}</span>
             </Link>
           </div>
         </div>
@@ -126,13 +128,13 @@ export default function CartPage() {
               ) : (
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs font-bold text-brand-800">
-                    <span>Add ${(30 - subtotal).toFixed(2)} more for FREE delivery</span>
-                    <span>${subtotal.toFixed(2)} / $30.00</span>
+                    <span>Bepul yetkazib berish uchun yana {formatPrice(Math.max(0, 150000 - subtotal))} buyurtma bering</span>
+                    <span>{formatPrice(subtotal)} / {formatPrice(150000)}</span>
                   </div>
                   <div className="w-full bg-orange-200 h-2 rounded-full overflow-hidden">
                     <div
                       className="bg-brand-500 h-full rounded-full transition-all duration-300"
-                      style={{ width: `${Math.min(100, (subtotal / 30) * 100)}%` }}
+                      style={{ width: `${Math.min(100, (subtotal / 150000) * 100)}%` }}
                     />
                   </div>
                 </div>
@@ -177,7 +179,7 @@ export default function CartPage() {
                     )}
 
                     <span className="text-xs font-bold text-brand-600 block mt-1.5">
-                      ${item.unitPrice.toFixed(2)} each
+                      {formatPrice(item.unitPrice)}
                     </span>
                   </div>
                 </div>
@@ -206,7 +208,7 @@ export default function CartPage() {
                   {/* Line Total */}
                   <div className="text-right min-w-[70px]">
                     <span className="font-display font-extrabold text-base text-charcoal">
-                      ${(item.unitPrice * item.quantity).toFixed(2)}
+                      {formatPrice(item.unitPrice * item.quantity)}
                     </span>
                   </div>
 
@@ -242,7 +244,7 @@ export default function CartPage() {
                       />
                       <div className="min-w-0 flex-1">
                         <p className="text-xs font-bold text-charcoal truncate">{extra.name}</p>
-                        <p className="text-xs font-bold text-brand-600">${extra.price.toFixed(2)}</p>
+                        <p className="text-xs font-bold text-brand-600">{formatPrice(extra.price)}</p>
                       </div>
                       <button
                         onClick={() => addToCart(extra, { quantity: 1 })}
@@ -263,7 +265,7 @@ export default function CartPage() {
             
             <div className="p-6 bg-white rounded-3xl border border-orange-100 shadow-soft-lg space-y-5">
               <h2 className="font-display font-extrabold text-xl text-charcoal">
-                Order Summary
+                {t('orderSummary')}
               </h2>
 
               {/* Promo code form */}
@@ -273,7 +275,7 @@ export default function CartPage() {
                     <Tag className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Promo code (PIZZORA20)"
+                      placeholder={t('promoPlaceholder')}
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                       className="w-full pl-9 pr-3 py-2.5 bg-orange-50/50 rounded-xl border border-orange-100 text-xs font-semibold uppercase tracking-wider focus:outline-none focus:border-brand-500"
@@ -283,7 +285,7 @@ export default function CartPage() {
                     type="submit"
                     className="px-4 py-2.5 bg-charcoal text-white rounded-xl text-xs font-bold hover:bg-black transition-colors"
                   >
-                    Apply
+                    {t('applyPromoBtn')}
                   </button>
                 </form>
 
@@ -313,37 +315,32 @@ export default function CartPage() {
               {/* Summary line items */}
               <div className="space-y-2.5 text-xs text-charcoal-muted pt-2 border-t border-orange-50">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-bold text-charcoal">${subtotal.toFixed(2)}</span>
+                  <span>{t('subtotal')}</span>
+                  <span className="font-bold text-charcoal">{formatPrice(subtotal)}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Delivery Fee</span>
+                  <span>{t('deliveryFeeLabel')}</span>
                   <span>
                     {deliveryFee === 0 ? (
-                      <span className="text-emerald-600 font-bold uppercase">FREE</span>
+                      <span className="text-emerald-600 font-bold uppercase">{t('freeText')}</span>
                     ) : (
-                      `$${deliveryFee.toFixed(2)}`
+                      formatPrice(deliveryFee)
                     )}
                   </span>
                 </div>
 
                 {discount > 0 && (
                   <div className="flex justify-between text-emerald-600 font-bold">
-                    <span>Discount</span>
-                    <span>-${discount.toFixed(2)}</span>
+                    <span>{t('discountLabel')}</span>
+                    <span>-{formatPrice(discount)}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between">
-                  <span>Estimated Tax (8%)</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
-
                 <div className="pt-3 border-t border-gray-100 flex justify-between items-baseline">
-                  <span className="font-display font-bold text-base text-charcoal">Total Amount</span>
+                  <span className="font-display font-bold text-base text-charcoal">{t('totalLabel')}</span>
                   <span className="font-display font-black text-2xl text-brand-600">
-                    ${total.toFixed(2)}
+                    {formatPrice(total)}
                   </span>
                 </div>
               </div>
@@ -353,7 +350,7 @@ export default function CartPage() {
                 onClick={() => navigate('/checkout')}
                 className="w-full py-4 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 transition-all"
               >
-                <span>Proceed to Checkout</span>
+                <span>{t('proceedToCheckout')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 

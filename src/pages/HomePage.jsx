@@ -36,7 +36,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.id}
@@ -45,9 +45,11 @@ export default function HomePage() {
               >
                 <span className="text-2xl mb-1 group-hover:scale-115 transition-transform">
                   {cat.id === 'all' && '✨'}
-                  {cat.id === 'signature' && '🔥'}
-                  {cat.id === 'classic' && '🍕'}
-                  {cat.id === 'spicy' && '🌶️'}
+                  {cat.id === 'pizza' && '🍕'}
+                  {cat.id === 'burgers' && '🍔'}
+                  {cat.id === 'snacks' && '🍗'}
+                  {cat.id === 'salads' && '🥗'}
+                  {cat.id === 'soups' && '🥣'}
                   {cat.id === 'combos' && '🎁'}
                   {cat.id === 'drinks' && '🥤'}
                   {cat.id === 'desserts' && '🍰'}
@@ -132,7 +134,7 @@ export default function HomePage() {
                 <div className="w-16 h-4 bg-gray-200 rounded-full mx-auto mb-2" />
                 <div className="text-center">
                   <span className="text-[10px] font-bold text-brand-600 uppercase">PIZZORA APP</span>
-                  <p className="font-black text-xs">Cravings at Your Door</p>
+                  <p className="font-black text-xs">{t('tagline')}</p>
                 </div>
                 <div className="my-auto w-full aspect-square rounded-2xl overflow-hidden shadow-inner">
                   <img

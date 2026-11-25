@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { Clock, ArrowRight, RotateCcw, CheckCircle2, Flame, Bike, PackageCheck } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS } from '../data/pizzas';
 
 export default function OrdersPage() {
   const { orders } = useOrders();
   const { addToCart } = useCart();
+  const { t, formatPrice } = useLanguage();
 
   const handleReorder = (order) => {
     order.items.forEach((item) => {
@@ -133,7 +135,7 @@ export default function OrdersPage() {
                           )}
                         </div>
                         <span className="font-semibold text-charcoal">
-                          ${(item.unitPrice * item.quantity).toFixed(2)}
+                          {formatPrice(item.unitPrice * item.quantity)}
                         </span>
                       </div>
                     ))}
@@ -147,7 +149,7 @@ export default function OrdersPage() {
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-charcoal-muted">Total:</span>
                       <span className="font-display font-black text-lg text-brand-600">
-                        ${order.total.toFixed(2)}
+                        {formatPrice(order.total)}
                       </span>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-// Comprehensive, realistic PIZZORA catalog with high-resolution Unsplash photography
+// Comprehensive, realistic PIZZORA restaurant catalog with high-resolution Unsplash photography
 export const PIZZA_SIZES = [
   { id: 'small', label: '25 cm', inches: '10"', multiplier: 0.85, sliceCount: 6, serves: '1-2 People' },
   { id: 'medium', label: '30 cm', inches: '12"', multiplier: 1.0, sliceCount: 8, serves: '2-3 People', isDefault: true },
@@ -8,38 +8,41 @@ export const PIZZA_SIZES = [
 export const PIZZA_CRUSTS = [
   { id: 'classic', label: 'Classic Hand-Tossed', extraPrice: 0, desc: 'Crispy exterior with an airy, chewy crumb' },
   { id: 'thin', label: 'Artisan Thin Crust', extraPrice: 0, desc: 'Ultra-thin, stone-baked crunchy Roman style' },
-  { id: 'cheese-burst', label: 'Melted Cheese Burst', extraPrice: 2.99, desc: 'Decadent pool of mozzarella inside the core' },
-  { id: 'stuffed-garlic', label: 'Garlic Butter Stuffed', extraPrice: 3.49, desc: 'Ring stuffed with aged gouda & roasted garlic butter' }
+  { id: 'cheese-burst', label: 'Melted Cheese Burst', extraPrice: 15000, desc: 'Decadent pool of mozzarella inside the core' },
+  { id: 'stuffed-garlic', label: 'Garlic Butter Stuffed', extraPrice: 18000, desc: 'Ring stuffed with aged gouda & roasted garlic butter' }
 ];
 
 export const EXTRA_TOPPINGS = [
-  { id: 'extra-cheese', name: 'Fresh Fior di Latte Mozzarella', price: 1.99, category: 'cheese' },
-  { id: 'pepperoni', name: 'Artisan Smoked Pepperoni', price: 2.49, category: 'meat' },
-  { id: 'truffle-oil', name: 'White Truffle Infused Oil', price: 2.99, category: 'premium' },
-  { id: 'mushrooms', name: 'Wild Sautéed Portobello', price: 1.50, category: 'veg' },
-  { id: 'olives', name: 'Kalamata Black Olives', price: 1.25, category: 'veg' },
-  { id: 'jalapenos', name: 'Fire-Roasted Jalapeños', price: 1.25, category: 'veg' },
-  { id: 'basil', name: 'Fresh Genovese Basil Leaves', price: 0.99, category: 'veg' },
-  { id: 'parmigiano', name: 'Aged 24-Mo Parmigiano Reggiano', price: 2.25, category: 'cheese' }
+  { id: 'extra-cheese', name: 'Fresh Fior di Latte Mozzarella', price: 10000, category: 'cheese' },
+  { id: 'pepperoni', name: 'Artisan Smoked Pepperoni', price: 12000, category: 'meat' },
+  { id: 'truffle-oil', name: 'White Truffle Infused Oil', price: 15000, category: 'premium' },
+  { id: 'mushrooms', name: 'Wild Sautéed Portobello', price: 8000, category: 'veg' },
+  { id: 'olives', name: 'Kalamata Black Olives', price: 6000, category: 'veg' },
+  { id: 'jalapenos', name: 'Fire-Roasted Jalapeños', price: 6000, category: 'veg' },
+  { id: 'basil', name: 'Fresh Genovese Basil Leaves', price: 5000, category: 'veg' },
+  { id: 'parmigiano', name: 'Aged 24-Mo Parmigiano Reggiano', price: 12000, category: 'cheese' }
 ];
 
 export const CATEGORIES = [
   { id: 'all', label: 'All Items', icon: 'Sparkles' },
-  { id: 'signature', label: 'Signature Pizzas', icon: 'Flame' },
-  { id: 'classic', label: 'Classic Italian', icon: 'Pizza' },
-  { id: 'spicy', label: 'Hot & Fiery', icon: 'Zap' },
+  { id: 'pizza', label: 'Pizzas', icon: 'Pizza' },
+  { id: 'burgers', label: 'Burgers & Sandwiches', icon: 'Flame' },
+  { id: 'snacks', label: 'Crispy Snacks & Wings', icon: 'Zap' },
+  { id: 'salads', label: 'Fresh Salads', icon: 'Leaf' },
+  { id: 'soups', label: 'Soups & Hot Meals', icon: 'Soup' },
   { id: 'combos', label: 'Deals & Combos', icon: 'Gift' },
   { id: 'drinks', label: 'Beverages', icon: 'Coffee' },
   { id: 'desserts', label: 'Artisan Desserts', icon: 'Cake' }
 ];
 
 export const PRODUCTS = [
+  // ================= 1. PIZZAS =================
   {
     id: 'truffle-burrata-bliss',
     name: 'Truffle Burrata Bliss',
-    category: 'signature',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 18.99,
+    price: 95000,
     rating: 4.9,
     reviewsCount: 342,
     prepTime: '20-25 mins',
@@ -54,9 +57,9 @@ export const PRODUCTS = [
   {
     id: 'fiery-diavola-pepperoni',
     name: 'Fiery Diavola Pepperoni',
-    category: 'signature',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 16.99,
+    price: 78000,
     rating: 4.8,
     reviewsCount: 512,
     prepTime: '18-22 mins',
@@ -71,9 +74,9 @@ export const PRODUCTS = [
   {
     id: 'margherita-d-oro',
     name: 'Margherita D’Oro',
-    category: 'classic',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 13.99,
+    price: 65000,
     rating: 4.9,
     reviewsCount: 780,
     prepTime: '15-18 mins',
@@ -88,9 +91,9 @@ export const PRODUCTS = [
   {
     id: 'smokey-bbq-chicken-supreme',
     name: 'Smokey BBQ Pollo Supreme',
-    category: 'signature',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 17.49,
+    price: 82000,
     rating: 4.8,
     reviewsCount: 420,
     prepTime: '20-25 mins',
@@ -105,9 +108,9 @@ export const PRODUCTS = [
   {
     id: 'quattro-formaggi-royale',
     name: 'Quattro Formaggi Royale',
-    category: 'classic',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 16.50,
+    price: 85000,
     rating: 4.7,
     reviewsCount: 290,
     prepTime: '18-20 mins',
@@ -122,9 +125,9 @@ export const PRODUCTS = [
   {
     id: 'inferno-habanero-carnivore',
     name: 'Inferno Habanero Carnivore',
-    category: 'spicy',
+    category: 'pizza',
     subCategory: 'pizza',
-    price: 18.50,
+    price: 79000,
     rating: 4.8,
     reviewsCount: 310,
     prepTime: '20-22 mins',
@@ -136,30 +139,176 @@ export const PRODUCTS = [
     description: 'For genuine spice thrill-seekers. Spiced Italian nduja, spicy chorizo crisps, smoked beef brisket, pickled habanero slices, and spicy ghost pepper infused maple dip.',
     ingredients: ['Spicy Calabrian Nduja', 'Spanish Chorizo', 'Smoked Brisket', 'Pickled Habanero', 'Pepper Jack Cheese']
   },
+
+  // ================= 2. BURGERS & SANDWICHES =================
   {
-    id: 'garden-mediterranean-pesto',
-    name: 'Garden Pesto & Sun-Dried Tomato',
-    category: 'signature',
-    subCategory: 'pizza',
-    price: 15.99,
-    rating: 4.7,
-    reviewsCount: 195,
-    prepTime: '18-22 mins',
-    calories: '790 kcal',
-    badge: 'Vegetarian Delight',
+    id: 'black-angus-smash-burger',
+    name: 'Double Black Angus Smash Burger',
+    category: 'burgers',
+    subCategory: 'burger',
+    price: 52000,
+    rating: 4.9,
+    reviewsCount: 460,
+    prepTime: '15-18 mins',
+    calories: '820 kcal',
+    badge: "Chef's Special",
+    isVegetarian: false,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80',
+    description: 'Two smash patties of 100% prime Black Angus beef, double melted American cheddar, sweet caramelized shallots, dill pickles, and secret truffle burger sauce on toasted brioche.',
+    ingredients: ['Black Angus Beef (2x100g)', 'Melted Cheddar', 'Caramelized Onion', 'House Truffle Burger Sauce', 'Brioche Bun']
+  },
+  {
+    id: 'crispy-chicken-bbq-burger',
+    name: 'Crispy Hot Chicken Supreme Burger',
+    category: 'burgers',
+    subCategory: 'burger',
+    price: 44000,
+    rating: 4.8,
+    reviewsCount: 385,
+    prepTime: '12-15 mins',
+    calories: '750 kcal',
+    badge: 'Best Seller',
+    isVegetarian: false,
+    isSpicy: true,
+    image: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=1000&q=80',
+    description: 'Golden buttermilk fried chicken breast, Nashville spice dip, crunchy purple cabbage slaw, chipotle aioli, and honey mustard glaze inside a soft glazed sesame bun.',
+    ingredients: ['Crispy Buttermilk Chicken', 'Chipotle Aioli', 'Nashville Hot Glaze', 'Coleslaw', 'Sesame Brioche Bun']
+  },
+
+  // ================= 3. CRISPY SNACKS & WINGS =================
+  {
+    id: 'crispy-buffalo-wings',
+    name: 'Crispy Buffalo Chicken Wings (8 pcs)',
+    category: 'snacks',
+    subCategory: 'snack',
+    price: 42000,
+    rating: 4.9,
+    reviewsCount: 520,
+    prepTime: '12-15 mins',
+    calories: '610 kcal',
+    badge: 'Popular',
+    isVegetarian: false,
+    isSpicy: true,
+    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=1000&q=80',
+    description: 'Crispy stone-baked chicken wings tossed in fiery Louisiana Buffalo butter glaze, served with cool buttermilk herb ranch and celery sticks.',
+    ingredients: ['Fresh Chicken Wings (8 pcs)', 'Louisiana Buffalo Glaze', 'Buttermilk Ranch Dip', 'Fresh Celery']
+  },
+  {
+    id: 'parmesan-truffle-fries',
+    name: 'Parmesan & White Truffle Fries',
+    category: 'snacks',
+    subCategory: 'snack',
+    price: 26000,
+    rating: 4.8,
+    reviewsCount: 410,
+    prepTime: '8-10 mins',
+    calories: '420 kcal',
+    badge: 'Customer Fav',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1000&q=80',
-    description: 'Nut-free vibrant basil pine pesto base, sun-ripened cherry tomatoes, grilled artichoke hearts, kalamata olives, crumbled Greek feta, and baby wild arugula.',
-    ingredients: ['Genovese Basil Pesto', 'Semi-Dried Cherry Tomatoes', 'Artichoke Hearts', 'Greek Sheep Feta', 'Baby Arugula']
+    image: 'https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1000&q=80',
+    description: 'Hand-cut golden skin-on Idaho fries tossed with Italian white truffle oil, freshly grated 24-month Parmigiano-Reggiano, and chopped rosemary parsley sea salt.',
+    ingredients: ['Skin-on Idaho Potatoes', 'White Truffle Oil', '24-Mo Parmigiano', 'Rosemary Parsley Flakes', 'Garlic Aioli']
   },
+  {
+    id: 'golden-mozzarella-sticks',
+    name: 'Melted Mozzarella Sticks (6 pcs)',
+    category: 'snacks',
+    subCategory: 'snack',
+    price: 32000,
+    rating: 4.7,
+    reviewsCount: 295,
+    prepTime: '8-10 mins',
+    calories: '480 kcal',
+    badge: 'Cheese Lovers',
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?auto=format&fit=crop&w=1000&q=80',
+    description: 'Crisp herb-crusted mozzarella sticks with an irresistible hot cheese pull, served alongside warm San Marzano garlic herb marinara sauce.',
+    ingredients: ['Real Mozzarella', 'Italian Herb Panko Crust', 'San Marzano Marinara Dip']
+  },
+
+  // ================= 4. FRESH SALADS =================
+  {
+    id: 'caesar-chicken-supreme',
+    name: 'Classic Grilled Chicken Caesar Salad',
+    category: 'salads',
+    subCategory: 'salad',
+    price: 44000,
+    rating: 4.8,
+    reviewsCount: 310,
+    prepTime: '10-12 mins',
+    calories: '450 kcal',
+    badge: 'Best Seller',
+    isVegetarian: false,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=1000&q=80',
+    description: 'Crisp Romaine hearts, grilled free-range chicken breast, shaved Parmigiano-Reggiano, garlic butter sourdough croutons, and house creamy Caesar dressing.',
+    ingredients: ['Crisp Romaine Lettuce', 'Grilled Chicken Breast', 'Parmigiano-Reggiano', 'Garlic Sourdough Croutons', 'House Caesar Dressing']
+  },
+  {
+    id: 'burrata-caprese-salad',
+    name: 'Burrata Caprese Garden Salad',
+    category: 'salads',
+    subCategory: 'salad',
+    price: 54000,
+    rating: 4.9,
+    reviewsCount: 240,
+    prepTime: '8-10 mins',
+    calories: '380 kcal',
+    badge: "Chef's Special",
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1592417817098-8f3d69102a56?auto=format&fit=crop&w=1000&q=80',
+    description: 'Fresh Pugliese burrata ball, colorful heirloom vine tomatoes, Genovese basil pesto, aged Modena balsamic glaze reduction, and sea salt crystals.',
+    ingredients: ['Fresh Burrata Pugliese', 'Heirloom Vine Tomatoes', 'Genovese Basil Pesto', 'Modena Balsamic Glaze', 'Extra Virgin Olive Oil']
+  },
+
+  // ================= 5. SOUPS & HOT MEALS =================
+  {
+    id: 'creamy-wild-mushroom-soup',
+    name: 'Creamy Forest Wild Mushroom Soup',
+    category: 'soups',
+    subCategory: 'soup',
+    price: 32000,
+    rating: 4.8,
+    reviewsCount: 185,
+    prepTime: '10-12 mins',
+    calories: '340 kcal',
+    badge: 'Customer Fav',
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1000&q=80',
+    description: 'Slow-simmered velvety cream soup made from Portobello and Porcini mushrooms, fresh thyme, cream, white wine essence, and toasted sourdough croutons.',
+    ingredients: ['Wild Porcini & Portobello', 'Fresh Cream', 'Fresh Thyme', 'Toasted Sourdough Croutons']
+  },
+  {
+    id: 'tuscan-tomato-basil-soup',
+    name: 'Tuscan Roasted Tomato & Basil Soup',
+    category: 'soups',
+    subCategory: 'soup',
+    price: 28000,
+    rating: 4.7,
+    reviewsCount: 140,
+    prepTime: '10-12 mins',
+    calories: '280 kcal',
+    badge: 'Classic Heritage',
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=1000&q=80',
+    description: 'Fire-roasted San Marzano tomatoes blended with sweet onions, garlic, fresh basil, extra virgin olive oil, and melted Fior di Latte cheese on top.',
+    ingredients: ['Roasted San Marzano Tomatoes', 'Fresh Sweet Basil', 'Melted Mozzarella', 'Extra Virgin Olive Oil']
+  },
+
+  // ================= 6. DEALS & COMBOS =================
   {
     id: 'combo-famiglia-feast',
     name: 'PIZZORA Famiglia Party Feast',
     category: 'combos',
     subCategory: 'combo',
-    price: 39.99,
-    originalPrice: 49.99,
+    price: 175000,
+    originalPrice: 215000,
     rating: 5.0,
     reviewsCount: 640,
     prepTime: '25-30 mins',
@@ -176,8 +325,8 @@ export const PRODUCTS = [
     name: 'Romantic Duo Date Night Combo',
     category: 'combos',
     subCategory: 'combo',
-    price: 26.99,
-    originalPrice: 32.99,
+    price: 125000,
+    originalPrice: 155000,
     rating: 4.9,
     reviewsCount: 380,
     prepTime: '20-25 mins',
@@ -189,12 +338,31 @@ export const PRODUCTS = [
     description: '1 Medium Gourmet Pizza + 1 Fresh Burrata Caprese Salad + 2 San Pellegrino Blood Orange Sodas + 2 Warm Chocolate Lava Cakes.',
     ingredients: ['1x Medium Pizza', 'Caprese Salad', '2x San Pellegrino Sodas', '2x Molten Lava Cakes']
   },
+
+  // ================= 7. BEVERAGES =================
+  {
+    id: 'strawberry-mint-mojito',
+    name: 'Fresh Strawberry Mint Mojito (Mocktail)',
+    category: 'drinks',
+    subCategory: 'beverage',
+    price: 24000,
+    rating: 4.9,
+    reviewsCount: 270,
+    prepTime: 'Instant',
+    calories: '120 kcal',
+    badge: 'Popular',
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1000&q=80',
+    description: 'Refreshing sparkling mocktail with crushed organic strawberries, fresh garden mint, fresh lime slices, and sparkling mineral water over ice.',
+    ingredients: ['Fresh Strawberries', 'Wild Mint', 'Lime Slices', 'Pure Cane Sugar', 'Sparkling Mineral Water']
+  },
   {
     id: 'beverage-blood-orange-soda',
     name: 'San Pellegrino Aranciata Rossa',
     category: 'drinks',
     subCategory: 'beverage',
-    price: 3.75,
+    price: 20000,
     rating: 4.9,
     reviewsCount: 154,
     prepTime: 'Instant',
@@ -207,28 +375,47 @@ export const PRODUCTS = [
     ingredients: ['Italian Sparkling Water', 'Blood Orange Juice', 'Natural Cane Sugar', 'Citrus Extracts']
   },
   {
-    id: 'beverage-craft-lemonade',
-    name: 'Sicilian Mint & Lemon Quencher',
+    id: 'classic-iced-coffee-latte',
+    name: 'Caramel Iced Latte Espresso',
     category: 'drinks',
     subCategory: 'beverage',
-    price: 4.25,
+    price: 22000,
     rating: 4.8,
-    reviewsCount: 180,
+    reviewsCount: 195,
     prepTime: 'Instant',
-    calories: '110 kcal',
-    badge: 'House Special',
+    calories: '160 kcal',
+    badge: 'Customer Fav',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1000&q=80',
-    description: 'Cold-pressed Sicilian lemon juice, bruised sweet mint leaves, organic agave nectar, and sparkling spring water over crushed crystal ice.',
-    ingredients: ['Fresh Lemon Juice', 'Wild Mint', 'Organic Agave', 'Sparkling Mineral Water']
+    image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=1000&q=80',
+    description: 'Double shot of rich Arabica espresso poured over chilled whole milk, artisanal caramel drizzle, and ice crystals.',
+    ingredients: ['Arabica Espresso', 'Fresh Whole Milk', 'Artisanal Caramel Drizzle', 'Ice']
+  },
+
+  // ================= 8. ARTISAN DESSERTS =================
+  {
+    id: 'san-sebastian-cheesecake',
+    name: 'San Sebastian Basque Burnt Cheesecake',
+    category: 'desserts',
+    subCategory: 'dessert',
+    price: 36000,
+    rating: 5.0,
+    reviewsCount: 480,
+    prepTime: 'Instant',
+    calories: '490 kcal',
+    badge: "Chef's Special",
+    isVegetarian: true,
+    isSpicy: false,
+    image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=1000&q=80',
+    description: 'Ultra-creamy Spanish Basque cheesecake with a beautifully caramelized exterior and melted custard center, served with warm Belgian chocolate sauce.',
+    ingredients: ['Philadelphia Cream Cheese', 'Heavy Farm Cream', 'Madagascar Vanilla', 'Warm Belgian Chocolate Sauce']
   },
   {
     id: 'dessert-classic-tiramisu',
     name: 'Artisanal Treviso Tiramisu',
     category: 'desserts',
     subCategory: 'dessert',
-    price: 7.99,
+    price: 34000,
     rating: 4.9,
     reviewsCount: 412,
     prepTime: 'Instant',
@@ -241,21 +428,21 @@ export const PRODUCTS = [
     ingredients: ['Italian Mascarpone', 'Savoiardi Ladyfingers', 'Illy Dark Espresso', 'Valrhona Cocoa']
   },
   {
-    id: 'dessert-pistachio-cannoli',
-    name: 'Bronte Pistachio Crisp Cannoli (3 pcs)',
+    id: 'warm-chocolate-lava-cake',
+    name: 'Warm Belgian Chocolate Molten Lava Cake',
     category: 'desserts',
     subCategory: 'dessert',
-    price: 6.99,
-    rating: 4.8,
-    reviewsCount: 220,
+    price: 32000,
+    rating: 4.9,
+    reviewsCount: 320,
     prepTime: 'Instant',
-    calories: '380 kcal',
-    badge: 'Authentic Sicilian',
+    calories: '460 kcal',
+    badge: 'Popular',
     isVegetarian: true,
     isSpicy: false,
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1000&q=80',
-    description: 'Golden fried bubbly pastry shells filled to order with sweet sheep ricotta, scented with orange blossom and dipped in crushed Sicilian Bronte pistachios.',
-    ingredients: ['Crispy Pastry Shell', 'Sheep Milk Ricotta', 'Bronte Pistachios', 'Orange Blossom Essence']
+    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=80',
+    description: 'Warm chocolate sponge cake with a rich flowing molten dark chocolate center, dusted with powdered sugar and served warm.',
+    ingredients: ['70% Belgian Dark Chocolate', 'Farm Fresh Butter', 'Dutch Cocoa', 'Vanilla Gelato']
   }
 ];
 
@@ -265,9 +452,9 @@ export const SPECIAL_OFFERS = [
     code: 'PIZZORA20',
     discount: '20% OFF',
     title: 'Welcome Celebration Feast',
-    description: 'Get 20% off on your entire first order over $25 with promo code PIZZORA20.',
+    description: "120 000 so'mdan yuqori birinchi buyurtmaga 20% chegirma (PIZZORA20).",
     bgColor: 'from-amber-500 to-brand-500',
-    expiresIn: 'Limited Time',
+    expiresIn: 'Cheklangan vaqt',
     tag: 'FIRST ORDER'
   },
   {
@@ -275,19 +462,19 @@ export const SPECIAL_OFFERS = [
     code: 'CHEESELOVER',
     discount: 'FREE CRUST UPGRADE',
     title: 'Melted Cheese Burst Wednesday',
-    description: 'Upgrade any large pizza to Cheese Burst or Stuffed Crust totally on the house.',
+    description: 'Katta pitsalarga pishloqli xamir qirrasi mutlaqo bepul sovg‘a qilinadi.',
     bgColor: 'from-orange-500 to-rose-500',
-    expiresIn: 'Every Midweek',
+    expiresIn: 'Har chorshanba',
     tag: 'SPECIAL BONUS'
   },
   {
     id: 'offer-3',
     code: 'FREESHIP',
     discount: 'FREE DELIVERY',
-    title: 'Zero Delivery Fee Above $30',
-    description: 'Hot, piping pizza straight from our stone oven to your door within 30 minutes or free.',
+    title: 'Zero Delivery Fee Above 150 000 so\'m',
+    description: "150 000 so'mdan yuqori buyurtmalarga 30 daqiqada mutlaqo bepul yetkaziladi.",
     bgColor: 'from-brand-600 to-amber-600',
-    expiresIn: 'Always Active',
+    expiresIn: 'Doim faol',
     tag: 'AUTO APPLIED'
   }
 ];
@@ -321,4 +508,3 @@ export const TESTIMONIALS = [
     favoritePizza: 'PIZZORA Famiglia Party Feast'
   }
 ];
-

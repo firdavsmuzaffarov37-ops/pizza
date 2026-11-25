@@ -24,42 +24,47 @@ export default function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {TESTIMONIALS.map((item) => (
-            <motion.div
-              key={item.id}
-              whileHover={{ y: -5 }}
-              className="p-7 rounded-3xl bg-white border border-orange-100 shadow-soft relative flex flex-col justify-between"
-            >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-orange-200/50" />
+          {TESTIMONIALS.map((item) => {
+            const locRole = t(`testim_${item.id}_role`) !== `testim_${item.id}_role` ? t(`testim_${item.id}_role`) : item.role;
+            const locComment = t(`testim_${item.id}_comment`) !== `testim_${item.id}_comment` ? t(`testim_${item.id}_comment`) : item.comment;
 
-              <div>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400" />
-                  ))}
-                </div>
+            return (
+              <motion.div
+                key={item.id}
+                whileHover={{ y: -5 }}
+                className="p-7 rounded-3xl bg-white border border-orange-100 shadow-soft relative flex flex-col justify-between"
+              >
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-orange-200/50" />
 
-                <p className="text-sm text-charcoal leading-relaxed italic mb-6">
-                  "{item.comment}"
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-orange-50 flex items-center gap-3">
-                <img
-                  src={item.avatar}
-                  alt={item.name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-brand-200"
-                />
                 <div>
-                  <h4 className="font-bold text-sm text-charcoal">{item.name}</h4>
-                  <p className="text-xs text-charcoal-muted">{item.role}</p>
-                  <p className="text-[11px] text-brand-600 font-semibold mt-0.5">
-                    {t('favoritePizzaLabel')} {item.favoritePizza}
+                  <div className="flex items-center gap-1 text-amber-400 mb-4">
+                    {[...Array(item.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+
+                  <p className="text-sm text-charcoal leading-relaxed italic mb-6">
+                    "{locComment}"
                   </p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+                <div className="pt-4 border-t border-orange-50 flex items-center gap-3">
+                  <img
+                    src={item.avatar}
+                    alt={item.name}
+                    className="w-11 h-11 rounded-full object-cover border-2 border-brand-200"
+                  />
+                  <div>
+                    <h4 className="font-bold text-sm text-charcoal">{item.name}</h4>
+                    <p className="text-xs text-charcoal-muted">{locRole}</p>
+                    <p className="text-[11px] text-brand-600 font-semibold mt-0.5">
+                      {t('favoritePizzaLabel')} {item.favoritePizza}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>
