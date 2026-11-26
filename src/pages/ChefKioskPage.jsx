@@ -24,7 +24,7 @@ const STATUS_COLORS = {
 };
 
 function OrderCard({ order, onStatusUpdate }) {
-  const { t } = useLanguage();
+  const { t, formatPrice } = useLanguage();
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
@@ -147,7 +147,7 @@ function OrderCard({ order, onStatusUpdate }) {
           <Clock className="w-3.5 h-3.5" />
           {new Date(order.createdAt).toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' })}
         </span>
-        <span className="font-bold text-charcoal">${order.total?.toFixed(2)}</span>
+        <span className="font-bold text-charcoal">{formatPrice(order.total)}</span>
       </div>
 
       {/* Action button */}

@@ -87,8 +87,8 @@ export default function PaymentPage() {
             <p className="text-sm text-gray-500">
               {t('paymentSub')} #{order.id} — {order.customer.name}
             </p>
-            <p className="text-4xl font-black text-brand-500 mt-4">
-              ${order.total?.toFixed(2)}
+            <p className="text-3xl sm:text-4xl font-black text-brand-500 mt-4">
+              {formatPrice(order.total)}
             </p>
           </div>
 
@@ -127,10 +127,10 @@ export default function PaymentPage() {
 
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => navigate('/waiter')}
+              onClick={() => navigate(`/order-confirmation/${order.id}`)}
               className="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-2xl transition-all"
             >
-              {t('backToWaiterBtn')}
+              Buyurtma holatini ko‘rish
             </button>
             <button
               onClick={() => navigate('/menu')}

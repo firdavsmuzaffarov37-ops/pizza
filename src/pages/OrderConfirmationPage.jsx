@@ -80,25 +80,9 @@ export default function OrderConfirmationPage() {
             {t('orderReceivedTitle')}
           </h1>
           <p className="text-sm text-charcoal-muted max-w-md mx-auto">
-            Order <strong className="text-brand-600 font-mono">#{order.id}</strong> {t('orderSentToChefDesc')}{' '}
+            Buyurtma <strong className="text-brand-600 font-mono">#{order.id}</strong> {t('orderSentToChefDesc')}{' '}
             <strong>25 - 30 {t('minutes')}</strong>.
           </p>
-          
-          {/* Quick links for staff */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link
-              to="/chef-kiosk"
-              className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-brand-800 text-xs font-bold rounded-xl transition-colors"
-            >
-              🍳 {t('chefKiosk')}
-            </Link>
-            <Link
-              to="/waiter"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold rounded-xl transition-colors"
-            >
-              🧑‍💼 {t('waiter')}
-            </Link>
-          </div>
         </motion.div>
 
         {/* Live Kitchen Status Timeline */}
@@ -106,23 +90,13 @@ export default function OrderConfirmationPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-orange-50 pb-4">
             <div>
               <span className="text-xs font-bold text-charcoal-muted block uppercase tracking-wider">
-                Live Kitchen Tracker
+                {t('liveTracker') || 'Jonli Buyurtma Kuzatuvi'}
               </span>
               <h2 className="font-display font-extrabold text-xl text-charcoal flex items-center gap-2">
-                <span>Status:</span>
+                <span>{t('currentStatus') || 'Holat:'}</span>
                 <span className="text-brand-600">{order.status}</span>
               </h2>
             </div>
-
-            {/* Test simulator button */}
-            <button
-              onClick={handleAdvanceStatus}
-              className="self-start sm:self-auto px-3.5 py-1.5 bg-orange-100 hover:bg-orange-200 text-brand-800 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5"
-              title="Click to simulate advancing order to the next step"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-              <span>Advance Kitchen Step (Demo)</span>
-            </button>
           </div>
 
           {/* Stepper Progress */}
@@ -161,11 +135,11 @@ export default function OrderConfirmationPage() {
           <div className="p-4 rounded-2xl bg-orange-50/70 border border-orange-100 flex items-center justify-between text-xs text-charcoal">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-brand-600" />
-              <span>Target Delivery Time: <strong>{new Date(Date.now() + 25 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong></span>
+              <span>{t('targetDeliveryTime') || 'Taxminiy yetkazish vaqti:'} <strong>{new Date(Date.now() + 25 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong></span>
             </div>
-            <a href="tel:+18007499672" className="text-brand-600 font-bold hover:underline flex items-center gap-1">
+            <a href="tel:+998712000000" className="text-brand-600 font-bold hover:underline flex items-center gap-1">
               <PhoneCall className="w-3.5 h-3.5" />
-              <span>Call Kitchen</span>
+              <span>{t('callKitchen') || 'Oshxonaga qo‘ng‘iroq'}</span>
             </a>
           </div>
         </div>
@@ -173,7 +147,7 @@ export default function OrderConfirmationPage() {
         {/* Order Details & Summary Card */}
         <div className="p-6 sm:p-8 bg-white rounded-3xl border border-orange-100 shadow-soft space-y-6">
           <h3 className="font-display font-extrabold text-lg text-charcoal">
-            Order Receipt & Breakdown
+            {t('receiptTitle') || 'Buyurtma Cheki va Tafsilotlari'}
           </h3>
 
           <div className="divide-y divide-gray-100">
@@ -198,15 +172,15 @@ export default function OrderConfirmationPage() {
 
           <div className="pt-4 border-t border-orange-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-charcoal-muted">
             <div className="space-y-1">
-              <span className="font-bold text-charcoal block">Delivering To:</span>
+              <span className="font-bold text-charcoal block">Yetkazib berish manzili:</span>
               <p>{order.customer.name}</p>
               <p>{order.customer.address}</p>
               <p>{order.customer.phone}</p>
             </div>
             <div className="space-y-1 sm:text-right">
-              <span className="font-bold text-charcoal block">Payment Summary:</span>
-              <p>Method: {order.paymentMethod}</p>
-              <p>Delivery: {order.deliveryFee === 0 ? (t('freeText') || 'BEPUL') : formatPrice(order.deliveryFee)}</p>
+              <span className="font-bold text-charcoal block">To‘lov ma’lumotlari:</span>
+              <p>To‘lov usuli: {order.paymentMethod}</p>
+              <p>Yetkazib berish: {order.deliveryFee === 0 ? (t('freeText') || 'BEPUL') : formatPrice(order.deliveryFee)}</p>
               <p className="text-base font-black text-brand-600 pt-1">
                 {t('totalLabel')}: {formatPrice(order.total)}
               </p>
@@ -243,13 +217,13 @@ export default function OrderConfirmationPage() {
               to="/orders"
               className="w-full sm:w-auto px-6 py-3 rounded-full border border-orange-200 text-charcoal hover:bg-orange-50 font-bold text-xs text-center transition-colors"
             >
-              View All Orders in Account
+              {t('viewAllOrders') || 'Barcha buyurtmalar'}
             </Link>
             <Link
               to="/menu"
               className="w-full sm:w-auto px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-xs rounded-full shadow-md text-center transition-all"
             >
-              Order More Food
+              {t('orderMore') || 'Yana buyurtma berish'}
             </Link>
           </div>
         </div>
